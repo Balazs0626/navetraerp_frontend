@@ -1,0 +1,11 @@
+{
+  "pages": {
+    "dashboard": {
+        "welcome": "Welcome",
+        "welcome_message": "Select the module you want to use"
+    }
+  },
+  "buttons": {
+    "save": "Save"
+  }
+}

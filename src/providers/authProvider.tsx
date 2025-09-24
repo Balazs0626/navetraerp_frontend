@@ -17,9 +17,17 @@ export const authProvider : AuthProvider = {
     return { success: true, redirectTo: "/login" };
   },
   check: async () => {
-    return localStorage.getItem("token")
-      ? { authenticated: true }
-      : { authenticated: false, redirectTo: "/login" };
+    const token = localStorage.getItem("token");
+    if (token) {
+      return {
+        authenticated: true,
+      };
+    }
+    return Promise.reject({
+      authenticated: false,
+      redirectTo: "/login",
+      error: new Error("Not authenticated"),
+    });
   },
   /* getPermissions: async () => {
       const token = localStorage.getItem("token");

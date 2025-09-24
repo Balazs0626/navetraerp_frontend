@@ -33,21 +33,13 @@ export const ColorModeContextProvider: React.FC<PropsWithChildren> = ({
     window.localStorage.setItem("colorMode", mode);
   }, [mode]);
 
-  const setColorMode = () => {
-    if (mode === "light") {
-      setMode("dark");
-    } else {
-      setMode("light");
-    }
-  };
-
   const { darkAlgorithm, defaultAlgorithm } = theme;
 
   return (
     <ColorModeContext.Provider
       value={{
-        setMode: setColorMode,
         mode,
+        setMode,
       }}
     >
       <ConfigProvider

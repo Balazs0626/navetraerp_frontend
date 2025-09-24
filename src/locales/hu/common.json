@@ -1,0 +1,11 @@
+{
+  "pages": {
+    "dashboard": {
+        "welcome": "Üdvözöljük",
+        "welcome_message": "Válassza ki a használni kívánt modult"
+    }
+  },
+  "buttons": {
+    "save": "Mentés"
+  }
+}

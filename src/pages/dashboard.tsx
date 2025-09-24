@@ -1,14 +1,17 @@
 import { useGetIdentity, usePermissions } from "@refinedev/core";
 import { useNavigate } from "react-router";
-import { Row, Col, Card, Avatar, Typography, Space, Button, Divider } from "antd";
+import { Row, Col, Card, Avatar, Typography, Space, Button, Divider, Select } from "antd";
 import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
 import "antd/dist/reset.css";
 import { Column } from "@ant-design/plots";
 import { useEffect } from "react";
+import { useTranslation } from "@refinedev/core";
 
 const { Text, Title } = Typography;
 
 export const DashboardPage: React.FC = () => {
+
+  const { translate } = useTranslation();
 
   useEffect(() => {
       document.title = "NavetraERP - Kezdőlap";
@@ -29,9 +32,9 @@ export const DashboardPage: React.FC = () => {
             <Space size="large" align="center">
               <div>
                 <Title level={4} style={{ margin: 0 }}>
-                  Üdvözlünk, {identity?.name}!
+                  {translate("pages.dashboard.welcome")}, {identity?.name}!
                 </Title>
-                <Text type="secondary">Válassza ki a használni kívánt modult az alábbiak közül:</Text>
+                <Text type="secondary">{translate("pages.dashboard.welcome_message")}:</Text>
               </div>
             </Space>
           </Card>
@@ -77,7 +80,7 @@ export const DashboardPage: React.FC = () => {
             <Card 
               hoverable
               style={{ borderRadius: 12, height: 180 }}
-              onClick={() => navigate("/delivery-notes")}
+              onClick={() => navigate("/users/create")}
             >
               <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
                 <UserOutlined style={{ fontSize: 32 }} />
