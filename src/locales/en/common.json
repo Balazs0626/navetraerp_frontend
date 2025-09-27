@@ -1,11 +1,36 @@
 {
   "pages": {
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "users": "Users"
+    },
     "dashboard": {
         "welcome": "Welcome",
         "welcome_message": "Select the module you want to use"
+    },
+    "users": {
+      "common": {
+        "username": "Username",
+        "email": "E-mail address",
+        "role": "Role"
+      },
+      "list": {
+        "create_button": "Create new user",
+        "title": "Users",
+        "actions": "Actions"
+      },
+      "create": {
+        "title": "Create user",
+        "back_button": "Bact to users",
+        "data_card": "User datas",
+        "password": "Default password"
+      }
     }
   },
   "buttons": {
-    "save": "Save"
+    "save": "Save",
+    "logout": "Logout",
+    "delete": "Delete",
+    "edit": "Edit"
   }
 }

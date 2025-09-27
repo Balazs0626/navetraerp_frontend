@@ -1,7 +1,8 @@
 import { Create, useForm } from "@refinedev/antd"
 import { Card, Col, Form, Input, Row, Select, notification } from "antd";
 import { Roles2 } from "../../constants/users";
-import { useNotification } from "@refinedev/core";
+import { useNotification, useTranslate } from "@refinedev/core";
+
 
 export const UserCreate = () => {
   
@@ -12,26 +13,26 @@ export const UserCreate = () => {
 
   const { open, close } = useNotification();
 
+  const translate = useTranslate();
 
   return (
     <Create
       saveButtonProps={saveButtonProps}
-      title="Felhasználó létrehozása"
+      title={translate("pages.users.create.title")}
     >
       <Form
         {...formProps}
         form={form}
         layout="vertical"
       >
-        <Card title="Felhasználó adatok">
+        <Card title={translate("pages.users.create.data_card")}>
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label="Felhasználónév"
+                label={translate("pages.users.common.username")}
                 name="username"
                 rules={[{
                   required: true,
-                  message: "Felhasználónév megadása kötelező"
                 }]}
               >
                 <Input style={{ width: "100%" }} />
@@ -40,12 +41,8 @@ export const UserCreate = () => {
 
             <Col span={12}>
               <Form.Item
-                label="E-mail cím"
+                label={translate("pages.users.common.email")}
                 name="email"
-                rules={[{
-                  required: true,
-                  message: "E-mail cím megadása kötelező"
-                }]}
               >
                 <Input style={{ width: "100%" }} />
               </Form.Item>
@@ -55,11 +52,10 @@ export const UserCreate = () => {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label="Alapértelmezett jelszó"
+                label={translate("pages.users.create.password")}
                 name="password"
                 rules={[{
                   required: true,
-                  message: "Felhasználónév megadása kötelező"
                 }]}
               >
                 <Input style={{ width: "100%" }} />
@@ -68,11 +64,10 @@ export const UserCreate = () => {
 
             <Col span={12}>
               <Form.Item
-                label="Rang"
+                label={translate("pages.users.common.role")}
                 name="roleId"
                 rules={[{
                   required: true,
-                  message: "E-mail cím megadása kötelező"
                 }]}
               >
                 <Select

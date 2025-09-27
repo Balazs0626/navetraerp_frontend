@@ -1,11 +1,36 @@
 {
   "pages": {
+    "sidebar": {
+      "dashboard": "Irányítópult",
+      "users": "Felhasználók"
+    },
     "dashboard": {
         "welcome": "Üdvözöljük",
         "welcome_message": "Válassza ki a használni kívánt modult"
+    },
+    "users": {
+      "common": {
+        "username": "Felhasználónév",
+        "email": "E-mail cím",
+        "role": "Szerepkör"
+      },
+      "list": {
+        "create_button": "Új felhasználó létrehozása",
+        "title": "Felhasználók",
+        "actions": "Műveletek"
+      },
+      "create": {
+        "title": "Felhasználó létrehozása",
+        "back_button": "Vissza a felhasználókhoz",
+        "data_card": "Felhasználó adatai",
+        "password": "Alapértelmezett jelszó"
+      }
     }
   },
   "buttons": {
-    "save": "Mentés"
+    "save": "Mentés",
+    "logout": "Kijelentkezés",
+    "delete": "Törlés",
+    "edit": "Módosítás"
   }
 }

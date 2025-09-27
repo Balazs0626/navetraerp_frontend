@@ -6,18 +6,19 @@ export const authProvider : AuthProvider = {
   login: async ({ username, password }) => {
     try {
       const res = await axios.post(`${API_URL}/Auth/login`, { username, password });
-      localStorage.setItem("token", res.data.token);
+      sessionStorage.setItem("token", res.data.token);
       return { success: true, redirectTo: "/" };
     } catch {
       return { success: false, error: { message: "Login failed", name: "Invalid credentials" } };
     }
   },
   logout: async () => {
-    localStorage.removeItem("token");
-    return { success: true, redirectTo: "/login" };
+    sessionStorage.removeItem("token");
+    window.location.href = "/login";
+    return { success: true };
   },
   check: async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       return {
         authenticated: true,
@@ -44,7 +45,7 @@ export const authProvider : AuthProvider = {
   }, */
 
   getPermissions: async (): Promise<string[] | null> => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) return null;
 
     try {
@@ -58,7 +59,7 @@ export const authProvider : AuthProvider = {
     }
     },
   getIdentity: async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) return null;
 
     try {

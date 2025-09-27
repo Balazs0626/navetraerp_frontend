@@ -117,7 +117,7 @@ export default function App() {
                 name: "dashboard" ,
                 list: "/",
                 meta: {
-                  label: "Kezdőlap",
+                  label: t("pages.sidebar.dashboard"),
                   icon: <HomeOutlined/>
                 }
               },
@@ -126,7 +126,7 @@ export default function App() {
                 list: "/users",
                 create: "/users/create",
                 meta: {
-                  label: "Felhasználók",
+                  label: t("pages.sidebar.users"),
                   icon: <UserOutlined/>
                 }
               },
@@ -187,8 +187,12 @@ export default function App() {
                 }
               >
                 <Route path="/" element={<DashboardPage/>}/>
-                <Route path="/users" element={<UserList/>}/>
-                <Route path="/users/create" element={<UserCreate/>}/>
+
+                <Route path="/users">
+                  <Route index element={<UserList/>}/>
+                  <Route path="create" element={<UserCreate/>}/>
+                </Route>
+                
               </Route>
               <Route
                   element={
