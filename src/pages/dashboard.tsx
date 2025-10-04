@@ -1,15 +1,17 @@
-import { useGetIdentity, usePermissions } from "@refinedev/core";
+import { useCustom, useGetIdentity, usePermissions } from "@refinedev/core";
 import { useNavigate } from "react-router";
 import { Row, Col, Card, Avatar, Typography, Space, Button, Divider, Select } from "antd";
-import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
+import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined, SettingOutlined } from "@ant-design/icons";
 import "antd/dist/reset.css";
 import { Column } from "@ant-design/plots";
-import { useEffect } from "react";
+import { act, useEffect, useState } from "react";
 import { useTranslation } from "@refinedev/core";
+import {API_URL} from "../constants/url";
+import axios from "axios";
 
 const { Text, Title } = Typography;
 
-export const DashboardPage: React.FC = () => {
+export const DashboardPage = () => {
 
   const { translate } = useTranslation();
 
@@ -20,7 +22,17 @@ export const DashboardPage: React.FC = () => {
   const { data: identity } = useGetIdentity<{ name: string }>();
   const { data: permissions, isLoading } = usePermissions<string[]>({});
 
-  console.log(permissions);
+  const [activeUsers, setActiveUsers] = useState(0);
+
+  useEffect(() => {
+    axios.get(`${API_URL}/users/active_users`)
+        .then(response => {
+            setActiveUsers(response.data);
+        })
+        .catch(error => {
+            console.error("Hiba az adatok lekérésekor:", error);
+        });
+  }, []);
 
   const navigate = useNavigate();
 
@@ -45,52 +57,70 @@ export const DashboardPage: React.FC = () => {
             <Space size="large" align="center">
               <div>
                 <Title level={4} style={{ margin: 0 }}>
-                  Aktív felhasználók:
+                  {translate("pages.dashboard.active_users")}: {activeUsers || 0}
                 </Title>
-                <Text type="secondary">teszt</Text>
+                <Text type="secondary">&nbsp;</Text>
               </div>
             </Space>
           </Card>
         </Col>
-
-        {permissions?.includes("read:user") && (
-          <Col xs={24} sm={12} md={8} lg={6}>
-            <Card
-              hoverable
-              style={{ borderRadius: 12, height: 180 }}
-              onClick={() => navigate("/daily-reports")}
-            >
-              <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
-                <FileTextOutlined style={{ fontSize: 32 }} />
-                <Text strong>Napi jelentések</Text>
-                <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
-                  Jelentések rögzítése, szerkesztése, listázása
-                </Text>
-              </Space>
-            </Card>
-          </Col>
-        )}
       </Row>
+
+      {(permissions?.includes("VIEW:USERS") || permissions?.includes("VIEW:ROLES")) &&
+        <Row gutter={[24, 24]} style={{ marginTop: 12 }} align="middle">
+          <div style={{ width: "100%", border: "1px solid #aaaaaa", borderRadius: 16, padding: 24, margin: 12 }}>
+            <Title level={2}>{translate("pages.dashboard.administrator_module.title")}</Title>
+
+            <Divider />
+            <Row gutter={[24, 24]}>
+              {permissions?.includes("VIEW:USERS") &&
+                <Col xs={24} sm={12} md={8} lg={6}>
+                  <Card 
+                    hoverable
+                    style={{ borderRadius: 12, height: 180 }}
+                    onClick={() => navigate("/users")}
+                  >
+                    <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
+                      <UserOutlined style={{ fontSize: 32 }} />
+                      <Text strong>{translate("pages.dashboard.administrator_module.users")}</Text>
+                      <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                        {translate("pages.dashboard.administrator_module.users_description")}
+                      </Text>
+                    </Space>
+                  </Card>
+                </Col>
+              }
+
+              {permissions?.includes("VIEW:ROLES") &&
+                <Col xs={24} sm={12} md={8} lg={6}>
+                  <Card 
+                    hoverable
+                    style={{ borderRadius: 12, height: 180 }}
+                    onClick={() => navigate("/roles")}
+                  >
+                    <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
+                      <SettingOutlined style={{ fontSize: 32 }} />
+                      <Text strong>{translate("pages.dashboard.administrator_module.roles")}</Text>
+                      <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                        {translate("pages.dashboard.administrator_module.roles_description")}
+                      </Text>
+                    </Space>
+                  </Card>
+                </Col>
+              }
+            </Row>
+          </div>
+        </Row>
+      }
 
       <Row gutter={[24, 24]} style={{ marginTop: 12 }} align="middle">
         <div style={{ width: "100%", border: "1px solid #aaaaaa", borderRadius: 16, padding: 24, margin: 12 }}>
-          <Title level={2}>Adminisztrátor modul</Title>
+          <Title level={2}>{translate("pages.dashboard.hr_module.title")}</Title>
+
           <Divider />
-          <Col xs={24} sm={12} md={8} lg={6}>
-            <Card 
-              hoverable
-              style={{ borderRadius: 12, height: 180 }}
-              onClick={() => navigate("/users/create")}
-            >
-              <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
-                <UserOutlined style={{ fontSize: 32 }} />
-                <Text strong>Felhasználók</Text>
-                <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
-                  Felhasználók listázása, módosítása, törlése
-                </Text>
-              </Space>
-            </Card>
-          </Col>
+          <Row gutter={[24, 24]}>
+
+          </Row>
         </div>
       </Row>
     </div>

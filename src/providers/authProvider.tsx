@@ -6,6 +6,7 @@ export const authProvider : AuthProvider = {
   login: async ({ username, password }) => {
     try {
       const res = await axios.post(`${API_URL}/Auth/login`, { username, password });
+
       sessionStorage.setItem("token", res.data.token);
       return { success: true, redirectTo: "/" };
     } catch {
@@ -13,6 +14,26 @@ export const authProvider : AuthProvider = {
     }
   },
   logout: async () => {
+    const token = sessionStorage.getItem("token");
+
+    if (token) {
+        try {
+            const meRes = await axios.get(`${API_URL}/Auth/me`, {
+                  headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const userId = meRes.data.id;
+
+            console.log("User ID to set inactive:", userId);
+
+            const putRes = await axios.put(`${API_URL}/Auth/active/?id=${userId}&active=false`, {}, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            console.log("PUT /Auth/active response:", putRes.data);
+        } catch (e) {
+
+        }
+    }
     sessionStorage.removeItem("token");
     window.location.href = "/login";
     return { success: true };
@@ -46,18 +67,20 @@ export const authProvider : AuthProvider = {
 
   getPermissions: async (): Promise<string[] | null> => {
     const token = sessionStorage.getItem("token");
+    
     if (!token) return null;
 
     try {
         const res = await axios.get(`${API_URL}/Auth/me`, {
-        headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         return res.data.permissions as string[];
     } catch {
         return null;
     }
-    },
+  },
+  
   getIdentity: async () => {
     const token = sessionStorage.getItem("token");
     if (!token) return null;

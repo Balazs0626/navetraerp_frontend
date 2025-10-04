@@ -1,5 +1,6 @@
 import { useLogin } from "@refinedev/core";
 import { Form, Input, Button, Card } from "antd";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
@@ -13,6 +14,10 @@ export const LoginPage = () => {
         },
     });
   };
+
+  useEffect(() => {
+    document.title = "NavetraERP - Bejelentkezés";
+  });
 
   return (
     <div style={{ display: "flex", height: "100vh", justifyContent: "center", alignItems: "center", backgroundColor: "gray"}}>

@@ -1,36 +1,91 @@
 {
   "pages": {
+    "error": {
+      "backHome": "Vissza a főoldalra",
+      "404": "404 - A keresett oldal nem található"
+    },
     "sidebar": {
       "dashboard": "Irányítópult",
-      "users": "Felhasználók"
+      "administrator": "Adminisztrátor",
+      "users": "Felhasználók",
+      "roles": "Szerepkörök"
     },
     "dashboard": {
         "welcome": "Üdvözöljük",
-        "welcome_message": "Válassza ki a használni kívánt modult"
+        "welcome_message": "Válassza ki a használni kívánt modult",
+        "active_users": "Aktív felhasználók",
+        "administrator_module": {
+          "title": "Adminisztrátor modul",
+          "users": "Felhasználók",
+          "users_description": "Felhasználók listázása, módosítása és törlése",
+          "roles": "Szerepkörök",
+          "roles_description": "Szerepkörök listázása, módosítása és törlése"
+        }
     },
     "users": {
-      "common": {
+      "titles": {
         "username": "Felhasználónév",
         "email": "E-mail cím",
-        "role": "Szerepkör"
+        "role": "Szerepkör",
+        "password": "Jelszó (Hagyja üresen, ha nem akar változtatni)",
+        "user_data": "Felhasználó adatai"
+      },
+      "buttons": {
+        "back": "Vissza a felhasználókhoz",
+        "create": "Új felhasználó létrehozása"
       },
       "list": {
-        "create_button": "Új felhasználó létrehozása",
         "title": "Felhasználók",
+        "actions": "Műveletek",
+        "delete_message": "Biztosan törli a felhasználót?"
+      },
+      "create": {
+        "title": "Felhasználó létrehozása"
+      },
+      "edit": {
+        "title": "Felhasználó módosítása"
+      }
+    },
+    "roles": {
+      "titles": {
+        "default_data": "Alapadatok",
+        "role": "Szerepkör",
+        "name": "Szerepkör neve",
+        "permissions": "Jogosultságok"
+      },
+      "buttons": {
+        "back": "Vissza a szerepkörökhöz",
+        "create": "Új szerepkör létrehozása"
+      },
+      "list": {
+        "title": "Szerepkörök",
         "actions": "Műveletek"
       },
       "create": {
-        "title": "Felhasználó létrehozása",
-        "back_button": "Vissza a felhasználókhoz",
-        "data_card": "Felhasználó adatai",
-        "password": "Alapértelmezett jelszó"
+        "title": "Szerepkör lérehozása"
+      },
+      "edit": {
+        "title": "Szerepkör szerkesztése"
       }
+    }
+  },
+  "notifications": {
+    "success": "Sikeres művelet",
+    "error": "Sikertelen művelet",
+    "create": {
+      "user": "Sikeresen létrehozta a felhasználót",
+      "role": "Sikeresen létrehozta a szerepkört"
+    },
+    "modify": {
+      "user": "Sikeresen módosította a felhasználót",
+      "role": "Sikeresen módosította a szerepkört"
     }
   },
   "buttons": {
     "save": "Mentés",
     "logout": "Kijelentkezés",
     "delete": "Törlés",
-    "edit": "Módosítás"
+    "edit": "Módosítás",
+    "cancel": "Mégsem"
   }
 }

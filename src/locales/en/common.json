@@ -1,36 +1,92 @@
 {
   "pages": {
+    "error": {
+      "backHome": "Go back to homepage",
+      "404": "404 - Page not found"
+    },
     "sidebar": {
       "dashboard": "Dashboard",
-      "users": "Users"
+      "administrator": "Administrator",
+      "users": "Users",
+      "roles": "Roles"
     },
     "dashboard": {
         "welcome": "Welcome",
-        "welcome_message": "Select the module you want to use"
+        "welcome_message": "Select the module you want to use",
+        "active_users": "Active users",
+        "administrator_module": {
+          "title": "Administrator module",
+          "users": "Users",
+          "users_description": "List, modify and delete users",
+          "roles": "Roles",
+          "roles_description": "List, modify and delete roles"
+        }
     },
     "users": {
-      "common": {
+      "titles": {
         "username": "Username",
         "email": "E-mail address",
-        "role": "Role"
+        "role": "Role",
+        "password": "Passsword (Leave it blank if you don’t want to change it)",
+        "user_data": "User data"
+      },
+      "buttons": {
+        "back": "Back to users",
+        "create": "Create new user"
       },
       "list": {
-        "create_button": "Create new user",
         "title": "Users",
+        "actions": "Actions",
+        "delete_message": "Are you sure you want to delete this user?"
+      },
+      "create": {
+        "title": "Create user"
+      },
+      "edit": {
+        "title": "Modify user"
+      }
+    },
+    "roles": {
+      "titles": {
+        "default_data": "Default data",
+        "role": "Role",
+        "name": "Role name",
+        "permissions": "Permissions"
+      },
+      "buttons": {
+        "back": "Back to roles",
+        "create": "Create new role"
+      },
+      "list": {
+        "title": "Roles",
+        "role": "Role",
         "actions": "Actions"
       },
       "create": {
-        "title": "Create user",
-        "back_button": "Bact to users",
-        "data_card": "User datas",
-        "password": "Default password"
+        "title": "Create role"
+      },
+      "edit": {
+        "title": "Modify role"
       }
+    }
+  },
+  "notifications": {
+    "success": "Successful operation",
+    "error": "Operation failed",
+    "create": {
+      "user": "The user was created successfully",
+      "role": "The role was created successfully"
+    },
+    "modify": {
+      "user": "The user was modified successfully",
+      "role": "The role was modified successfully"
     }
   },
   "buttons": {
     "save": "Save",
     "logout": "Logout",
     "delete": "Delete",
-    "edit": "Edit"
+    "edit": "Edit",
+    "cancel": "Cancel"
   }
 }

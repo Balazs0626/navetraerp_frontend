@@ -4,46 +4,44 @@ import { IUserList } from "../../interfaces";
 import { Roles } from "../../constants/users";
 import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { useNavigation, useTranslation } from "@refinedev/core";
+import { useNavigation, usePermissions, useTranslation } from "@refinedev/core";
 import { useNavigate } from "react-router-dom";
 
 const { Search } = Input;
 
 export const UserList = () => {
-    useEffect(() => {
-        document.title = "NavetraERP - Felhasználó lista";
-    })
-
-    const [searchQuery, setSearchQuery] = useState("");
 
     const { tableProps } = useTable<IUserList>({
-        resource: "User",
+        resource: "users",
     });
 
     const navigate = useNavigate();
 
     const { translate } = useTranslation();
 
+    useEffect(() => {
+        document.title = `NavetraERP - ${translate("pages.users.list.title")}`;
+    })
+
+    const { data: permissions, isLoading } = usePermissions<string[]>({});
+
     return (
         <Row gutter={[16, 16]}>
-{/*             <Col lg={6} xs={24}>
-
-            </Col> */}
             <Col lg={24} xs={24}>
                 <List
                     title={translate("pages.users.list.title")}
                     headerButtons={
                         <Button icon={<PlusOutlined />} size="large" onClick={() => navigate("/users/create")}>
-                            {translate("pages.users.list.create_button")}
+                            {translate("pages.users.buttons.create")}
                         </Button>
                     }
                 >
                     <Table {...tableProps} rowKey="id">
-                        <Table.Column dataIndex={"username"} title={translate("pages.users.common.username")}/>
-                        <Table.Column dataIndex={"email"} title={translate("pages.users.common.email")}/>
+                        <Table.Column dataIndex={"username"} title={translate("pages.users.titles.username")}/>
+                        <Table.Column dataIndex={"email"} title={translate("pages.users.titles.email")}/>
                         <Table.Column 
                             dataIndex={"role"} 
-                            title={translate("pages.users.common.role")}
+                            title={translate("pages.users.titles.role")}
                             render={(value) => {
                                 const role = Roles.find(r => r.value === value);
                                 return role? role.label : value;
@@ -55,17 +53,22 @@ export const UserList = () => {
                             key="actions"
                             render={(_, record) => (
                                 <Space>
-                                    <EditButton
-                                        size="small"
-                                        recordItemId={record.id}
-                                        resource="User"
-                                    />
-                                    <DeleteButton
-                                        size="small"
-                                        recordItemId={record.id}
-                                        resource="User"
-                                        confirmTitle="Biztosan törli a felhasználót?"
-                                    />
+                                    {permissions?.includes("EDIT:USERS") &&
+                                        <EditButton
+                                            size="small"
+                                            recordItemId={record.id}
+                                            resource="users"
+                                            onClick={() => navigate(`/users/edit/${record.id}`)}
+                                        />
+                                    }
+                                    {permissions?.includes("DELETE:USERS") &&
+                                        <DeleteButton
+                                            size="small"
+                                            recordItemId={record.id}
+                                            resource="users"
+                                            confirmTitle={translate("pages.users.list.delete_message")}
+                                        />
+                                    }
                                 </Space>
                             )}
                         />

@@ -2,16 +2,14 @@ import { Refine, Authenticated, ErrorComponent } from "@refinedev/core";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { LoginPage } from "./pages/login";
 import { CatchAllNavigate } from "@refinedev/react-router";
-import { API_URL } from "./constants/url"
 import { DashboardPage } from "./pages/dashboard";
 import { RefineThemes, ThemedLayout, ThemedTitle, useNotificationProvider } from "@refinedev/antd";
 import { App as AntdApp, ConfigProvider, Select, Switch, theme, Typography } from "antd";
-import { FileTextFilled, FileTextOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, UserOutlined } from "@ant-design/icons";
+import { FileTextFilled, FileTextOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { dataProvider } from "./providers/dataProvider";
 import { authProvider } from "./providers/authProvider";
 import { UserList } from "./pages/users/list";
-import { useContext, useEffect, useState } from "react";
-import { ColorModeContext } from "./contexts/color-mode";
+import { useEffect, useState } from "react";
 import { UserCreate } from "./pages/users/create";
 import { I18nProvider } from "@refinedev/core";
 import { useTranslation } from "react-i18next";
@@ -19,6 +17,8 @@ import "./providers/i18nProvider";
 
 import { notification } from "antd";
 import { NotificationProvider } from "@refinedev/core";
+import { UserEdit } from "./pages/users";
+import { RoleCreate, RoleEdit, RoleList } from "./pages/roles";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -87,7 +87,7 @@ export default function App() {
           algorithm: mode === "light" ? defaultAlgorithm : darkAlgorithm,
           token: {
             colorBgLayout: mode === "light" ? "#e0e0e0ff" : "#141414",
-            colorBgContainer: mode === "light" ? "#f0f2f5" : "#1f1f1f",
+            colorBgContainer: mode === "light" ? "#eeeeeeff" : "#1f1f1f",
           },
         }}
       >
@@ -105,8 +105,16 @@ export default function App() {
                   return { can: false };
                 }
 
-                if (resource === "User" && action === "list") {
+                if (resource === "administrator" && action === "list") {
+                  return { can: (permissions.includes("VIEW:USERS") || permissions.includes("VIEW:ROLES"))};
+                }
+
+                if (resource === "users" && action === "list") {
                   return { can: permissions.includes("VIEW:USERS") };
+                }
+
+                if (resource === "roles" && action === "list") {
+                  return { can: permissions.includes("VIEW:ROLES") };
                 }
 
                 return { can: true };
@@ -122,14 +130,33 @@ export default function App() {
                 }
               },
               {
-                name: "User",
-                list: "/users",
-                create: "/users/create",
+                name: "administrator",
                 meta: {
-                  label: t("pages.sidebar.users"),
-                  icon: <UserOutlined/>
+                  label: t("pages.sidebar.administrator"),
                 }
               },
+              {
+                name: "users",
+                list: "/users",
+                create: "/users/create",
+                edit: "/users/edit/:id",
+                meta: {
+                  label: t("pages.sidebar.users"),
+                  icon: <UserOutlined/>,
+                  parent: "administrator"
+                }
+              },
+              {
+                name: "roles",
+                list: "/roles",
+                create: "/roles/create",
+                edit: "/roles/edit:id",
+                meta: {
+                  label: t("pages.sidebar.roles"),
+                  icon: <SettingOutlined/>,
+                  parent: "administrator"
+                }
+              }
             ]}
             options={{ syncWithLocation: true }}
           >
@@ -191,6 +218,13 @@ export default function App() {
                 <Route path="/users">
                   <Route index element={<UserList/>}/>
                   <Route path="create" element={<UserCreate/>}/>
+                  <Route path="edit/:id" element={<UserEdit/>}/>
+                </Route>
+
+                <Route path="/roles">
+                  <Route index element={<RoleList/>}/>
+                  <Route path="create" element={<RoleCreate/>}/>
+                  <Route path="edit/:id" element={<RoleEdit/>}/>
                 </Route>
                 
               </Route>
