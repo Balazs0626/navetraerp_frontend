@@ -1,5 +1,5 @@
 
-//Users
+//Felhasználók
 
 export interface IUserList {
     id: number;
@@ -8,9 +8,19 @@ export interface IUserList {
     role: string;
 }
 
-//Roles
+//Szerepkörök
 
 export interface IRoleList {
     id: number;
     roleName: string;
+}
+
+  // HR \\
+
+//Osztályok
+
+export interface IDepartmentList {
+    id: number;
+    departmentName: string;
+    description: string;
 }

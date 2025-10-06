@@ -17,9 +17,24 @@
         "administrator_module": {
           "title": "Administrator module",
           "users": "Users",
-          "users_description": "List, modify and delete users",
+          "users_description": "List, edit and delete users",
           "roles": "Roles",
-          "roles_description": "List, modify and delete roles"
+          "roles_description": "List, edit and delete roles"
+        },
+        "hr_module": {
+          "title": "HR module",
+          "employee": "Employee",
+          "employee_description": "List, edit and delete employee",
+          "shifts": "Shifts",
+          "shifts_description": "List, edit and delete shifts",
+          "departments": "Departments",
+          "departments_description": "List, edit and delete departments",
+          "positions": "Positions",
+          "positions_description": "List, edit and delete positions",
+          "performance": "Performance reviews",
+          "performance_description": "List, edit and delete performance reviews",
+          "leave_requests": "Leave requests",
+          "leave_requests_description": "List, edit and delete leave requests"
         }
     },
     "users": {
@@ -32,7 +47,7 @@
       },
       "buttons": {
         "back": "Back to users",
-        "create": "Create new user"
+        "create": "Create a new user"
       },
       "list": {
         "title": "Users",
@@ -55,12 +70,14 @@
       },
       "buttons": {
         "back": "Back to roles",
-        "create": "Create new role"
+        "create": "Create a new role"
       },
       "list": {
         "title": "Roles",
         "role": "Role",
-        "actions": "Actions"
+        "actions": "Actions",
+        "delete_message": "Are you sure you want to delete this role?",
+        "info": "This role cannot be deleted"
       },
       "create": {
         "title": "Create role"
@@ -68,18 +85,44 @@
       "edit": {
         "title": "Modify role"
       }
+    },
+    "departments": {
+      "titles": {
+        "department": "Department",
+        "name": "Department name",
+        "description": "Description",
+        "data": "Data"
+      },
+      "buttons": {
+        "back": "Go back to departments",
+        "create": "Create a new department"
+      },
+      "list": {
+        "title": "Departments",
+        "actions": "Actions",
+        "delete_message": "Are you sure you want to delete this department?"
+      },
+      "create": {
+        "title": "Creating a department"
+      },
+      "edit": {
+        "title": "Editing a department"
+      }
     }
   },
+
   "notifications": {
     "success": "Successful operation",
     "error": "Operation failed",
     "create": {
       "user": "The user was created successfully",
-      "role": "The role was created successfully"
+      "role": "The role was created successfully",
+      "department": "The department was created successfully"
     },
     "modify": {
       "user": "The user was modified successfully",
-      "role": "The role was modified successfully"
+      "role": "The role was modified successfully",
+      "department": "The department was modified successfully"
     }
   },
   "buttons": {

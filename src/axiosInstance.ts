@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_URL } from "./constants/url";
+import { message } from "antd";
 
 export const axiosInstance = axios.create({
     baseURL: API_URL,

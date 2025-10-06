@@ -1,7 +1,7 @@
 import { useCustom, useGetIdentity, usePermissions } from "@refinedev/core";
 import { useNavigate } from "react-router";
 import { Row, Col, Card, Avatar, Typography, Space, Button, Divider, Select } from "antd";
-import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined, SettingOutlined } from "@ant-design/icons";
+import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined, SettingOutlined, GroupOutlined } from "@ant-design/icons";
 import "antd/dist/reset.css";
 import { Column } from "@ant-design/plots";
 import { act, useEffect, useState } from "react";
@@ -119,7 +119,23 @@ export const DashboardPage = () => {
 
           <Divider />
           <Row gutter={[24, 24]}>
-
+            {permissions?.includes("VIEW:ROLES") && //permission beállítás
+                <Col xs={24} sm={12} md={8} lg={6}>
+                  <Card 
+                    hoverable
+                    style={{ borderRadius: 12, height: 180 }}
+                    onClick={() => navigate("/hr/departments")}
+                  >
+                    <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
+                      <GroupOutlined style={{ fontSize: 32 }} />
+                      <Text strong>{translate("pages.dashboard.hr_module.departments")}</Text>
+                      <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                        {translate("pages.dashboard.hr_module.departments_description")}
+                      </Text>
+                    </Space>
+                  </Card>
+                </Col>
+              }
           </Row>
         </div>
       </Row>

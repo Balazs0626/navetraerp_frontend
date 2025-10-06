@@ -48,7 +48,7 @@ export const RoleCreate = () => {
   }
 
   useEffect(() => {
-    document.title = `NavetraERP - ${translate("pages.users.create.title")}`;
+    document.title = `NavetraERP - ${translate("pages.roles.create.title")}`;
   })
 
   return (
@@ -60,7 +60,7 @@ export const RoleCreate = () => {
           handleNotification();
         }
       }}
-      title={translate("pages.users.create.title")}
+      title={translate("pages.roles.create.title")}
       goBack={null}
       headerButtons={
         <Space>
@@ -105,7 +105,6 @@ export const RoleCreate = () => {
               >
                 <Select
                   mode="multiple"
-                  placeholder="Válassz jogosultságokat"
                   options={allPermissions
                     .map((p) => ({
                       label: p.permissionName,

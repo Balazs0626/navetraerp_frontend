@@ -5,7 +5,7 @@ import { CatchAllNavigate } from "@refinedev/react-router";
 import { DashboardPage } from "./pages/dashboard";
 import { RefineThemes, ThemedLayout, ThemedTitle, useNotificationProvider } from "@refinedev/antd";
 import { App as AntdApp, ConfigProvider, Select, Switch, theme, Typography } from "antd";
-import { FileTextFilled, FileTextOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
+import { FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { dataProvider } from "./providers/dataProvider";
 import { authProvider } from "./providers/authProvider";
 import { UserList } from "./pages/users/list";
@@ -19,6 +19,8 @@ import { notification } from "antd";
 import { NotificationProvider } from "@refinedev/core";
 import { UserEdit } from "./pages/users";
 import { RoleCreate, RoleEdit, RoleList } from "./pages/roles";
+import { DepartmentEdit, DepartmentList } from "./pages/departments";
+import { DepartmentCreate } from "./pages/departments/create";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -156,6 +158,21 @@ export default function App() {
                   icon: <SettingOutlined/>,
                   parent: "administrator"
                 }
+              },
+              {
+                name: "hr",
+                meta: {
+                  label: t("pages.sidebar.hr")
+                }
+              },
+              {
+                name: "departments",
+                list: "/hr/departments",
+                meta: {
+                  label: t("pages.sidebar.departments"),
+                  icon: <GroupOutlined/>,
+                  parent: "hr"
+                }
               }
             ]}
             options={{ syncWithLocation: true }}
@@ -225,6 +242,12 @@ export default function App() {
                   <Route index element={<RoleList/>}/>
                   <Route path="create" element={<RoleCreate/>}/>
                   <Route path="edit/:id" element={<RoleEdit/>}/>
+                </Route>
+
+                <Route path="/hr/departments">
+                  <Route index element={<DepartmentList/>}/>
+                  <Route path="create" element={<DepartmentCreate/>}/>
+                  <Route path="edit/:id" element={<DepartmentEdit/>}/>
                 </Route>
                 
               </Route>

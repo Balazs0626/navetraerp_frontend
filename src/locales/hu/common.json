@@ -8,7 +8,9 @@
       "dashboard": "Irányítópult",
       "administrator": "Adminisztrátor",
       "users": "Felhasználók",
-      "roles": "Szerepkörök"
+      "roles": "Szerepkörök",
+      "hr": "HR",
+      "departments": "Osztályok"
     },
     "dashboard": {
         "welcome": "Üdvözöljük",
@@ -20,6 +22,21 @@
           "users_description": "Felhasználók listázása, módosítása és törlése",
           "roles": "Szerepkörök",
           "roles_description": "Szerepkörök listázása, módosítása és törlése"
+        },
+        "hr_module": {
+          "title": "HR modul",
+          "employee": "Dolgozók",
+          "employee_description": "Dolgozók listázása, módosítása és törlése",
+          "shifts": "Műszakok",
+          "shifts_description": "Műszakok listázása, módosítása és törlése",
+          "departments": "Osztályok",
+          "departments_description": "Osztályok listázása, módosítása és törlése",
+          "positions": "Pozíciók",
+          "positions_description": "Pozíciók listázása, módosítása és törlése",
+          "performance": "Teljesítmény értékelések",
+          "performance_description": "Teljesítmény értékelések listázása, módosítása és törlése",
+          "leave_requests": "Távollétek",
+          "leave_requests_description": "Távollétek listázása, módosítása és törlése"
         }
     },
     "users": {
@@ -59,13 +76,38 @@
       },
       "list": {
         "title": "Szerepkörök",
-        "actions": "Műveletek"
+        "actions": "Műveletek",
+        "delete_message": "Biztosan törli a szerepkört?",
+        "info": "Ez a szerepkör nem törölhető"
       },
       "create": {
         "title": "Szerepkör lérehozása"
       },
       "edit": {
         "title": "Szerepkör szerkesztése"
+      }
+    },
+    "departments": {
+      "titles": {
+        "department": "Osztály",
+        "name": "Osztály neve",
+        "description": "Leírás",
+        "data": "Adatok"
+      },
+      "buttons": {
+        "back": "Vissza az osztályokhoz",
+        "create": "Új osztály létrehozása"
+      },
+      "list": {
+        "title": "Osztályok",
+        "actions": "Műveletek",
+        "delete_message": "Biztosan törli az osztályt?"
+      },
+      "create": {
+        "title": "Osztály létrehozása"
+      },
+      "edit": {
+        "title": "Osztály szerkesztése"
       }
     }
   },
@@ -74,11 +116,13 @@
     "error": "Sikertelen művelet",
     "create": {
       "user": "Sikeresen létrehozta a felhasználót",
-      "role": "Sikeresen létrehozta a szerepkört"
+      "role": "Sikeresen létrehozta a szerepkört",
+      "department": "Sikeresen létrehozta az osztályt"
     },
     "modify": {
       "user": "Sikeresen módosította a felhasználót",
-      "role": "Sikeresen módosította a szerepkört"
+      "role": "Sikeresen módosította a szerepkört",
+      "department": "Sikeresen módosította az osztályt"
     }
   },
   "buttons": {

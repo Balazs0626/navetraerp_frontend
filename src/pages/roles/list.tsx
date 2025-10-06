@@ -4,7 +4,7 @@ import { IUserList } from "../../interfaces";
 import { Roles } from "../../constants/users";
 import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { useNavigation, useTranslation } from "@refinedev/core";
+import { usePermissions, useTranslation } from "@refinedev/core";
 import { useNavigate } from "react-router-dom";
 
 const { Search } = Input;
@@ -14,13 +14,15 @@ export const RoleList = () => {
   const navigate = useNavigate();
   const { translate } = useTranslation();
 
+  const { data: permissions, isLoading } = usePermissions<string[]>({});
+
   const { tableProps } = useTable<IUserList>({
     resource: "roles",
   });
 
   useEffect(() => {
     document.title = `NavetraERP - ${translate("pages.roles.list.title")}`;
-  })
+  });
 
   return (
     <Row gutter={[16, 16]}>
@@ -45,22 +47,24 @@ export const RoleList = () => {
               
                 return (
                   <Space>
-                    <EditButton
-                      size="small"
-                      recordItemId={record.id}
-                      resource="roles"
-                      onClick={() => navigate(`/roles/edit/${record.id}`)}
-                    />
-                    
-                    <DeleteButton
-                      size="small"
-                      recordItemId={record.id}
-                      resource="roles"
-                      disabled={isDefaultRole}
-                      title={isDefaultRole ? "Ez a szerepkör nem törölhető" : undefined}
-                      confirmTitle="Biztosan törli a szerepkört?"
-                    />
-                    
+                    {permissions?.includes("EDIT:ROLES") &&
+                      <EditButton
+                        size="small"
+                        recordItemId={record.id}
+                        resource="roles"
+                        onClick={() => navigate(`/roles/edit/${record.id}`)}
+                      />
+                    }
+                    {permissions?.includes("DELETE:ROLES") &&
+                      <DeleteButton
+                        size="small"
+                        recordItemId={record.id}
+                        resource="roles"
+                        disabled={isDefaultRole}
+                        title={isDefaultRole ? translate("pages.roles.list.info") : undefined}
+                        confirmTitle={translate("pages.roles.list.delete_message")}
+                      />
+                    }
                   </Space>
                 )
               }}
