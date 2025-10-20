@@ -6,10 +6,10 @@ import TextArea from "antd/es/input/TextArea";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
-export const DepartmentCreate = () => {
+export const PositionCreate = () => {
 
   const { form, formProps, saveButtonProps } = useForm({
-    resource: "departments",
+    resource: "positions",
     redirect: false
   });
 
@@ -17,20 +17,20 @@ export const DepartmentCreate = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = translate("pages.departments.create.title");
+    document.title = translate("pages.positions.create.title");
   })  
 
   return (
     <Create
       saveButtonProps={saveButtonProps}
-      title={translate("pages.departments.create.title")}
+      title={translate("pages.positions.create.title")}
       goBack={null}
       headerButtons={
         <Space>
           <Button
-            onClick={() => navigate("/hr/departments")}
+            onClick={() => navigate("/hr/positions")}
             size="large"
-          ><ArrowLeftOutlined/>{translate("pages.departments.buttons.back")}</Button>
+          ><ArrowLeftOutlined/>{translate("pages.positions.buttons.back")}</Button>
         </Space>
       }
     >
@@ -39,12 +39,12 @@ export const DepartmentCreate = () => {
         form={form}
         layout="vertical"
       >
-        <Card title={translate("pages.departments.titles.data")}>
+        <Card title={translate("pages.positions.titles.data")}>
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label={translate("pages.departments.titles.name")}
-                name="departmentName"
+                label={translate("pages.positions.titles.name")}
+                name="positionName"
                 rules={[{ required: true }]}
               >
                 <Input/>
@@ -52,7 +52,7 @@ export const DepartmentCreate = () => {
             </Col>
             <Col span={12}>
               <Form.Item
-                label={translate("pages.departments.titles.description")}
+                label={translate("pages.positions.titles.description")}
                 name="description"
               >
                 <TextArea/>

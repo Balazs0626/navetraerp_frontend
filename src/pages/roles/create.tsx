@@ -7,6 +7,7 @@ import { RoleSelect } from "../../components/RoleSelect";
 import { useEffect, useState } from "react";
 import { API_URL } from "../../constants/url";
 import axios from "axios";
+import { useRolesData } from "../../constants/roles";
 
 interface RolePermissionDto {
   id: number;
@@ -36,30 +37,13 @@ export const RoleCreate = () => {
       });
   }, []);
 
-  const { open, close } = useNotification();
-
-  const handleNotification = async () => {
-    open?.({
-      type: "success",
-      message: translate("notifications.create.role"),
-      description: translate("notifications.success"),
-      key: "notification-key",
-    });
-  }
-
   useEffect(() => {
     document.title = `NavetraERP - ${translate("pages.roles.create.title")}`;
   })
 
   return (
     <Create
-      saveButtonProps={{
-        ...saveButtonProps, 
-        onClick: (event) => {
-          saveButtonProps.onClick?.(event);
-          handleNotification();
-        }
-      }}
+      saveButtonProps={saveButtonProps}
       title={translate("pages.roles.create.title")}
       goBack={null}
       headerButtons={

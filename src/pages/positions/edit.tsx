@@ -6,20 +6,31 @@ import TextArea from "antd/es/input/TextArea";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 
-export const DepartmentEdit = () => {
+export const PositionEdit = () => {
   const { id } = useParams();
 
   const { translate } = useTranslation();
   const navigate = useNavigate();
 
   const { formProps, form, saveButtonProps } = useForm({
-      resource: "departments",
+      resource: "positions",
       action: "edit",
       id,
   });
 
+  const { open, close } = useNotification();
+
+  const handleNotification = async () => {
+    open?.({
+      type: "success",
+      message: translate("notifications.modify.position"),
+      description: translate("notifications.success"),
+      key: "notification-key",
+    });
+  }
+
   useEffect(() => {
-    document.title = translate("pages.departments.edit.title");
+    document.title = translate("pages.positions.edit.title");
   })
 
   useEffect(() => {
@@ -33,14 +44,14 @@ export const DepartmentEdit = () => {
 
   return (
     <Edit
-      title={translate("pages.departments.edit.title")}
+      title={translate("pages.positions.edit.title")}
       saveButtonProps={saveButtonProps}
       headerButtons={
         <Space>
           <Button
-            onClick={() => navigate("/hr/departments")}
+            onClick={() => navigate("/hr/positions")}
             size="large"
-          ><ArrowLeftOutlined/>{translate("pages.departments.buttons.back")}</Button>
+          ><ArrowLeftOutlined/>{translate("pages.positions.buttons.back")}</Button>
         </Space>
       }
     >
@@ -49,12 +60,12 @@ export const DepartmentEdit = () => {
         form={form}
         layout="vertical"
       >
-        <Card title={translate("pages.departments.titles.data")}>
+        <Card title={translate("pages.positions.titles.data")}>
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label={translate("pages.departments.titles.name")}
-                name="departmentName"
+                label={translate("pages.positions.titles.name")}
+                name="positionName"
                 rules={[{ required: true }]}
               >
                 <Input/>
@@ -62,7 +73,7 @@ export const DepartmentEdit = () => {
             </Col>
             <Col span={12}>
               <Form.Item
-                label={translate("pages.departments.titles.description")}
+                label={translate("pages.positions.titles.description")}
                 name="description"
               >
                 <TextArea/>

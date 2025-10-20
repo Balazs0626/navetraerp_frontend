@@ -26,17 +26,6 @@ export const RoleEdit = () => {
   const translate = useTranslate();
   const navigate = useNavigate();
 
-  const { open, close } = useNotification();
-
-  const handleNotification = async () => {
-    open?.({
-      type: "success",
-      message: translate("notifications.create.role"),
-      description: translate("notifications.success"),
-      key: "notification-key",
-    });
-  }
-
   const [allPermissions, setAllPermissions] = useState<RolePermissionDto[]>([]);
   useEffect(() => {
     axios
@@ -69,10 +58,7 @@ export const RoleEdit = () => {
         {...formProps} 
         form={form} 
         layout="vertical"
-        onFinish={async (values) => {
-          await formProps.onFinish?.(values);
-          handleNotification();
-        }}>
+      >
         <Card title={translate("pages.roles.titles.default_data")}>
           <Row gutter={16}>
             <Col span={12}>

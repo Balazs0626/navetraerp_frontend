@@ -8,7 +8,13 @@
       "dashboard": "Dashboard",
       "administrator": "Administrator",
       "users": "Users",
-      "roles": "Roles"
+      "roles": "Roles",
+      "hr": "HR",
+      "employee": "Employees",
+      "departments": "Departments",
+      "positions": "Positions",
+      "shifts": "Shifts",
+      "work_schedules": "Work schedules"
     },
     "dashboard": {
         "welcome": "Welcome",
@@ -31,6 +37,8 @@
           "departments_description": "List, edit and delete departments",
           "positions": "Positions",
           "positions_description": "List, edit and delete positions",
+          "work_schedules": "Work schedules",
+          "work_schedules_description": "Create, list and delete work schedules",
           "performance": "Performance reviews",
           "performance_description": "List, edit and delete performance reviews",
           "leave_requests": "Leave requests",
@@ -55,10 +63,10 @@
         "delete_message": "Are you sure you want to delete this user?"
       },
       "create": {
-        "title": "Create user"
+        "title": "Creating a user"
       },
       "edit": {
-        "title": "Modify user"
+        "title": "Editing a user"
       }
     },
     "roles": {
@@ -80,10 +88,10 @@
         "info": "This role cannot be deleted"
       },
       "create": {
-        "title": "Create role"
+        "title": "Creating a role"
       },
       "edit": {
-        "title": "Modify role"
+        "title": "Editing a role"
       }
     },
     "departments": {
@@ -108,28 +116,102 @@
       "edit": {
         "title": "Editing a department"
       }
+    },
+    "positions": {
+      "titles": {
+        "position": "Position",
+        "name": "Position name",
+        "description": "Description",
+        "data": "Data"
+      },
+      "buttons": {
+        "back": "Go back to positions",
+        "create": "Create a new position"
+      },
+      "list": {
+        "title": "Positions",
+        "actions": "Actions",
+        "delete_message": "Are you sure you want to delete this position?"
+      },
+      "create": {
+        "title": "Creating a position"
+      },
+      "edit": {
+        "title": "Editing a position"
+      }
+    },
+    "shifts": {
+      "titles": {
+        "shift": "Shift",
+        "name": "Shift name",
+        "start_time": "Shift start time",
+        "end_time": "Shift end time",
+        "data": "Data"
+      },
+      "buttons": {
+        "back": "Go back to shifts",
+        "create": "Create a new shift"
+      },
+      "list": {
+        "title": "Shifts",
+        "actions": "Actions"
+      },
+      "create": {
+        "title": "Creating a shift"
+      },
+      "edit": {
+        "title": "Editing a shift"
+      }
+    },
+    "work_schedules": {
+      "titles": {
+        "employee": "Employee",
+        "shift": "Shift",
+        "date": "Date",
+        "data": "Date",
+        "calendar": "Calendar",
+        "info": "By clicking on a calendar cell, a work schedule can be created for the selected date."
+      },
+      "buttons": {
+        "back": "Go back to work schedules",
+        "create": "Create a new work schedule",
+        "calendar": "Calendar view",
+        "list": "List view"
+      },
+      "list": {
+        "title": "Work schedules",
+        "actions": "Actions"
+      },
+      "create": {
+        "title": "Creating a work schedule"
+      }
     }
   },
-
   "notifications": {
     "success": "Successful operation",
     "error": "Operation failed",
-    "create": {
-      "user": "The user was created successfully",
-      "role": "The role was created successfully",
-      "department": "The department was created successfully"
-    },
-    "modify": {
-      "user": "The user was modified successfully",
-      "role": "The role was modified successfully",
-      "department": "The department was modified successfully"
-    }
+    "createSuccess": "This item is successfully created",
+    "editSuccess": "This item is successfully edited",
+    "deleteSuccess": "This item is successfully deleted",
+    "deleteMessage": "Are you sure you want to delete this item?"
   },
   "buttons": {
     "save": "Save",
     "logout": "Logout",
     "delete": "Delete",
     "edit": "Edit",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "search": "Search",
+    "clear": "Clear"
+  },
+  "constants": {
+    "roles": {
+      "users": {
+        "view": "View users",
+        "create": "Create users",
+        "edit": "Edit users",
+        "delete": "Delete users"
+      }
+    }
   }
 }

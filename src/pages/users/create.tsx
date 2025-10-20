@@ -17,7 +17,7 @@ export const UserCreate = () => {
   const translate = useTranslate();
   const navigate = useNavigate();
 
-  const { open, close } = useNotification();
+/*   const { open, close } = useNotification();
 
   const handleNotification = async () => {
     open?.({
@@ -26,7 +26,7 @@ export const UserCreate = () => {
       description: translate("notifications.success"),
       key: "notification-key",
     });
-  }
+  } */
 
   useEffect(() => {
     document.title = `NavetraERP - ${translate("pages.users.create.title")}`;
@@ -34,10 +34,11 @@ export const UserCreate = () => {
 
   return (
     <Create
-      saveButtonProps={{...saveButtonProps, onClick: (event) => {
+/*       saveButtonProps={{...saveButtonProps, onClick: (event) => {
         saveButtonProps.onClick?.(event);
         handleNotification();
-      }}}
+      }}} */
+      saveButtonProps={saveButtonProps}
       title={translate("pages.users.create.title")}
       goBack={null}
       headerButtons={

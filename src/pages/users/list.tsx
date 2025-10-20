@@ -66,7 +66,7 @@ export const UserList = () => {
                                             size="small"
                                             recordItemId={record.id}
                                             resource="users"
-                                            confirmTitle={translate("pages.users.list.delete_message")}
+                                            confirmTitle={translate("notifications.deleteMessage")}
                                         />
                                     }
                                 </Space>

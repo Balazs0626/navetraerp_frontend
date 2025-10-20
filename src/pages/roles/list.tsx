@@ -62,7 +62,7 @@ export const RoleList = () => {
                         resource="roles"
                         disabled={isDefaultRole}
                         title={isDefaultRole ? translate("pages.roles.list.info") : undefined}
-                        confirmTitle={translate("pages.roles.list.delete_message")}
+                        confirmTitle={translate("notifications.deleteMessage")}
                       />
                     }
                   </Space>

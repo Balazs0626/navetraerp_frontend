@@ -10,7 +10,11 @@
       "users": "Felhasználók",
       "roles": "Szerepkörök",
       "hr": "HR",
-      "departments": "Osztályok"
+      "employee": "Dolgozók",
+      "departments": "Osztályok",
+      "positions": "Pozíciók",
+      "shifts": "Műszakok",
+      "work_schedules": "Beosztások"
     },
     "dashboard": {
         "welcome": "Üdvözöljük",
@@ -33,6 +37,8 @@
           "departments_description": "Osztályok listázása, módosítása és törlése",
           "positions": "Pozíciók",
           "positions_description": "Pozíciók listázása, módosítása és törlése",
+          "work_schedules": "Beosztások",
+          "work_schedules_description": "Beosztások létrehozása, listázása és törlése",
           "performance": "Teljesítmény értékelések",
           "performance_description": "Teljesítmény értékelések listázása, módosítása és törlése",
           "leave_requests": "Távollétek",
@@ -87,6 +93,53 @@
         "title": "Szerepkör szerkesztése"
       }
     },
+    "employee": {
+      "titles": {
+        "employee": "Alkalmazott",
+        "name": "Alkalmazott neve",
+        "department_name": "Osztály",
+        "position_name": "Pozíció",
+        "has_user": "Felhasználó társítva",
+        "personal_data": "Személyes adatok",
+        "first_name": "Vezetéknév",
+        "last_name": "Keresztnév",
+        "birth_date": "Születési dátum",
+        "id_number": "Személyigazolvány szám",
+        "residence_number": "Lakcímkártya szám",
+        "health_insurance_number": "TAJ szám",
+        "tax_id_number": "Adóazonosító jel",
+        "phone_number": "Telefonszám",
+        "email": "E-mail cím",
+        "address_data": "Lakcím adatok",
+        "address_country": "Ország",
+        "address_region": "Régió",
+        "address_postcode": "Irányítószám",
+        "address_city": "Település",
+        "address_first": "Cím 1",
+        "address_second": "Cím 2",
+        "work_data": "Munkahelyi adatok",
+        "department_id": "Osztály",
+        "position_id": "Pozíció",
+        "user_id": "Felhasználó",
+        "hire_date": "Felvétel dátuma",
+        "salary": "Fizetés",
+        "status": "Státusz"
+      },
+      "buttons": {
+        "back": "Vissza az alkalmazottakhoz",
+        "create": "Új alkalmazott létrehozása"
+      },
+      "list": {
+        "title": "Alkalmazottak",
+        "actions": "Műveletek"
+      },
+      "create": {
+        "title": "Alkalmazott létrehozása"
+      },
+      "edit": {
+        "title": "Alkalmazott szerkesztése"
+      }
+    },
     "departments": {
       "titles": {
         "department": "Osztály",
@@ -109,27 +162,108 @@
       "edit": {
         "title": "Osztály szerkesztése"
       }
+    },
+    "positions": {
+      "titles": {
+        "position": "Pozíció",
+        "name": "Pozíció neve",
+        "description": "Leírás",
+        "data": "Adatok"
+      },
+      "buttons": {
+        "back": "Vissza a pozíciókhoz",
+        "create": "Új pozíció létrehozása"
+      },
+      "list": {
+        "title": "Pozíciók",
+        "actions": "Műveletek",
+        "delete_message": "Biztosan törli a pozíciót?"
+      },
+      "create": {
+        "title": "Pozíció létrehozása"
+      },
+      "edit": {
+        "title": "Pozíció szerkesztése"
+      }
+    },
+    "shifts": {
+      "titles": {
+        "shift": "Műszak",
+        "name": "Műszak neve",
+        "start_time": "Műszak kezdete",
+        "end_time": "Műszak vége",
+        "data": "Adatok"
+      },
+      "buttons": {
+        "back": "Vissza a műszakokhoz",
+        "create": "Új műszak létrehozása"
+      },
+      "list": {
+        "title": "Műszakok",
+        "actions": "Műveletek"
+      },
+      "create": {
+        "title": "Műszak létrehozása"
+      },
+      "edit": {
+        "title": "Műszak szerkesztése"
+      }
+    },
+    "work_schedules": {
+      "titles": {
+        "employee": "Alkalmazott",
+        "shift": "Műszak",
+        "date": "Dátum",
+        "data": "Adatok",
+        "calendar": "Naptár",
+        "info": "A naptár cellájára kattintva létrehozható beosztás az adott dátummal."
+      },
+      "buttons": {
+        "back": "Vissza a beosztásokhoz",
+        "create": "Új beosztás létrehozása",
+        "calendar": "Naptárnézet",
+        "list": "Listanézet"
+      },
+      "list": {
+        "title": "Beosztások",
+        "actions": "Műveletek"
+      },
+      "create": {
+        "title": "Beosztás létrehozása"
+      },
+      "edit": {
+        "title": "Beosztás szerkesztése"
+      }
     }
   },
   "notifications": {
     "success": "Sikeres művelet",
     "error": "Sikertelen művelet",
-    "create": {
-      "user": "Sikeresen létrehozta a felhasználót",
-      "role": "Sikeresen létrehozta a szerepkört",
-      "department": "Sikeresen létrehozta az osztályt"
-    },
-    "modify": {
-      "user": "Sikeresen módosította a felhasználót",
-      "role": "Sikeresen módosította a szerepkört",
-      "department": "Sikeresen módosította az osztályt"
-    }
+    "createSuccess": "Sikeresen létrehozta az elemet",
+    "editSuccess": "Sikeresen módosította az elemet",
+    "deleteSuccess": "Sikeresen törölte az elemet",
+    "deleteMessage": "Biztosan törölni szeretné ezt az elemet?"
+  },
+  "titles": {
+    "search": "Keresés"
   },
   "buttons": {
     "save": "Mentés",
     "logout": "Kijelentkezés",
     "delete": "Törlés",
-    "edit": "Módosítás",
-    "cancel": "Mégsem"
+    "edit": "Szerkesztés",
+    "cancel": "Mégsem",
+    "search": "Keresés",
+    "clear": "Alaphelyzet"
+  },
+  "constants": {
+    "roles": {
+      "users": {
+        "view": "Felhasználók megnézése",
+        "create": "Felhasználók létrehozása",
+        "edit": "Felhasználók módosítása",
+        "delete": "Felhasználók törlése"
+      }
+    }
   }
 }

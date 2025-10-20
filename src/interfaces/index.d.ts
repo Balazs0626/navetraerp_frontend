@@ -24,3 +24,39 @@ export interface IDepartmentList {
     departmentName: string;
     description: string;
 }
+
+//Pozíciók
+
+export interface IPositionList {
+    id: number;
+    positionName: string;
+    description: string;
+}
+
+//Műszakok
+
+export interface IShiftList {
+    id: number;
+    shiftName: string;
+    startTime: string;
+    endTime: string;
+}
+
+//Dolgozók
+
+export interface IEmployeeList {
+    id: number;
+    fullName: string;
+    departmentName: string;
+    positionName: string;
+    hasUser: boolean;
+}
+
+//Beosztás
+
+export interface IWorkScheduleList {
+    id: number;
+    employeeName: string;
+    shiftName: string;
+    date: string;
+}

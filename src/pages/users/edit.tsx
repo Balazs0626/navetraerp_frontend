@@ -20,7 +20,7 @@ export const UserEdit = () => {
       id,
   });
 
-  const { open, close } = useNotification();
+/*   const { open, close } = useNotification();
 
   const handleNotification = async () => {
     open?.({
@@ -29,7 +29,7 @@ export const UserEdit = () => {
       description: translate("notifications.success"),
       key: "notification-key",
     });
-  }
+  } */
 
   useEffect(() => {
     document.title = `NavetraERP - ${translate("pages.users.edit.title")}`;
@@ -61,12 +61,12 @@ export const UserEdit = () => {
           {...formProps}
           form={form}
           layout="vertical"
-          onFinish={(values) => {
+/*           onFinish={(values) => {
 
               handleNotification();
 
               return formProps.onFinish?.(values);
-          }}
+          }} */
       >
         <Card title={translate("pages.users.titles.user_data")}>
           <Row gutter={16}>

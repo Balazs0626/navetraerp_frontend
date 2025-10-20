@@ -2,32 +2,31 @@ import { Select } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../constants/url";
-import { useRolesData } from "../constants/roles";
 
-interface Role {
+interface Position {
   id: number;
-  roleName: string;
+  positionName: string;
 }
 
-interface RoleSelectProps {
-  value?: number; // form-ból jön
-  onChange?: (value: number) => void; // form-nak visszaad
+interface PositionSelectProps {
+  value?: number;
+  onChange?: (value: number) => void;
 }
 
-export const RoleSelect: React.FC<RoleSelectProps> = ({ value, onChange }) => {
-  const [roles, setRoles] = useState<Role[]>([]);
+export const PositionSelect: React.FC<PositionSelectProps> = ({ value, onChange }) => {
+  const [roles, setRoles] = useState<Position[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${API_URL}/roles`, {
+      .get(`${API_URL}/positions`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       })
       .then((res) => setRoles(res.data))
-      .catch((err) => console.error("Role fetch error:", err))
+      .catch((err) => console.error("Department fetch error:", err))
       .finally(() => setLoading(false));
   }, []);
 
@@ -35,13 +34,13 @@ export const RoleSelect: React.FC<RoleSelectProps> = ({ value, onChange }) => {
     <Select
       showSearch
       optionFilterProp="label"
-      placeholder="Válassz szerepet"
+      placeholder="Válassz pozíciót"
       loading={loading}
       value={value}
       onChange={onChange}
       style={{ width: "100%" }}
       options={roles.map((r) => ({
-        label: r.roleName,
+        label: r.positionName,
         value: r.id,
       }))}
     />

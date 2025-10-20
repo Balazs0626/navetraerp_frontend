@@ -27,7 +27,7 @@ export const DepartmentList = () => {
 
   return (
     <List
-      title="Osztályok"
+      title={translate("pages.departments.list.title")}
       headerButtons={
           <Space>
             <Button icon={<PlusOutlined/>} size="large" onClick={() => navigate("/hr/departments/create")}>
@@ -56,7 +56,7 @@ export const DepartmentList = () => {
                 size="small"
                 recordItemId={record.id}
                 resource="departments"
-                confirmTitle={translate("pages.departments.list.delete_message")}
+                confirmTitle={translate("notifications.deleteMessage")}
               />
             </Space>
           )}
