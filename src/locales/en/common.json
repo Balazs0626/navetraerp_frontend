@@ -14,35 +14,41 @@
       "departments": "Departments",
       "positions": "Positions",
       "shifts": "Shifts",
-      "work_schedules": "Work schedules"
+      "work_schedules": "Work schedules",
+      "leave_requests": "Leave requests",
+      "performance_reviews":"Performance reviews"
     },
     "dashboard": {
+        "title": "Dashboard",
         "welcome": "Welcome",
         "welcome_message": "Select the module you want to use",
         "active_users": "Active users",
+        "modules": "Modules",
         "administrator_module": {
           "title": "Administrator module",
+          "description": "Manage users and roles",
           "users": "Users",
-          "users_description": "List, edit and delete users",
+          "users_description": "Create, list, edit and delete users",
           "roles": "Roles",
-          "roles_description": "List, edit and delete roles"
+          "roles_description": "Create, list, edit and delete roles"
         },
         "hr_module": {
           "title": "HR module",
-          "employee": "Employee",
-          "employee_description": "List, edit and delete employee",
+          "description": "Manage employees, departments, positions, shifts, work schedules, leave requests and performance reviews",
+          "employee": "Employees",
+          "employee_description": "Create, list, edit and delete employees",
           "shifts": "Shifts",
-          "shifts_description": "List, edit and delete shifts",
+          "shifts_description": "Create, list, edit and delete shifts",
           "departments": "Departments",
-          "departments_description": "List, edit and delete departments",
+          "departments_description": "Create, list, edit and delete departments",
           "positions": "Positions",
-          "positions_description": "List, edit and delete positions",
+          "positions_description": "Create, list, edit and delete positions",
           "work_schedules": "Work schedules",
           "work_schedules_description": "Create, list and delete work schedules",
-          "performance": "Performance reviews",
-          "performance_description": "List, edit and delete performance reviews",
+          "performance_reviews": "Performance reviews",
+          "performance_reviews_description": "Create, list, edit and delete performance reviews",
           "leave_requests": "Leave requests",
-          "leave_requests_description": "List, edit and delete leave requests"
+          "leave_requests_description": "Create, list, edit and delete leave requests"
         }
     },
     "users": {
@@ -59,8 +65,7 @@
       },
       "list": {
         "title": "Users",
-        "actions": "Actions",
-        "delete_message": "Are you sure you want to delete this user?"
+        "actions": "Actions"
       },
       "create": {
         "title": "Creating a user"
@@ -82,9 +87,7 @@
       },
       "list": {
         "title": "Roles",
-        "role": "Role",
         "actions": "Actions",
-        "delete_message": "Are you sure you want to delete this role?",
         "info": "This role cannot be deleted"
       },
       "create": {
@@ -92,6 +95,53 @@
       },
       "edit": {
         "title": "Editing a role"
+      }
+    },
+    "employee": {
+      "titles": {
+        "employee": "Employee",
+        "name": "Employee name",
+        "department_name": "Department",
+        "position_name": "Position",
+        "has_user": "User associated",
+        "personal_data": "Personal data",
+        "first_name": "First name",
+        "last_name": "Last name",
+        "birth_date": "Birth date",
+        "id_number": "Identity number",
+        "residence_number": "Residence number",
+        "health_insurance_number": "Health insurance number",
+        "tax_id_number": "Tax identity number",
+        "phone_number": "Phone number",
+        "email": "E-mail address",
+        "address_data": "Address data",
+        "address_country": "Country",
+        "address_region": "Region",
+        "address_postcode": "Post code",
+        "address_city": "City",
+        "address_first": "Address 1",
+        "address_second": "Address 2",
+        "work_data": "Workplace data",
+        "department_id": "Department",
+        "position_id": "Position",
+        "user_id": "User",
+        "hire_date": "Hire date",
+        "salary": "Salary",
+        "status": "Status"
+      },
+      "buttons": {
+        "back": "Go back to employees",
+        "create": "Create a new employee"
+      },
+      "list": {
+        "title": "Employees",
+        "actions": "Actions"
+      },
+      "create": {
+        "title": "Creating an employee"
+      },
+      "edit": {
+        "title": "Editing an employee"
       }
     },
     "departments": {
@@ -107,8 +157,7 @@
       },
       "list": {
         "title": "Departments",
-        "actions": "Actions",
-        "delete_message": "Are you sure you want to delete this department?"
+        "actions": "Actions"
       },
       "create": {
         "title": "Creating a department"
@@ -130,8 +179,7 @@
       },
       "list": {
         "title": "Positions",
-        "actions": "Actions",
-        "delete_message": "Are you sure you want to delete this position?"
+        "actions": "Actions"
       },
       "create": {
         "title": "Creating a position"
@@ -168,7 +216,7 @@
         "employee": "Employee",
         "shift": "Shift",
         "date": "Date",
-        "data": "Date",
+        "data": "Data",
         "calendar": "Calendar",
         "info": "By clicking on a calendar cell, a work schedule can be created for the selected date."
       },
@@ -184,6 +232,55 @@
       },
       "create": {
         "title": "Creating a work schedule"
+      },
+      "edit": {
+        "title": "Editing a work schedule"
+      }
+    },
+    "leave_requests": {
+      "titles": {
+        "employee": "Employee",
+        "leave_type": "Type",
+        "start_date": "Start date",
+        "end_date": "End date",
+        "status": "Status"
+      },
+      "buttons": {
+        "back": "Go back to leave requests",
+        "create": "Create a new leave request",
+        "approve": "Approve",
+        "reject": "Reject"
+      },
+      "list": {
+        "title": "Leave requests",
+        "actions": "Actions"
+      },
+      "create": {
+        "title": "Creating a leave request"
+      }
+    },
+    "performance_reviews": {
+      "titles": {
+        "employee": "Employee",
+        "date": "Date",
+        "score": "Score",
+        "comment": "Comment",
+        "details": "Details",
+        "data": "Data"
+      },
+      "buttons": {
+        "back": "Go back to performance reviews",
+        "create": "Create a new performance review"
+      },
+      "list": {
+        "title": "Performance reviews",
+        "actions": "Actions"
+      },
+      "create": {
+        "title": "Creating a performance review"
+      },
+      "show": {
+        "title": "Showing a performance review"
       }
     }
   },
@@ -195,6 +292,9 @@
     "deleteSuccess": "This item is successfully deleted",
     "deleteMessage": "Are you sure you want to delete this item?"
   },
+  "titles": {
+    "search": "Search"
+  },
   "buttons": {
     "save": "Save",
     "logout": "Logout",
@@ -202,15 +302,52 @@
     "edit": "Edit",
     "cancel": "Cancel",
     "search": "Search",
-    "clear": "Clear"
+    "clear": "Clear",
+    "show": "Show",
+    "refresh": "Refresh"
   },
-  "constants": {
+  "selects": {
+    "users": {
+      "placeholder": "Select an user"
+    },
     "roles": {
-      "users": {
-        "view": "View users",
-        "create": "Create users",
-        "edit": "Edit users",
-        "delete": "Delete users"
+      "placeholder": "Select a role"
+    },
+    "permissions": {
+      "placeholder": "Select a permission"
+    },
+    "employees": {
+      "placeholder": "Select an employee",
+      "options_status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "pending": "Pending"
+      }
+    },
+    "departments": {
+      "placeholder": "Select a department"
+    },
+    "positions": {
+      "placeholder": "Select a position"
+    },
+    "shifts": {
+      "placeholder": "Select a shift"
+    },
+    "leave_requests": {
+      "placeholder_type": "Select a type",
+      "placeholder_status": "Select a status",
+      "options_type": {
+        "paid_leave": "Paid leave",
+        "sick_leave": "Sick leave",
+        "unpaid_leave": "Unpaid leave",
+        "business_trip": "Business trip",
+        "training": "Training",
+        "unexcused_absence": "Unexcused absence"
+      },
+      "options_status": {
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "pending": "Pending"
       }
     }
   }

@@ -2,6 +2,7 @@ import { Select } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../constants/url";
+import { useTranslation } from "@refinedev/core";
 
 interface User {
   id: number;
@@ -16,6 +17,8 @@ interface UserSelectProps {
 export const UserSelect: React.FC<UserSelectProps> = ({ value, onChange }) => {
   const [roles, setRoles] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const { translate } = useTranslation();
 
   useEffect(() => {
     setLoading(true);
@@ -35,7 +38,7 @@ export const UserSelect: React.FC<UserSelectProps> = ({ value, onChange }) => {
       allowClear
       showSearch
       optionFilterProp="label"
-      placeholder="Válassz felhasználót"
+      placeholder={translate("selects.users.placeholder")}
       loading={loading}
       value={value}
       onChange={onChange}

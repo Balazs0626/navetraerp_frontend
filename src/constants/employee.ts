@@ -1,4 +1,4 @@
-import { useTranslation } from '@refinedev/core';
+import { useTranslation } from "@refinedev/core";
 
 export const useEmployeeStatus = () => {
 
@@ -6,16 +6,16 @@ export const useEmployeeStatus = () => {
 
     const EmployeeStatus = [
         { 
-            value: 'active', 
-            label: translate('common.status_options.active')
+            value: "active", 
+            label: translate("selects.employees.options_status.active")
         },
         { 
-            value: 'inactive', 
-            label: translate('common.status_options.inactive')
+            value: "inactive", 
+            label: translate("selects.employees.options_status.inactive")
         },
         { 
-            value: 'pending', 
-            label: translate('common.status_options.pending')
+            value: "pending", 
+            label: translate("selects.employees.options_status.pending")
         },
     ];
 

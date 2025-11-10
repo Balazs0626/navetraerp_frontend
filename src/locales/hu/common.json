@@ -10,39 +10,45 @@
       "users": "Felhasználók",
       "roles": "Szerepkörök",
       "hr": "HR",
-      "employee": "Dolgozók",
+      "employee": "Alkalmazottak",
       "departments": "Osztályok",
       "positions": "Pozíciók",
       "shifts": "Műszakok",
-      "work_schedules": "Beosztások"
+      "work_schedules": "Beosztások",
+      "leave_requests": "Távollétek",
+      "performance_reviews":"Teljesítmény értékelések"
     },
     "dashboard": {
+        "title": "Irányítópult",
         "welcome": "Üdvözöljük",
         "welcome_message": "Válassza ki a használni kívánt modult",
         "active_users": "Aktív felhasználók",
+        "modules": "Modulok",
         "administrator_module": {
           "title": "Adminisztrátor modul",
+          "description": "Felhasználók és szerepkörök kezelése",
           "users": "Felhasználók",
-          "users_description": "Felhasználók listázása, módosítása és törlése",
+          "users_description": "Felhasználók létrehozása, listázása, módosítása és törlése",
           "roles": "Szerepkörök",
-          "roles_description": "Szerepkörök listázása, módosítása és törlése"
+          "roles_description": "Szerepkörök létrehozása, listázása, módosítása és törlése"
         },
         "hr_module": {
           "title": "HR modul",
-          "employee": "Dolgozók",
-          "employee_description": "Dolgozók listázása, módosítása és törlése",
+          "description": "Alkalmazottak, osztályok, pozíciók, műszakok, beosztások, távollétek és teljesítmény értékelések kezelése",
+          "employee": "Alkalmazottak",
+          "employee_description": "Alkalmazottak létrehozása, listázása, módosítása és törlése",
           "shifts": "Műszakok",
-          "shifts_description": "Műszakok listázása, módosítása és törlése",
+          "shifts_description": "Műszakok létrehozása, listázása, módosítása és törlése",
           "departments": "Osztályok",
-          "departments_description": "Osztályok listázása, módosítása és törlése",
+          "departments_description": "Osztályok létrehozása, listázása, módosítása és törlése",
           "positions": "Pozíciók",
-          "positions_description": "Pozíciók listázása, módosítása és törlése",
+          "positions_description": "Pozíciók létrehozása, listázása, módosítása és törlése",
           "work_schedules": "Beosztások",
           "work_schedules_description": "Beosztások létrehozása, listázása és törlése",
-          "performance": "Teljesítmény értékelések",
-          "performance_description": "Teljesítmény értékelések listázása, módosítása és törlése",
+          "performance_reviews": "Teljesítmény értékelések",
+          "performance_reviews_description": "Teljesítmény értékelések létrehozása, listázása, módosítása és törlése",
           "leave_requests": "Távollétek",
-          "leave_requests_description": "Távollétek listázása, módosítása és törlése"
+          "leave_requests_description": "Távollétek létrehozása, listázása, módosítása és törlése"
         }
     },
     "users": {
@@ -59,8 +65,7 @@
       },
       "list": {
         "title": "Felhasználók",
-        "actions": "Műveletek",
-        "delete_message": "Biztosan törli a felhasználót?"
+        "actions": "Műveletek"
       },
       "create": {
         "title": "Felhasználó létrehozása"
@@ -83,7 +88,6 @@
       "list": {
         "title": "Szerepkörök",
         "actions": "Műveletek",
-        "delete_message": "Biztosan törli a szerepkört?",
         "info": "Ez a szerepkör nem törölhető"
       },
       "create": {
@@ -153,8 +157,7 @@
       },
       "list": {
         "title": "Osztályok",
-        "actions": "Műveletek",
-        "delete_message": "Biztosan törli az osztályt?"
+        "actions": "Műveletek"
       },
       "create": {
         "title": "Osztály létrehozása"
@@ -176,8 +179,7 @@
       },
       "list": {
         "title": "Pozíciók",
-        "actions": "Műveletek",
-        "delete_message": "Biztosan törli a pozíciót?"
+        "actions": "Műveletek"
       },
       "create": {
         "title": "Pozíció létrehozása"
@@ -234,6 +236,52 @@
       "edit": {
         "title": "Beosztás szerkesztése"
       }
+    },
+    "leave_requests": {
+      "titles": {
+        "employee": "Alkalmazott",
+        "leave_type": "Típus",
+        "start_date": "Kezdő dátum",
+        "end_date": "Vég dátum",
+        "status": "Státusz"
+      },
+      "buttons": {
+        "back": "Vissza a távollétekhez",
+        "create": "Új távollét létrehozása",
+        "approve": "Elfogadás",
+        "reject": "Elutasítás"
+      },
+      "list": {
+        "title": "Távollétek",
+        "actions": "Műveletek"
+      },
+      "create": {
+        "title": "Távollét létrehozása"
+      }
+    },
+    "performance_reviews": {
+      "titles": {
+        "employee": "Alkalmazott",
+        "date": "Dátum",
+        "score": "Teljesítmény",
+        "comment": "Megjegyzés",
+        "details": "Részletek",
+        "data": "Adatok"
+      },
+      "buttons": {
+        "back": "Vissza a teljesítmény értékelésekhez",
+        "create": "Új teljesítmény értékelés létrehozása"
+      },
+      "list": {
+        "title": "Teljesítmény értékelések",
+        "actions": "Műveletek"
+      },
+      "create": {
+        "title": "Teljesítmény értékelés létrehozása"
+      },
+      "show": {
+        "title": "Teljesítmény értékelés megtekintése"
+      }
     }
   },
   "notifications": {
@@ -254,15 +302,52 @@
     "edit": "Szerkesztés",
     "cancel": "Mégsem",
     "search": "Keresés",
-    "clear": "Alaphelyzet"
+    "clear": "Alaphelyzet",
+    "show": "Megtekintés",
+    "refresh": "Frissítés"
   },
-  "constants": {
+  "selects": {
+    "users": {
+      "placeholder": "Válasszon felhasználót"
+    },
     "roles": {
-      "users": {
-        "view": "Felhasználók megnézése",
-        "create": "Felhasználók létrehozása",
-        "edit": "Felhasználók módosítása",
-        "delete": "Felhasználók törlése"
+      "placeholder": "Válasszon szerepkört"
+    },
+    "permissions": {
+      "placeholder": "Válasszon jogosultságot"
+    },
+    "employees": {
+      "placeholder": "Válasszon alkalmazottat",
+      "options_status": {
+        "active": "Aktív",
+        "inactive": "Inaktív",
+        "pending": "Függőben"
+      }
+    },
+    "departments": {
+      "placeholder": "Válasszon osztályt"
+    },
+    "positions": {
+      "placeholder": "Válasszon pozíciót"
+    },
+    "shifts": {
+      "placeholder": "Válasszon műszakot"
+    },
+    "leave_requests": {
+      "placeholder_type": "Válasszon típust",
+      "placeholder_status": "Válasszont státuszt",
+      "options_type": {
+        "paid_leave": "Fizetett szabadság",
+        "sick_leave": "Betegszabadság",
+        "unpaid_leave": "Fizetetlen szabadság",
+        "business_trip": "Üzleti út",
+        "training": "Továbbképzés",
+        "unexcused_absence": "Igazolatlan hiányzás"
+      },
+      "options_status": {
+        "approved": "Elfogadva",
+        "rejected": "Elutasítva",
+        "pending": "Függőben"
       }
     }
   }

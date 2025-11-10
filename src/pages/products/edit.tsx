@@ -1,0 +1,134 @@
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Edit, useForm } from "@refinedev/antd";
+import { useNotification, useTranslation } from "@refinedev/core";
+import { Button, Card, Col, DatePicker, Form, Input, InputNumber, Row, Select, Space } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router";
+import { useProductActiveStatus } from "../../constants/products";
+import dayjs from "dayjs";
+
+export const ProductEdit = () => {
+  const { id } = useParams();
+
+  const { translate } = useTranslation();
+  const navigate = useNavigate();
+
+  const { formProps, form, saveButtonProps } = useForm({
+      resource: "products",
+      action: "edit",
+      id,
+  });
+
+  useEffect(() => {
+    document.title = translate("pages.products.edit.title");
+  })
+
+  useEffect(() => {
+      if (!form) return;
+
+      const initialValues = formProps.initialValues;
+
+      if (!initialValues) return;
+
+  }, [formProps.initialValues])
+
+  return (
+    <Edit
+      title={translate("pages.products.edit.title")}
+      saveButtonProps={saveButtonProps}
+      headerButtons={
+        <Space>
+          <Button
+            onClick={() => navigate("/products")}
+            size="large"
+          ><ArrowLeftOutlined/>{translate("pages.products.buttons.back")}</Button>
+        </Space>
+      }
+    >
+      <Form
+        {...formProps}
+        form={form}
+        layout="vertical"
+      >
+        <Card 
+          title={translate("pages.products.titles.data")}
+          type="inner"
+        >
+          <Form.Item
+            name="createdAt"
+            rules={[{ required: true }]}
+            hidden
+            getValueProps={(value) => ({
+              value: value ? dayjs(value) : "",
+            })}
+            getValueFromEvent={(value) => value ? value.format("YYYY-MM-DD") : null}
+            initialValue={dayjs(Date.now()).format("YYYY-MM-DD")}
+          >
+            <DatePicker/>
+          </Form.Item>
+
+          <Row gutter={16}>
+            <Col span={6}>
+              <Form.Item
+                label={translate("pages.products.titles.sku")}
+                name="sku"
+                rules={[{ required: true }]}
+              >
+                <Input/>
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                label={translate("pages.products.titles.name")}
+                name="name"
+                rules={[{ required: true }]}
+              >
+                <Input/>
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                label={translate("pages.products.titles.unit")}
+                name="unit"
+                rules={[{ required: true }]}
+              >
+                <Input/>
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                label={translate("pages.products.titles.price_per_unit")}
+                name="pricePerUnit"
+                rules={[{ required: true }]}
+              >
+                <InputNumber step="0.01" min={0} style={{width: "100%"}}/>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={6}>
+              <Form.Item
+                label={translate("pages.products.titles.active")}
+                name="active"
+                rules={[{ required: true }]}
+              >
+                <Select options={useProductActiveStatus()} defaultValue={useProductActiveStatus()[0]}/>
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                label={translate("pages.products.titles.description")}
+                name="description"
+                rules={[{ required: true }]}
+              >
+                <TextArea/>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Card>
+      </Form>
+
+    </Edit>
+  )
+};

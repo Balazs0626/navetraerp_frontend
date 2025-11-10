@@ -4,14 +4,14 @@ import { LoginPage } from "./pages/login";
 import { CatchAllNavigate } from "@refinedev/react-router";
 import { DashboardPage } from "./pages/dashboard";
 import { RefineThemes, ThemedLayout, ThemedTitle, useNotificationProvider } from "@refinedev/antd";
-import { App as AntdApp, ConfigProvider, Select, Switch, theme, Typography } from "antd";
-import { CalendarOutlined, ClockCircleOutlined, ClusterOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
+import { App as AntdApp, ConfigProvider, Select, Switch, theme, notification } from "antd";
+import { CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, StopOutlined, UserOutlined } from "@ant-design/icons";
 import { dataProvider } from "./providers/dataProvider";
 import { authProvider } from "./providers/authProvider";
-import { UserList } from "./pages/users/list";
+import { UserList } from "./pages/administrator/users/list";
 import { useEffect, useState } from "react";
-import { UserCreate } from "./pages/users/create";
-import { I18nProvider } from "@refinedev/core";
+import { UserCreate } from "./pages/administrator/users/create";
+import { I18nProvider, NotificationProvider } from "@refinedev/core";
 import { useTranslation } from "react-i18next";
 import "./providers/i18nProvider";
 import huLocale from "antd/es/locale/hu_HU";
@@ -20,23 +20,22 @@ import dayjs from "dayjs";
 import "dayjs/locale/hu";
 import "dayjs/locale/en";
 
-import { notification } from "antd";
-import { NotificationProvider } from "@refinedev/core";
-import { UserEdit } from "./pages/users";
-import { RoleCreate, RoleEdit, RoleList } from "./pages/roles";
-import { DepartmentEdit, DepartmentList } from "./pages/departments";
-import { DepartmentCreate } from "./pages/departments/create";
-import { PositionList } from "./pages/positions/list";
-import { PositionCreate, PositionEdit } from "./pages/positions";
-import { ShiftList } from "./pages/shifts/list";
-import { ShiftCreate } from "./pages/shifts/create";
-import { ShiftEdit } from "./pages/shifts";
-import { EmployeeList } from "./pages/employee";
-import { EmployeeCreate } from "./pages/employee/create";
-import { EmployeeEdit } from "./pages/employee/edit";
-import { WorkSchedulesCalendar } from "./pages/work_schedules/calendar";
-import { WorkScheduleCreate } from "./pages/work_schedules/create";
-import { WorkScheduleList } from "./pages/work_schedules/list";
+import { UserEdit } from "./pages/administrator/users";
+import { RoleCreate, RoleEdit, RoleList } from "./pages/administrator/roles";
+import { DepartmentEdit, DepartmentList, DepartmentCreate } from "./pages/hr/departments";
+import { PositionCreate, PositionEdit, PositionList } from "./pages/hr/positions";
+import { ShiftEdit, ShiftCreate, ShiftList } from "./pages/hr/shifts";
+import { EmployeeList, EmployeeCreate, EmployeeEdit } from "./pages/hr/employee";
+import { WorkSchedulesCalendar, WorkScheduleList, WorkScheduleCreate } from "./pages/hr/work_schedules";
+import { LeaveRequestCreate, LeaveRequestList } from "./pages/hr/leave_requests";
+import { PerformanceReviewCreate, PerformanceReviewList, PerformanceReviewShow } from "./pages/hr/performance_reviews";
+import routerProvider from "@refinedev/react-router";
+import { AdmininstartorMainPage } from "./pages/administrator/main";
+import { HRMainPage } from "./pages/hr/main";
+import { ProcurementMainPage } from "./pages/procurement/main";
+import { WarehouseCreate, WarehouseList } from "./pages/warehouses";
+import { ProductCreate, ProductEdit, ProductList } from "./pages/products";
+import { WarehouseEdit } from "./pages/warehouses/edit";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -126,6 +125,7 @@ export default function App() {
             authProvider={authProvider}
             dataProvider={dataProvider}
             i18nProvider={i18nProvider}
+            routerProvider={routerProvider}
             notificationProvider={useNotificationProvider}
             accessControlProvider={{
               can: async ({ resource, action }) => {
@@ -147,6 +147,45 @@ export default function App() {
                   return { can: permissions.includes("VIEW:ROLES") };
                 }
 
+                if (resource === "hr" && action === "list") {
+                  return { can: (
+                    permissions.includes("VIEW:EMPLOYEES") || 
+                    permissions.includes("VIEW:DEPARTMENTS") || 
+                    permissions.includes("VIEW:POSITIONS")) || 
+                    permissions.includes("VIEW:SHIFTS") || 
+                    permissions.includes("VIEW:WORK_SCHEDULES") || 
+                    permissions.includes("VIEW:LEAVE_REQUESTS") || 
+                    permissions.includes("VIEW:PERFORMANCE_REVIEWS")};
+                }
+
+                if (resource === "employee" && action === "list") {
+                  return { can: permissions.includes("VIEW:EMPLOYEES") };
+                }
+
+                if (resource === "departments" && action === "list") {
+                  return { can: permissions.includes("VIEW:DEPARTMENTS") };
+                }
+
+                if (resource === "positions" && action === "list") {
+                  return { can: permissions.includes("VIEW:POSITIONS") };
+                }
+
+                if (resource === "shifts" && action === "list") {
+                  return { can: permissions.includes("VIEW:SHIFTS") };
+                }
+
+                if (resource === "work_schedules" && action === "list") {
+                  return { can: permissions.includes("VIEW:WORK_SCHEDULES") };
+                }
+
+                if (resource === "leave_requests" && action === "list") {
+                  return { can: permissions.includes("VIEW:LEAVE_REQUESTS") };
+                }
+
+                if (resource === "performance_reviews" && action === "list") {
+                  return { can: permissions.includes("VIEW:PERFORMANCE_REVIEWS") };
+                }
+
                 return { can: true };
               },
             }}
@@ -160,6 +199,26 @@ export default function App() {
                 }
               },
               {
+                name: "warehouses",
+                list: "warehouses",
+                create: "warehouses/create",
+                edit: "warehouses/edit/:id",
+                meta: {
+                  label: t("pages.sidebar.warehouses"),
+                  icon: <ShopOutlined/>,
+                }
+              },
+              {
+                name: "products",
+                list: "products",
+                create: "products/create",
+                edit: "products/edit/:id",
+                meta: {
+                  label: t("pages.sidebar.products"),
+                  icon: <ProductOutlined/>,
+                }
+              },
+              {
                 name: "administrator",
                 meta: {
                   label: t("pages.sidebar.administrator"),
@@ -167,9 +226,9 @@ export default function App() {
               },
               {
                 name: "users",
-                list: "/users",
-                create: "/users/create",
-                edit: "/users/edit/:id",
+                list: "/administrator/users",
+                create: "/administrator/users/create",
+                edit: "/administrator/users/edit/:id",
                 meta: {
                   label: t("pages.sidebar.users"),
                   icon: <UserOutlined/>,
@@ -178,9 +237,9 @@ export default function App() {
               },
               {
                 name: "roles",
-                list: "/roles",
-                create: "/roles/create",
-                edit: "/roles/edit:id",
+                list: "/administrator/roles",
+                create: "/administrator/roles/create",
+                edit: "/administrator/roles/edit/:id",
                 meta: {
                   label: t("pages.sidebar.roles"),
                   icon: <SettingOutlined/>,
@@ -240,6 +299,27 @@ export default function App() {
                   icon: <CalendarOutlined/>,
                   parent: "hr"
                 }
+              },
+              {
+                name: "leave_requests",
+                list: "/hr/leave_requests",
+                create: "hr/leave_requests/create",
+                meta: {
+                  label: t("pages.sidebar.leave_requests"),
+                  icon: <StopOutlined/>,
+                  parent: "hr"
+                }
+              },
+              {
+                name: "performance_reviews",
+                list: "/hr/performance_reviews",
+                create: "/hr/performance_reviews/create",
+                show: "/hr/performance_reviews/show/:id",
+                meta: {
+                  label: t("pages.sidebar.performance_reviews"),
+                  icon: <DashboardOutlined/>,
+                  parent: "hr"
+                }
               }
             ]}
             options={{ syncWithLocation: true }}
@@ -266,7 +346,8 @@ export default function App() {
                           justifyContent: "flex-end",
                           alignItems: "center",
                           gap: 16,
-                          padding: 16
+                          padding: 16,
+                          backgroundColor: mode === "light" ? "#eeeeeeff" : "#1f1f1f",
                         }}>
                           <Select
                             value={i18n.language}
@@ -297,48 +378,88 @@ export default function App() {
               >
                 <Route path="/" element={<DashboardPage/>}/>
 
-                <Route path="/users">
-                  <Route index element={<UserList/>}/>
-                  <Route path="create" element={<UserCreate/>}/>
-                  <Route path="edit/:id" element={<UserEdit/>}/>
-                </Route>
+                <Route path="administrator">
 
-                <Route path="/roles">
-                  <Route index element={<RoleList/>}/>
-                  <Route path="create" element={<RoleCreate/>}/>
-                  <Route path="edit/:id" element={<RoleEdit/>}/>
-                </Route>
+                  <Route index element={<AdmininstartorMainPage/>}/>
 
-                <Route path="/hr/employee">
-                  <Route index element={<EmployeeList/>}/>
-                  <Route path="create" element={<EmployeeCreate/>}/>
-                  <Route path="edit/:id" element={<EmployeeEdit/>}/>
-                </Route>
+                  <Route path="users">
+                    <Route index element={<UserList/>}/>
+                    <Route path="create" element={<UserCreate/>}/>
+                    <Route path="edit/:id" element={<UserEdit/>}/>
+                  </Route>
 
-                <Route path="/hr/departments">
-                  <Route index element={<DepartmentList/>}/>
-                  <Route path="create" element={<DepartmentCreate/>}/>
-                  <Route path="edit/:id" element={<DepartmentEdit/>}/>
-                </Route>
-
-                <Route path="/hr/positions">
-                  <Route index element={<PositionList/>}/>
-                  <Route path="create" element={<PositionCreate/>}/>
-                  <Route path="edit/:id" element={<PositionEdit/>}/>
-                </Route>
-
-                <Route path="/hr/shifts">
-                  <Route index element={<ShiftList/>}/>
-                  <Route path="create" element={<ShiftCreate/>}/>
-                  <Route path="edit/:id" element={<ShiftEdit/>}/>
-                </Route>
-
-                <Route path="/hr/work_schedules">
-                  <Route index element={<WorkScheduleList/>}/>
-                  <Route path="calendar" element={<WorkSchedulesCalendar/>}/>
-                  <Route path="create" element={<WorkScheduleCreate/>}/>
+                  <Route path="roles">
+                    <Route index element={<RoleList/>}/>
+                    <Route path="create" element={<RoleCreate/>}/>
+                    <Route path="edit/:id" element={<RoleEdit/>}/>
+                  </Route>
                 </Route>
                 
+                <Route path="hr">
+
+                  <Route index element={<HRMainPage/>}/>
+
+                  <Route path="employee">
+                    <Route index element={<EmployeeList/>}/>
+                    <Route path="create" element={<EmployeeCreate/>}/>
+                    <Route path="edit/:id" element={<EmployeeEdit/>}/>
+                  </Route>
+                
+                  <Route path="departments">
+                    <Route index element={<DepartmentList/>}/>
+                    <Route path="create" element={<DepartmentCreate/>}/>
+                    <Route path="edit/:id" element={<DepartmentEdit/>}/>
+                  </Route>
+
+                  <Route path="positions">
+                    <Route index element={<PositionList/>}/>
+                    <Route path="create" element={<PositionCreate/>}/>
+                    <Route path="edit/:id" element={<PositionEdit/>}/>
+                  </Route>
+
+                  <Route path="shifts">
+                    <Route index element={<ShiftList/>}/>
+                    <Route path="create" element={<ShiftCreate/>}/>
+                    <Route path="edit/:id" element={<ShiftEdit/>}/>
+                  </Route>
+
+                  <Route path="work_schedules">
+                    <Route index element={<WorkScheduleList/>}/>
+                    <Route path="calendar" element={<WorkSchedulesCalendar/>}/>
+                    <Route path="create" element={<WorkScheduleCreate/>}/>
+                  </Route>
+
+                  <Route path="leave_requests">
+                    <Route index element={<LeaveRequestList/>}/>
+                    <Route path="create" element={<LeaveRequestCreate/>}/>
+                  </Route>
+
+                  <Route path="performance_reviews">
+                    <Route index element={<PerformanceReviewList/>}/>
+                    <Route path="create" element={<PerformanceReviewCreate/>}/>
+                    <Route path="show/:id" element={<PerformanceReviewShow/>}/>
+                  </Route>
+                </Route>
+
+                <Route path="procurement">
+                  <Route index element={<ProcurementMainPage/>}/>
+
+                </Route>
+
+                {/* <Route path="main"> */}
+                <Route path="warehouses">
+                  <Route index element={<WarehouseList/>}/>
+                  <Route path="create" element={<WarehouseCreate/>}/>
+                  <Route path="edit/:id" element={<WarehouseEdit/>}/>
+                </Route>
+
+                <Route path="products">
+                  <Route index element={<ProductList/>}/>
+                  <Route path="create" element={<ProductCreate/>}/>
+                  <Route path="edit/:id" element={<ProductEdit/>}/>
+                </Route>
+                {/* </Route> */}
+
               </Route>
               <Route
                   element={

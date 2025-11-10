@@ -1,7 +1,7 @@
 import { useCustom, useGetIdentity, usePermissions } from "@refinedev/core";
 import { useNavigate } from "react-router";
 import { Row, Col, Card, Avatar, Typography, Space, Button, Divider, Select } from "antd";
-import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined, SettingOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined } from "@ant-design/icons";
+import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined, SettingOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, SafetyOutlined, TeamOutlined, ShoppingCartOutlined, ShopOutlined, ProductOutlined } from "@ant-design/icons";
 import "antd/dist/reset.css";
 import { Column } from "@ant-design/plots";
 import { act, useEffect, useState } from "react";
@@ -16,7 +16,7 @@ export const DashboardPage = () => {
   const { translate } = useTranslation();
 
   useEffect(() => {
-      document.title = "NavetraERP - Kezdőlap";
+      document.title = translate("pages.dashboard.title");
   })
 
   const { data: identity } = useGetIdentity<{ name: string }>();
@@ -66,26 +66,170 @@ export const DashboardPage = () => {
         </Col>
       </Row>
 
-      {(permissions?.includes("VIEW:USERS") || permissions?.includes("VIEW:ROLES")) &&
+      <Row gutter={[24, 24]} style={{ marginTop: 12 }} align="middle">
+        <Card
+          style={{
+            width: "100%",
+            margin: 12,
+          }}
+          title={translate("pages.dashboard.main")}
+          type="inner"        
+        >
+          <Row gutter={[24, 24]}>
+            <Col xs={24} lg={12}>
+              <Card 
+                hoverable={permissions?.includes("VIEW:EMPLOYEES")}
+                style={{ 
+                  borderRadius: 12,
+                  cursor: permissions?.includes("VIEW:EMPLOYEES") ? "pointer" : "not-allowed", 
+                  filter: permissions?.includes("VIEW:EMPLOYEES") ? "none" : "opacity(50%)"
+                }}
+                onClick={() => permissions?.includes("VIEW:EMPLOYEES") ? navigate("warehouses") : undefined}
+              >
+                <Space direction="horizontal">
+                  <ShopOutlined style={{ fontSize: 48 }} />
+                  <Space direction="vertical" style={{gap: 1}}>
+                    <Text strong>{translate("pages.dashboard.")}</Text>
+                    <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                      {translate("pages.dashboard.")}
+                    </Text>
+                  </Space>
+                </Space>
+              </Card>
+            </Col>
+            <Col xs={24} lg={12}>
+              <Card 
+                  hoverable={permissions?.includes("VIEW:EMPLOYEES")}
+                  style={{ 
+                    borderRadius: 12,
+                    cursor: permissions?.includes("VIEW:EMPLOYEES") ? "pointer" : "not-allowed", 
+                    filter: permissions?.includes("VIEW:EMPLOYEES") ? "none" : "opacity(50%)"
+                  }}
+                  onClick={() => permissions?.includes("VIEW:EMPLOYEES") ? navigate("products") : undefined}
+                >
+                  <Space direction="horizontal">
+                    <ProductOutlined style={{ fontSize: 48 }} />
+                    <Space direction="vertical" style={{gap: 1}}>
+                      <Text strong>{translate("pages.dashboard.")}</Text>
+                      <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                        {translate("pages.dashboard.")}
+                      </Text>
+                    </Space>
+                  </Space>
+                </Card>
+              </Col>
+          </Row>
+        </Card>
+      </Row>
+
         <Row gutter={[24, 24]} style={{ marginTop: 12 }} align="middle">
-          <div style={{ width: "100%", border: "1px solid #aaaaaa", borderRadius: 16, padding: 24, margin: 12 }}>
-            <Title level={2}>{translate("pages.dashboard.administrator_module.title")}</Title>
+{/*           <div style={{ width: "100%", border: "1px solid #aaaaaa", borderRadius: 16, padding: 24, margin: 12 }}>
+            <Title level={2}>{translate("pages.dashboard.modules")}</Title>
+
+            <Divider /> */}
+            <Card
+              style={{
+                width: "100%",
+                margin: 12,
+              }}
+              title={translate("pages.dashboard.modules")}
+              type="inner"
+            >
+              <Row gutter={[24, 24]}>
+                {(permissions?.includes("VIEW:USERS") || 
+                permissions?.includes("VIEW:ROLES")) &&
+                  <Col xs={24} lg={12}>
+                    <Card 
+                      hoverable
+                      style={{ borderRadius: 12 }}
+                      onClick={() => navigate("/administrator")}
+                    >
+                      <Space direction="horizontal">
+                        <SafetyOutlined style={{ fontSize: 48 }} />
+                        <Space direction="vertical" style={{gap: 1}}>
+                          <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.administrator_module.title")}</Text>
+                          <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
+                            {translate("pages.dashboard.administrator_module.description")}
+                          </Text>
+                        </Space>
+                      </Space>
+                    </Card>
+                  </Col>
+                }
+                {(permissions?.includes("VIEW:EMPLOYEES") || 
+                  permissions?.includes("VIEW:DEPARTMENTS") || 
+                  permissions?.includes("VIEW:POSITIONS") || 
+                  permissions?.includes("VIEW:SHIFTS") || 
+                  permissions?.includes("VIEW:WORK_SCHEDULES") || 
+                  permissions?.includes("VIEW:LEAVE_REQUESTS") || 
+                  permissions?.includes("VIEW:PERFORMANCE_REVIEWS")) &&
+                  <Col xs={24} lg={12}>
+                    <Card 
+                      hoverable
+                      style={{ borderRadius: 12 }}
+                      onClick={() => navigate("/hr")}
+                    >
+                      <Space direction="horizontal">
+                        <TeamOutlined style={{ fontSize: 48 }} />
+                        <Space direction="vertical" style={{gap: 1}}>
+                          <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.hr_module.title")}</Text>
+                          <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
+                            {translate("pages.dashboard.hr_module.description")}
+                          </Text>
+                        </Space>
+                      </Space>
+                    </Card>
+                  </Col>
+                }
+                {(permissions?.includes("VIEW:EMPLOYEES") || 
+                  permissions?.includes("VIEW:DEPARTMENTS") || 
+                  permissions?.includes("VIEW:POSITIONS") || 
+                  permissions?.includes("VIEW:SHIFTS") || 
+                  permissions?.includes("VIEW:WORK_SCHEDULES") || 
+                  permissions?.includes("VIEW:LEAVE_REQUESTS") || 
+                  permissions?.includes("VIEW:PERFORMANCE_REVIEWS")) &&
+                  <Col xs={24} lg={12}>
+                    <Card 
+                      hoverable
+                      style={{ borderRadius: 12 }}
+                      onClick={() => navigate("/procurement")}
+                    >
+                      <Space direction="horizontal">
+                        <ShoppingCartOutlined style={{ fontSize: 48 }} />
+                        <Space direction="vertical" style={{gap: 1}}>
+                          <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.procurement_module.title")}</Text>
+                          <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
+                            {translate("pages.dashboard.procurement_module.description")}
+                          </Text>
+                        </Space>
+                      </Space>
+                    </Card>
+                  </Col>
+                }
+                
+              </Row>
+            </Card>
+{/*           </div> */}
+{/*           <div style={{ width: "100%", border: "1px solid #aaaaaa", borderRadius: 16, padding: 24, margin: 12 }}>
+            <Title level={2}>{translate("pages.dashboard.modules")}</Title>
 
             <Divider />
             <Row gutter={[24, 24]}>
               {permissions?.includes("VIEW:USERS") &&
-                <Col xs={24} sm={12} md={8} lg={6}>
+                <Col xs={24} lg={12}>
                   <Card 
                     hoverable
-                    style={{ borderRadius: 12, height: 180 }}
+                    style={{ borderRadius: 12, height: 100 }}
                     onClick={() => navigate("/users")}
                   >
-                    <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
-                      <UserOutlined style={{ fontSize: 32 }} />
-                      <Text strong>{translate("pages.dashboard.administrator_module.users")}</Text>
-                      <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
-                        {translate("pages.dashboard.administrator_module.users_description")}
-                      </Text>
+                    <Space direction="horizontal">
+                      <UserOutlined style={{ fontSize: 48 }} />
+                      <Space direction="vertical" style={{gap: 1}}>
+                        <Text strong>{translate("pages.dashboard.administrator_module.users")}</Text>
+                        <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                          {translate("pages.dashboard.administrator_module.users_description")}
+                        </Text>
+                      </Space>
                     </Space>
                   </Card>
                 </Col>
@@ -109,108 +253,151 @@ export const DashboardPage = () => {
                 </Col>
               }
             </Row>
+          </div> */}
+        </Row>
+{/*       {(permissions?.includes("VIEW:EMPLOYEES") || 
+        permissions?.includes("VIEW:DEPARTMENTS") || 
+        permissions?.includes("VIEW:POSITIONS") || 
+        permissions?.includes("VIEW:SHIFTS") || 
+        permissions?.includes("VIEW:WORK_SCHEDULES") || 
+        permissions?.includes("VIEW:LEAVE_REQUESTS") || 
+        permissions?.includes("VIEW:PERFORMANCE_REVIEWS")
+      ) &&
+        <Row gutter={[24, 24]} style={{ marginTop: 12 }} align="middle">
+          <div style={{ width: "100%", border: "1px solid #aaaaaa", borderRadius: 16, padding: 24, margin: 12 }}>
+            <Title level={2}>{translate("pages.dashboard.hr_module.title")}</Title>
+
+            <Divider />
+            <Row gutter={[24, 24]}>
+              {permissions?.includes("VIEW:EMPLOYEE") &&
+                <Col xs={24} sm={12} md={8} lg={6}>
+                  <Card 
+                    hoverable
+                    style={{ borderRadius: 12, height: 180 }}
+                    onClick={() => navigate("/hr/employee")}
+                  >
+                    <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
+                      <UserOutlined style={{ fontSize: 32 }} />
+                      <Text strong>{translate("pages.dashboard.hr_module.employee")}</Text>
+                      <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                        {translate("pages.dashboard.hr_module.employee_description")}
+                      </Text>
+                    </Space>
+                  </Card>
+                </Col>
+              }
+
+              {permissions?.includes("VIEW:DEPARTMENTS") &&
+                <Col xs={24} sm={12} md={8} lg={6}>
+                  <Card 
+                    hoverable
+                    style={{ borderRadius: 12, height: 180 }}
+                    onClick={() => navigate("/hr/departments")}
+                  >
+                    <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
+                      <GroupOutlined style={{ fontSize: 32 }} />
+                      <Text strong>{translate("pages.dashboard.hr_module.departments")}</Text>
+                      <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                        {translate("pages.dashboard.hr_module.departments_description")}
+                      </Text>
+                    </Space>
+                  </Card>
+                </Col>
+              }
+
+                {permissions?.includes("VIEW:POSITIONS") &&
+                  <Col xs={24} sm={12} md={8} lg={6}>
+                    <Card 
+                      hoverable
+                      style={{ borderRadius: 12, height: 180 }}
+                      onClick={() => navigate("/hr/positions")}
+                    >
+                      <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
+                        <ClusterOutlined style={{ fontSize: 32 }} />
+                        <Text strong>{translate("pages.dashboard.hr_module.positions")}</Text>
+                        <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                          {translate("pages.dashboard.hr_module.positions_description")}
+                        </Text>
+                      </Space>
+                    </Card>
+                  </Col>
+                }
+
+                {permissions?.includes("VIEW:SHIFTS") &&
+                  <Col xs={24} sm={12} md={8} lg={6}>
+                    <Card 
+                      hoverable
+                      style={{ borderRadius: 12, height: 180 }}
+                      onClick={() => navigate("/hr/shifts")}
+                    >
+                      <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
+                        <ClockCircleOutlined style={{ fontSize: 32 }} />
+                        <Text strong>{translate("pages.dashboard.hr_module.shifts")}</Text>
+                        <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                          {translate("pages.dashboard.hr_module.shifts_description")}
+                        </Text>
+                      </Space>
+                    </Card>
+                  </Col>
+                }
+
+                {permissions?.includes("VIEW:WORK_SCHEDULES") &&
+                  <Col xs={24} sm={12} md={8} lg={6}>
+                    <Card 
+                      hoverable
+                      style={{ borderRadius: 12, height: 180 }}
+                      onClick={() => navigate("/hr/work_schedules")}
+                    >
+                      <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
+                        <CalendarOutlined style={{ fontSize: 32 }} />
+                        <Text strong>{translate("pages.dashboard.hr_module.work_schedules")}</Text>
+                        <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                          {translate("pages.dashboard.hr_module.work_schedules_description")}
+                        </Text>
+                      </Space>
+                    </Card>
+                  </Col>
+                }
+
+                {permissions?.includes("VIEW:LEAVE_REQUESTS") &&
+                  <Col xs={24} sm={12} md={8} lg={6}>
+                    <Card 
+                      hoverable
+                      style={{ borderRadius: 12, height: 180 }}
+                      onClick={() => navigate("/hr/leave_requests")}
+                    >
+                      <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
+                        <StopOutlined style={{ fontSize: 32 }} />
+                        <Text strong>{translate("pages.dashboard.hr_module.leave_requests")}</Text>
+                        <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                          {translate("pages.dashboard.hr_module.leave_requests_description")}
+                        </Text>
+                      </Space>
+                    </Card>
+                  </Col>
+                }
+
+                {permissions?.includes("VIEW:PERFORMANCE_REVIEWS") &&
+                  <Col xs={24} sm={12} md={8} lg={6}>
+                    <Card 
+                      hoverable
+                      style={{ borderRadius: 12, height: 180 }}
+                      onClick={() => navigate("/hr/performance_reviews")}
+                    >
+                      <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
+                        <DashboardOutlined style={{ fontSize: 32 }} />
+                        <Text strong>{translate("pages.dashboard.hr_module.performance_reviews")}</Text>
+                        <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                          {translate("pages.dashboard.hr_module.performance_reviews_description")}
+                        </Text>
+                      </Space>
+                    </Card>
+                  </Col>
+                }
+            </Row>
           </div>
         </Row>
-      }
-
-      <Row gutter={[24, 24]} style={{ marginTop: 12 }} align="middle">
-        <div style={{ width: "100%", border: "1px solid #aaaaaa", borderRadius: 16, padding: 24, margin: 12 }}>
-          <Title level={2}>{translate("pages.dashboard.hr_module.title")}</Title>
-
-          <Divider />
-          <Row gutter={[24, 24]}>
-            {permissions?.includes("VIEW:ROLES") && //permission beállítás
-              <Col xs={24} sm={12} md={8} lg={6}>
-                <Card 
-                  hoverable
-                  style={{ borderRadius: 12, height: 180 }}
-                  onClick={() => navigate("/hr/employee")}
-                >
-                  <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
-                    <UserOutlined style={{ fontSize: 32 }} />
-                    <Text strong>{translate("pages.dashboard.hr_module.employee")}</Text>
-                    <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
-                      {translate("pages.dashboard.hr_module.employee_description")}
-                    </Text>
-                  </Space>
-                </Card>
-              </Col>
-            }
-
-            {permissions?.includes("VIEW:ROLES") && //permission beállítás
-              <Col xs={24} sm={12} md={8} lg={6}>
-                <Card 
-                  hoverable
-                  style={{ borderRadius: 12, height: 180 }}
-                  onClick={() => navigate("/hr/departments")}
-                >
-                  <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
-                    <GroupOutlined style={{ fontSize: 32 }} />
-                    <Text strong>{translate("pages.dashboard.hr_module.departments")}</Text>
-                    <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
-                      {translate("pages.dashboard.hr_module.departments_description")}
-                    </Text>
-                  </Space>
-                </Card>
-              </Col>
-            }
-
-              {permissions?.includes("VIEW:ROLES") && //permission beállítás
-                <Col xs={24} sm={12} md={8} lg={6}>
-                  <Card 
-                    hoverable
-                    style={{ borderRadius: 12, height: 180 }}
-                    onClick={() => navigate("/hr/positions")}
-                  >
-                    <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
-                      <ClusterOutlined style={{ fontSize: 32 }} />
-                      <Text strong>{translate("pages.dashboard.hr_module.positions")}</Text>
-                      <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
-                        {translate("pages.dashboard.hr_module.positions_description")}
-                      </Text>
-                    </Space>
-                  </Card>
-                </Col>
-              }
-
-              {permissions?.includes("VIEW:ROLES") && //permission beállítás
-                <Col xs={24} sm={12} md={8} lg={6}>
-                  <Card 
-                    hoverable
-                    style={{ borderRadius: 12, height: 180 }}
-                    onClick={() => navigate("/hr/shifts")}
-                  >
-                    <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
-                      <ClockCircleOutlined style={{ fontSize: 32 }} />
-                      <Text strong>{translate("pages.dashboard.hr_module.shifts")}</Text>
-                      <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
-                        {translate("pages.dashboard.hr_module.shifts_description")}
-                      </Text>
-                    </Space>
-                  </Card>
-                </Col>
-              }
-
-              {permissions?.includes("VIEW:ROLES") && //permission beállítás
-                <Col xs={24} sm={12} md={8} lg={6}>
-                  <Card 
-                    hoverable
-                    style={{ borderRadius: 12, height: 180 }}
-                    onClick={() => navigate("/hr/work_schedules")}
-                  >
-                    <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 16 }}>
-                      <CalendarOutlined style={{ fontSize: 32 }} />
-                      <Text strong>{translate("pages.dashboard.hr_module.work_schedules")}</Text>
-                      <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
-                        {translate("pages.dashboard.hr_module.work_schedules_description")}
-                      </Text>
-                    </Space>
-                  </Card>
-                </Col>
-              }
-          </Row>
-        </div>
-      </Row>
+      } */}
     </div>
   );
 };

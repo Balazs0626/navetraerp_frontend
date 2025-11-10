@@ -28,6 +28,7 @@ export const dataProvider: DataProvider = {
     const res = await axios.get(`${API_URL}/${resource}/${id}`, {
       headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
     });
+    console.log(res.data)
     return { data: res.data };
   },
 

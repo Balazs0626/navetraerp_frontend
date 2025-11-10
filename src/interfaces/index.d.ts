@@ -25,6 +25,11 @@ export interface IDepartmentList {
     description: string;
 }
 
+export interface IDepartmentCreate {
+    departmentName: string;
+    description: string;
+}
+
 //Pozíciók
 
 export interface IPositionList {
@@ -47,9 +52,41 @@ export interface IShiftList {
 export interface IEmployeeList {
     id: number;
     fullName: string;
+    departmentId: number;
     departmentName: string;
+    positionId: number;
     positionName: string;
     hasUser: boolean;
+}
+
+export interface IEmployeeCreate {
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  idNumber: string;
+  residenceNumber: string;
+  healthInsuranceNumber: string;
+  taxIdNumber: string;
+  hireDate: string;
+  departmentId: number;
+  positionId: number;
+  userId: number;
+  email: string;
+  phoneNumber: string;
+  salary: number;
+  status: string;
+  addressCountry: string;
+  addressRegion: string;
+  addressPostCode: string;
+  addressCity: string;
+  addressFirstLine: string;
+  addressSecondLine: string;
+  tempAddressCountry: string;
+  tempAddressRegion: string;
+  tempAddressPostCode: string;
+  tempAddressCity: string;
+  tempAddressFirstLine: string;
+  tempAddressSecondLine: string;
 }
 
 //Beosztás
@@ -59,4 +96,41 @@ export interface IWorkScheduleList {
     employeeName: string;
     shiftName: string;
     date: string;
+}
+
+//Távollétek
+
+export interface ILeaveRequestList {
+    id: number;
+    employeeName: string;
+    leaveType: string;
+    startDate: string;
+    endDate: string;
+    status: string;
+}
+
+//Teljesítmény értékelések
+
+export interface IPerfromanceReview {
+    id: number;
+    employeeName: string;
+    reviewDate: string;
+    score: number;
+    comment: string;
+}
+
+  // Main \\
+
+export interface IWarehouseList {
+    id: number;
+    name: string;
+    address: string;
+    managerName: string;
+}
+
+export interface IProductList {
+    id: number;
+    sku: string;
+    name: string;
+    active: boolean;
 }

@@ -2,6 +2,7 @@ import { Select } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../constants/url";
+import { useTranslation } from "@refinedev/core";
 
 interface Employee {
   id: number;
@@ -18,6 +19,8 @@ interface EmployeeSelectProps {
 export const EmployeeSelect: React.FC<EmployeeSelectProps> = ({ value, onChange }) => {
   const [roles, setRoles] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const { translate } = useTranslation();
 
   useEffect(() => {
     setLoading(true);
@@ -36,7 +39,7 @@ export const EmployeeSelect: React.FC<EmployeeSelectProps> = ({ value, onChange 
     <Select
       showSearch
       optionFilterProp="label"
-      placeholder="Válassz alkalmazottat"
+      placeholder={translate("selects.employees.placeholder")}
       loading={loading}
       value={value}
       mode="multiple"

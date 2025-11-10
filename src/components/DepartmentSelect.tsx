@@ -2,6 +2,7 @@ import { Select } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../constants/url";
+import { useTranslation } from "@refinedev/core";
 
 interface Department {
   id: number;
@@ -16,6 +17,8 @@ interface DepartmentSelectProps {
 export const DepartmentSelect: React.FC<DepartmentSelectProps> = ({ value, onChange }) => {
   const [roles, setRoles] = useState<Department[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const { translate } = useTranslation();
 
   useEffect(() => {
     setLoading(true);
@@ -34,7 +37,7 @@ export const DepartmentSelect: React.FC<DepartmentSelectProps> = ({ value, onCha
     <Select
       showSearch
       optionFilterProp="label"
-      placeholder="Válassz osztályt"
+      placeholder={translate("selects.departments.placeholder")}
       loading={loading}
       value={value}
       onChange={onChange}

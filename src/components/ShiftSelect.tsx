@@ -2,6 +2,7 @@ import { Select } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../constants/url";
+import { useTranslation } from "@refinedev/core";
 
 interface Shift {
 	id: number;
@@ -16,6 +17,8 @@ interface ShiftSelectProps {
 export const ShiftSelect: React.FC<ShiftSelectProps> = ({ value, onChange }) => {
 	const [roles, setRoles] = useState<Shift[]>([]);
 	const [loading, setLoading] = useState(false);
+
+	const { translate } = useTranslation();
 
 	useEffect(() => {
 		setLoading(true);
@@ -34,7 +37,7 @@ export const ShiftSelect: React.FC<ShiftSelectProps> = ({ value, onChange }) => 
 		<Select
 			showSearch
 			optionFilterProp="label"
-			placeholder="Válassz műszakot"
+			placeholder={translate("selects.shifts.placeholder")}
 			loading={loading}
 			value={value}
 			onChange={onChange}

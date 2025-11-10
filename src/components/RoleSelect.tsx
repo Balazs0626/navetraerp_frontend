@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../constants/url";
 import { useRolesData } from "../constants/roles";
+import { useTranslation } from "@refinedev/core";
 
 interface Role {
   id: number;
@@ -10,13 +11,15 @@ interface Role {
 }
 
 interface RoleSelectProps {
-  value?: number; // form-ból jön
-  onChange?: (value: number) => void; // form-nak visszaad
+  value?: number;
+  onChange?: (value: number) => void;
 }
 
 export const RoleSelect: React.FC<RoleSelectProps> = ({ value, onChange }) => {
   const [roles, setRoles] = useState<Role[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const { translate } = useTranslation();
 
   useEffect(() => {
     setLoading(true);
@@ -35,7 +38,7 @@ export const RoleSelect: React.FC<RoleSelectProps> = ({ value, onChange }) => {
     <Select
       showSearch
       optionFilterProp="label"
-      placeholder="Válassz szerepet"
+      placeholder={translate("selects.roles.placeholder")}
       loading={loading}
       value={value}
       onChange={onChange}

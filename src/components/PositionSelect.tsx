@@ -1,7 +1,8 @@
 import { Select } from "antd";
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../constants/url";
+import { useTranslation } from "@refinedev/core";
 
 interface Position {
   id: number;
@@ -11,11 +12,14 @@ interface Position {
 interface PositionSelectProps {
   value?: number;
   onChange?: (value: number) => void;
+  style?: CSSProperties;
 }
 
 export const PositionSelect: React.FC<PositionSelectProps> = ({ value, onChange }) => {
   const [roles, setRoles] = useState<Position[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const { translate } = useTranslation();
 
   useEffect(() => {
     setLoading(true);
@@ -34,7 +38,7 @@ export const PositionSelect: React.FC<PositionSelectProps> = ({ value, onChange 
     <Select
       showSearch
       optionFilterProp="label"
-      placeholder="Válassz pozíciót"
+      placeholder={translate("selects.positions.placeholder")}
       loading={loading}
       value={value}
       onChange={onChange}
