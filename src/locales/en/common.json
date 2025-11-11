@@ -6,6 +6,8 @@
     },
     "sidebar": {
       "dashboard": "Dashboard",
+      "warehouses":"Warehouses",
+      "products":"Products",
       "administrator": "Administrator",
       "users": "Users",
       "roles": "Roles",
@@ -24,6 +26,15 @@
         "welcome_message": "Select the module you want to use",
         "active_users": "Active users",
         "modules": "Modules",
+        "main": "Még nem tudom",
+        "warehouses": {
+          "title": "Warehouses",
+          "description": "Create, list, edit and delete warehouses"
+        },
+        "products": {
+          "title": "Products",
+          "description": "Create, list, edit and delete products"
+        },
         "administrator_module": {
           "title": "Administrator module",
           "description": "Manage users and roles",
@@ -51,6 +62,60 @@
           "leave_requests_description": "Create, list, edit and delete leave requests"
         }
     },
+    "warehouses": {
+      "titles": {
+        "data": "Default data",
+        "address_data": "Address data",
+        "name": "Name",
+        "address": "Address",
+        "manager": "Manager",
+        "address_country": "Country",
+        "address_region": "Region",
+        "address_postcode": "Post code",
+        "address_city": "City",
+        "address_first": "Address 1",
+        "address_second": "Address 2"
+      },
+      "buttons": {
+        "back": "Back to warehouses",
+        "create": "Create a new warehouse"
+      },
+      "list": {
+        "title": "Warehouses",
+        "actions": "Actions"
+      },
+      "create": {
+        "title": "Creating a warehouse"
+      },
+      "edit": {
+        "title": "Editing a warehouse"
+      }
+    },
+    "products": {
+      "titles": {
+        "data": "Default data",
+        "sku": "SKU",
+        "name": "Name",
+        "unit": "Unit",
+        "price_per_unit": "Price per unit",
+        "active": "Status",
+        "description": "Description"
+      },
+      "buttons": {
+        "back": "Back to products",
+        "create": "Create a new product"
+      },
+      "list": {
+        "title": "Products",
+        "actions": "Actions"
+      },
+      "create": {
+        "title": "Creating a product"
+      },
+      "edit": {
+        "title": "Editing a product"
+      }
+    },
     "users": {
       "titles": {
         "username": "Username",
@@ -68,10 +133,10 @@
         "actions": "Actions"
       },
       "create": {
-        "title": "Creating a user"
+        "title": "Creating an user"
       },
       "edit": {
-        "title": "Editing a user"
+        "title": "Editing an user"
       }
     },
     "roles": {
@@ -307,6 +372,12 @@
     "refresh": "Refresh"
   },
   "selects": {
+    "products": {
+      "options_active": {
+        "active": "Active",
+        "inactive": "Inactive"
+      }
+    },
     "users": {
       "placeholder": "Select an user"
     },

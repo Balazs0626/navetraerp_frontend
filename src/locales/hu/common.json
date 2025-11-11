@@ -6,6 +6,8 @@
     },
     "sidebar": {
       "dashboard": "Irányítópult",
+      "warehouses":"Raktárak",
+      "products":"Termékek",
       "administrator": "Adminisztrátor",
       "users": "Felhasználók",
       "roles": "Szerepkörök",
@@ -24,6 +26,15 @@
         "welcome_message": "Válassza ki a használni kívánt modult",
         "active_users": "Aktív felhasználók",
         "modules": "Modulok",
+        "main": "Még nem tudom",
+        "warehouses": {
+          "title": "Raktárak",
+          "description": "Raktárak létrehozása, listázása, módosítása és törlése"
+        },
+        "products": {
+          "title": "Termékek",
+          "description": "Termékek létrehozása, listázása, módosítása és törlése"
+        },
         "administrator_module": {
           "title": "Adminisztrátor modul",
           "description": "Felhasználók és szerepkörök kezelése",
@@ -50,6 +61,60 @@
           "leave_requests": "Távollétek",
           "leave_requests_description": "Távollétek létrehozása, listázása, módosítása és törlése"
         }
+    },
+    "warehouses": {
+      "titles": {
+        "data": "Alapadatok",
+        "address_data": "Cím adatok",
+        "name": "Név",
+        "address": "Cím",
+        "manager": "Menedzser",
+        "address_country": "Ország",
+        "address_region": "Régió",
+        "address_postcode": "Irányítószám",
+        "address_city": "Település",
+        "address_first": "Cím 1",
+        "address_second": "Cím 2"
+      },
+      "buttons": {
+        "back": "Vissza a raktárakhoz",
+        "create": "Új raktár létrehozása"
+      },
+      "list": {
+        "title": "Raktárak",
+        "actions": "Műveletek"
+      },
+      "create": {
+        "title": "Raktár létrehozása"
+      },
+      "edit": {
+        "title": "Raktár módosítása"
+      }
+    },
+    "products": {
+      "titles": {
+        "data": "Alapadatok",
+        "sku": "Cikkszám",
+        "name": "Név",
+        "unit": "Egység",
+        "price_per_unit": "Egységenkénti ár",
+        "active": "Státusz",
+        "description": "Leírás"
+      },
+      "buttons": {
+        "back": "Vissza a termékekhez",
+        "create": "Új termék létrehozása"
+      },
+      "list": {
+        "title": "Termékek",
+        "actions": "Műveletek"
+      },
+      "create": {
+        "title": "Termék létrehozása"
+      },
+      "edit": {
+        "title": "Termék módosítása"
+      }
     },
     "users": {
       "titles": {
@@ -307,6 +372,12 @@
     "refresh": "Frissítés"
   },
   "selects": {
+    "products": {
+      "options_active": {
+        "active": "Elérhető",
+        "inactive": "Nem elérhető"
+      }
+    },
     "users": {
       "placeholder": "Válasszon felhasználót"
     },

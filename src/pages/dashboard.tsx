@@ -89,9 +89,9 @@ export const DashboardPage = () => {
                 <Space direction="horizontal">
                   <ShopOutlined style={{ fontSize: 48 }} />
                   <Space direction="vertical" style={{gap: 1}}>
-                    <Text strong>{translate("pages.dashboard.")}</Text>
+                    <Text strong>{translate("pages.dashboard.warehouses.title")}</Text>
                     <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
-                      {translate("pages.dashboard.")}
+                      {translate("pages.dashboard.warehouses.description")}
                     </Text>
                   </Space>
                 </Space>
@@ -110,9 +110,9 @@ export const DashboardPage = () => {
                   <Space direction="horizontal">
                     <ProductOutlined style={{ fontSize: 48 }} />
                     <Space direction="vertical" style={{gap: 1}}>
-                      <Text strong>{translate("pages.dashboard.")}</Text>
+                      <Text strong>{translate("pages.dashboard.products.title")}</Text>
                       <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
-                        {translate("pages.dashboard.")}
+                        {translate("pages.dashboard.products.description")}
                       </Text>
                     </Space>
                   </Space>

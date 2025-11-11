@@ -36,7 +36,7 @@ export const WarehouseCreate = () => {
       headerButtons={
         <Space>
           <Button
-            onClick={() => navigate("warehouses")}
+            onClick={() => navigate("/warehouses")}
             size="large"
           ><ArrowLeftOutlined/>{translate("pages.warehouses.buttons.back")}</Button>
         </Space>

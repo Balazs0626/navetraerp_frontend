@@ -44,7 +44,7 @@ export const WarehouseList = () => {
       <Table {...tableProps} rowKey="id">
         <Table.Column dataIndex={"name"} title={translate("pages.warehouses.titles.name")}/>
         <Table.Column dataIndex={"address"} title={translate("pages.warehouses.titles.address")}/>
-        <Table.Column dataIndex={"managerName"} title={translate("pages.warehouses.titles.manager_name")}/>
+        <Table.Column dataIndex={"managerName"} title={translate("pages.warehouses.titles.manager")}/>
         <Table.Column
           title={translate("pages.warehouses.list.actions")}
           dataIndex="actions"
