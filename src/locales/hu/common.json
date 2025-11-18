@@ -18,7 +18,11 @@
       "shifts": "Műszakok",
       "work_schedules": "Beosztások",
       "leave_requests": "Távollétek",
-      "performance_reviews":"Teljesítmény értékelések"
+      "performance_reviews":"Teljesítmény értékelések",
+      "procurement": "Beszerzés",
+      "suppliers": "Beszállítók",
+      "purchase_orders": "Rendelési bizonylatok",
+      "goods_receipts": "Átvételi bizonylatok"
     },
     "dashboard": {
         "title": "Irányítópult",
@@ -60,6 +64,16 @@
           "performance_reviews_description": "Teljesítmény értékelések létrehozása, listázása, módosítása és törlése",
           "leave_requests": "Távollétek",
           "leave_requests_description": "Távollétek létrehozása, listázása, módosítása és törlése"
+        },
+        "procurement_module": {
+          "title": "Beszerzés modul",
+          "description": "Beszállítók, rendelési bizonylatok és átvételi bitonylatok kezelése",
+          "suppliers": "Beszállítók",
+          "suppliers_description": "Beszállítók létrehozása, listázása, módosítása és törlése",
+          "purchase_orders": "Rendelési bizonylatok",
+          "purchase_orders_description": "Rendelési bizonylatok létrehozása, listázása, törlése és nyomtatása",
+          "goods_receipts": "Átvételi bizonylatok",
+          "goods_receipts_description": "Átvételi bizonylatok létrehozása, listázása, törlése és nyomtatása"
         }
     },
     "warehouses": {

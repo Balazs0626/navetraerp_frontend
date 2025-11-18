@@ -134,3 +134,23 @@ export interface IProductList {
     name: string;
     active: boolean;
 }
+
+export interface IProductCreate {
+    sku: string;
+    name: string;
+    unit: string;
+    pricePerUnit: number;
+    active: string;
+    description: string;
+    createdAt: string;
+}
+
+  // Beszerzés \\
+
+export interface ISupplierList {
+    id: number;
+    name: string;
+    contactPerson: string;
+    email: string;
+    phoneNumber: string;
+}

@@ -18,7 +18,11 @@
       "shifts": "Shifts",
       "work_schedules": "Work schedules",
       "leave_requests": "Leave requests",
-      "performance_reviews":"Performance reviews"
+      "performance_reviews":"Performance reviews",
+      "procurement": "Procurement",
+      "suppliers": "Suppliers",
+      "purchase_orders": "Purchase orders",
+      "goods_receipts": "Goods receipts"
     },
     "dashboard": {
         "title": "Dashboard",
@@ -60,6 +64,16 @@
           "performance_reviews_description": "Create, list, edit and delete performance reviews",
           "leave_requests": "Leave requests",
           "leave_requests_description": "Create, list, edit and delete leave requests"
+        },
+        "procurement_module": {
+          "title": "Procurement module",
+          "description": "Manage suppliers, purchase orders and goods receipts",
+          "suppliers": "Suppliers",
+          "suppliers_description": "Create, list, edit and delete suppliers",
+          "purchase_orders": "Purchase orders",
+          "purchase_orders_description": "Create, list, delete and print purchase orders",
+          "goods_receipts": "Goods receipts",
+          "goods_receipts_description": "Create, list, delete and print goods receipts"
         }
     },
     "warehouses": {

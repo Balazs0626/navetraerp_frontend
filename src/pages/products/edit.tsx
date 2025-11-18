@@ -120,7 +120,6 @@ export const ProductEdit = () => {
               <Form.Item
                 label={translate("pages.products.titles.description")}
                 name="description"
-                rules={[{ required: true }]}
               >
                 <TextArea/>
               </Form.Item>

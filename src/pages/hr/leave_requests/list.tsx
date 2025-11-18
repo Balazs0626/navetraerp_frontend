@@ -9,6 +9,7 @@ import axios from "axios";
 import { API_URL } from "../../../constants/url";
 import { useLeaveRequestStatus, useLeaveRequestType } from "../../../constants/leave_requests";
 import dayjs from "dayjs";
+import { debug } from "console";
 
 export const LeaveRequestList = () => {
 
@@ -32,19 +33,43 @@ export const LeaveRequestList = () => {
     document.title = translate("pages.leave_requests.list.title");
   }) 
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([]);
+  const [selectedRows, setSelectedRows] = useState<ILeaveRequestList[]>([]);
 
   const invalidate = useInvalidate();
 
+/*   const [exportFilters, setExportFilters] = useState<any[]>([]); */
+
   const rowSelection = {
     selectedRowKeys,
-    onChange: (keys: any) => {
+    onChange: (keys: any, rows: any) => {
       setSelectedRowKeys(keys)
+      setSelectedRows(rows)
+
+/*       exportFilters.push({
+        field: "id",
+        operator: "eq",
+        value: keys[keys.length - 1],
+      }); */
+
     },
   };
 
+/*   console.log(exportFilters); */
+
   const { triggerExport, isLoading: exportLoading } = useExport<ILeaveRequestList>({
     filters: filters,
+    mapData: (item: any) => {
+      if (selectedRowKeys.length > 0) {
+        if (selectedRowKeys.includes(item.id)) {
+          return item;
+        }
+        return {};
+      } else {
+        return item;
+      }
+    }
+   //filters: exportFilters
   });
 
   const [form] = Form.useForm();

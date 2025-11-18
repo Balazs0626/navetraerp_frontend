@@ -5,7 +5,7 @@ import { CatchAllNavigate } from "@refinedev/react-router";
 import { DashboardPage } from "./pages/dashboard";
 import { RefineThemes, ThemedLayout, ThemedTitle, useNotificationProvider } from "@refinedev/antd";
 import { App as AntdApp, ConfigProvider, Select, Switch, theme, notification } from "antd";
-import { CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, StopOutlined, UserOutlined } from "@ant-design/icons";
+import { CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
 import { dataProvider } from "./providers/dataProvider";
 import { authProvider } from "./providers/authProvider";
 import { UserList } from "./pages/administrator/users/list";
@@ -36,6 +36,9 @@ import { ProcurementMainPage } from "./pages/procurement/main";
 import { WarehouseCreate, WarehouseList } from "./pages/warehouses";
 import { ProductCreate, ProductEdit, ProductList } from "./pages/products";
 import { WarehouseEdit } from "./pages/warehouses/edit";
+import { ProductShow } from "./pages/products/show";
+import { SupplierList } from "./pages/procurement/suppliers/list";
+import { SupplierCreate } from "./pages/procurement/suppliers";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -213,6 +216,7 @@ export default function App() {
                 list: "products",
                 create: "products/create",
                 edit: "products/edit/:id",
+                show: "products/show/:id",
                 meta: {
                   label: t("pages.sidebar.products"),
                   icon: <ProductOutlined/>,
@@ -256,7 +260,7 @@ export default function App() {
                 name: "employee",
                 list: "/hr/employee",
                 create: "/hr/employee/create",
-                edit: "/hr/employee/edit:id",
+                edit: "/hr/employee/edit/:id",
                 meta: {
                   label: t("pages.sidebar.employee"),
                   icon: <UserOutlined/>,
@@ -275,6 +279,8 @@ export default function App() {
               {
                 name: "positions",
                 list: "/hr/positions",
+                create: "/hr/positions/create",
+                edit: "/hr/positions/edit/:id",
                 meta: {
                   label: t("pages.sidebar.positions"),
                   icon: <ClusterOutlined/>,
@@ -319,6 +325,23 @@ export default function App() {
                   label: t("pages.sidebar.performance_reviews"),
                   icon: <DashboardOutlined/>,
                   parent: "hr"
+                }
+              },
+              {
+                name: "procurement",
+                meta: {
+                  label: t("pages.sidebar.procurement")
+                }
+              },
+              {
+                name: "suppliers",
+                list: "/procurement/suppliers",
+                create: "/procurement/suppliers/create",
+                edit: "/procurement/suppliers/edit/:id",
+                meta: {
+                  label: t("pages.sidebar.suppliers"),
+                  icon: <TruckOutlined/>,
+                  parent: "procurement"
                 }
               }
             ]}
@@ -443,7 +466,10 @@ export default function App() {
 
                 <Route path="procurement">
                   <Route index element={<ProcurementMainPage/>}/>
-
+                  <Route path="suppliers">
+                    <Route index element={<SupplierList/>}/>
+                    <Route path="create" element={<SupplierCreate/>}/>
+                  </Route>
                 </Route>
 
                 {/* <Route path="main"> */}
@@ -457,6 +483,7 @@ export default function App() {
                   <Route index element={<ProductList/>}/>
                   <Route path="create" element={<ProductCreate/>}/>
                   <Route path="edit/:id" element={<ProductEdit/>}/>
+                  <Route path="show/:id" element={<ProductShow/>}/>
                 </Route>
                 {/* </Route> */}
 

@@ -118,7 +118,6 @@ export const ProductCreate = () => {
               <Form.Item
                 label={translate("pages.products.titles.description")}
                 name="description"
-                rules={[{ required: true }]}
               >
                 <TextArea/>
               </Form.Item>

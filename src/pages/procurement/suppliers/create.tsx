@@ -4,12 +4,11 @@ import { useNotification, useTranslation } from "@refinedev/core";
 import { Button, Space, Form, Card, Col, Row, Input, DatePicker, InputNumber, Divider, Typography, Select } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { EmployeeOneSelect } from "../../components/EmployeeOneSelect";
 
-export const WarehouseCreate = () => {
+export const SupplierCreate = () => {
 
   const { form, formProps, saveButtonProps } = useForm({
-    resource: "warehouses",
+    resource: "suppliers",
     redirect: false
   });
 
@@ -19,20 +18,20 @@ export const WarehouseCreate = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = translate("pages.warehouses.create.title");
+    document.title = translate("pages.suppliers.create.title");
   })
 
   return (
     <Create
       saveButtonProps={saveButtonProps}
-      title={translate("pages.warehouses.create.title")}
+      title={translate("pages.suppliers.create.title")}
       goBack={null}
       headerButtons={
         <Space>
           <Button
-            onClick={() => navigate("/warehouses")}
+            onClick={() => navigate("/procurement/suppliers")}
             size="large"
-          ><ArrowLeftOutlined/>{translate("pages.warehouses.buttons.back")}</Button>
+          ><ArrowLeftOutlined/>{translate("pages.suppliers.buttons.back")}</Button>
         </Space>
       }
     >
@@ -42,13 +41,13 @@ export const WarehouseCreate = () => {
         layout="vertical"
       >
         <Card 
-          title={translate("pages.warehouses.titles.data")}
+          title={translate("pages.suppliers.titles.data")}
           type="inner"
         >
           <Row gutter={16}>
             <Col span={6}>
               <Form.Item
-                label={translate("pages.warehouses.titles.name")}
+                label={translate("pages.suppliers.titles.name")}
                 name="name"
                 rules={[{ required: true }]}
               >
@@ -57,24 +56,51 @@ export const WarehouseCreate = () => {
             </Col>
             <Col span={6}>
               <Form.Item
-                label={translate("pages.warehouses.titles.manager")}
-                name="managerId"
+                label={translate("pages.suppliers.titles.tax_number")}
+                name="taxNumber"
                 rules={[{ required: true }]}
               >
-                <EmployeeOneSelect/>
+                <Input/>
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                label={translate("pages.suppliers.titles.contact_person")}
+                name="contactPerson"
+                rules={[{ required: true }]}
+              >
+                <Input/>
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                label={translate("pages.suppliers.titles.email")}
+                name="email"
+                rules={[{ required: true }]}
+              >
+                <Input/>
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                label={translate("pages.suppliers.titles.phone_number")}
+                name="phoneNumber"
+                rules={[{ required: true }]}
+              >
+                <Input/>
               </Form.Item>
             </Col>
           </Row>
         </Card>
         <Card 
-					title={translate("pages.warehouses.titles.address_data")}
+					title={translate("pages.suppliers.titles.address_data")}
 					style={{marginTop: 12}}
           type="inner"
 				>
           <Row gutter={16}>
             <Col span={6}>
               <Form.Item
-                label={translate("pages.warehouses.titles.address_country")}
+                label={translate("pages.suppliers.titles.address_country")}
                 name="addressCountry"
                 rules={[{ required: true }]}
               >
@@ -83,7 +109,7 @@ export const WarehouseCreate = () => {
             </Col>
             <Col span={6}>
               <Form.Item
-                label={translate("pages.warehouses.titles.address_region")}
+                label={translate("pages.suppliers.titles.address_region")}
                 name="addressRegion"
                 rules={[{ required: true }]}
               >
@@ -92,7 +118,7 @@ export const WarehouseCreate = () => {
             </Col>
             <Col span={6}>
               <Form.Item
-                label={translate("pages.warehouses.titles.address_postcode")}
+                label={translate("pages.suppliers.titles.address_postcode")}
                 name="addressPostCode"
                 rules={[{ required: true }]}
               >
@@ -101,7 +127,7 @@ export const WarehouseCreate = () => {
             </Col>
             <Col span={6}>
               <Form.Item
-                label={translate("pages.warehouses.titles.address_city")}
+                label={translate("pages.suppliers.titles.address_city")}
                 name="addressCity"
                 rules={[{ required: true }]}
               >
@@ -112,7 +138,7 @@ export const WarehouseCreate = () => {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label={translate("pages.warehouses.titles.address_first")}
+                label={translate("pages.suppliers.titles.address_first")}
                 name="addressFirstLine"
                 rules={[{ required: true }]}
               >
@@ -121,7 +147,7 @@ export const WarehouseCreate = () => {
             </Col>
             <Col span={12}>
               <Form.Item
-                label={translate("pages.warehouses.titles.address_second")}
+                label={translate("pages.suppliers.titles.address_second")}
                 name="addressSecondLine"
               >
                 <Input/> 

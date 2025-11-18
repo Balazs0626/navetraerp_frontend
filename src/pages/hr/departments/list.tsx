@@ -24,7 +24,7 @@ export const DepartmentList = () => {
     document.title = translate("pages.departments.list.title");
   }) 
 
-  const { triggerExport, isLoading: exportLoading } = useExport<IDepartmentList>({resource: "departments"});
+   const { triggerExport, isLoading: exportLoading } = useExport<IDepartmentList>({resource: "departments"});
   const { inputProps } = useImport<IDepartmentCreate>({
     resource: "departments",
     paparseOptions: {
