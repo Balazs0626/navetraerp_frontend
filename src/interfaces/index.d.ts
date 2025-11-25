@@ -154,3 +154,17 @@ export interface ISupplierList {
     email: string;
     phoneNumber: string;
 }
+
+export interface IPurchaseOrderList {
+    id: number;
+    orderDate: string;
+    expectedDeliveryDate: string;
+    status: string;
+}
+
+export interface IGoodsReceiptList {
+    id: number;
+    purchaseOrderId: number;
+    warehouseName: string;
+    receiptDate: string;
+}

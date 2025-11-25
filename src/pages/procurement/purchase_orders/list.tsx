@@ -1,5 +1,5 @@
-import { useTable, List, DeleteButton, EditButton } from "@refinedev/antd";
-import { ISupplierList } from "../../../interfaces";
+import { useTable, List, DeleteButton, EditButton, ShowButton } from "@refinedev/antd";
+import { IPurchaseOrderList, ISupplierList } from "../../../interfaces";
 import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker } from "antd";
 import { CalendarOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
@@ -8,10 +8,10 @@ import { useEffect } from "react";
 import dayjs from 'dayjs';
 
 
-export const SupplierList = () => {
+export const PurchaseOrderList = () => {
 
-  const { tableProps, setFilters } = useTable<ISupplierList>({
-    resource: "suppliers",
+  const { tableProps, setFilters } = useTable<IPurchaseOrderList>({
+    resource: "purchase_orders",
     pagination: {
       pageSize: 10,
     },
@@ -27,41 +27,46 @@ export const SupplierList = () => {
   const { data: permissions } = usePermissions<string[]>({});
 
   useEffect(() => {
-    document.title = translate("pages.suppliers.list.title");
+    document.title = translate("pages.purchase_orders.list.title");
   }) 
 
   return (
     <List
-      title={translate("pages.suppliers.list.title")}
+      title={translate("pages.purchase_orders.list.title")}
       headerButtons={
           <Space>
             <Button icon={<PlusOutlined/>} size="large" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:WORK_SCHEDULES")}>
-                {translate("pages.suppliers.buttons.create")}
+                {translate("pages.purchase_orders.buttons.create")}
             </Button>
           </Space>
       }
     >
       <Table {...tableProps} rowKey="id">
-        <Table.Column dataIndex={"name"} title={translate("pages.suppliers.titles.name")}/>
-        <Table.Column dataIndex={"contactPerson"} title={translate("pages.suppliers.titles.contact_person")}/>
-        <Table.Column dataIndex={"email"} title={translate("pages.suppliers.titles.email")}/>
-        <Table.Column dataIndex={"phoneNumber"} title={translate("pages.suppliers.titles.phone_number")}/>
+        <Table.Column dataIndex={"id"} title={translate("pages.purchase_orders.titles.id")}/>
+        <Table.Column dataIndex={"orderDate"} title={translate("pages.purchase_orders.titles.order_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
+        <Table.Column dataIndex={"expectedDeliveryDate"} title={translate("pages.purchase_orders.titles.expected_delivery_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
+        <Table.Column dataIndex={"status"} title={translate("pages.purchase_orders.titles.status")}/>
         <Table.Column
-          title={translate("pages.suppliers.titles.actions")}
+          title={translate("pages.purchase_orders.titles.actions")}
           dataIndex="actions"
           key="actions"
           render={(_, record) => (
             <Space>
+              <ShowButton
+                size="small"
+                recordItemId={record.id}
+                resource="purchase_orders"
+              />
               <EditButton
                 size="small"
                 recordItemId={record.id}
-                resource="suppliers"
+                resource="purchase_orders"
                 disabled={!permissions?.includes("EDIT:WORK_SCHEDULES")}
               />
               <DeleteButton
                 size="small"
                 recordItemId={record.id}
-                resource="suppliers"
+                resource="purchase_orders"
                 confirmTitle={translate("notifications.deleteMessage")}
                 disabled={!permissions?.includes("DELETE:WORK_SCHEDULES")}
               />

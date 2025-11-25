@@ -5,7 +5,7 @@ import { CatchAllNavigate } from "@refinedev/react-router";
 import { DashboardPage } from "./pages/dashboard";
 import { RefineThemes, ThemedLayout, ThemedTitle, useNotificationProvider } from "@refinedev/antd";
 import { App as AntdApp, ConfigProvider, Select, Switch, theme, notification } from "antd";
-import { CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
+import { CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, FileOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
 import { dataProvider } from "./providers/dataProvider";
 import { authProvider } from "./providers/authProvider";
 import { UserList } from "./pages/administrator/users/list";
@@ -39,6 +39,13 @@ import { WarehouseEdit } from "./pages/warehouses/edit";
 import { ProductShow } from "./pages/products/show";
 import { SupplierList } from "./pages/procurement/suppliers/list";
 import { SupplierCreate } from "./pages/procurement/suppliers";
+import { SupplierEdit } from "./pages/procurement/suppliers/edit";
+import { PurchaseOrderList } from "./pages/procurement/purchase_orders/list";
+import { PurchaseOrderCreate } from "./pages/procurement/purchase_orders";
+import { PurchaseOrderShow } from "./pages/procurement/purchase_orders/show";
+import { GoodsReceiptList } from "./pages/procurement/goods_receipts";
+import { GoodsReceiptCreate } from "./pages/procurement/goods_receipts/create";
+import { GoodsReceiptShow } from "./pages/procurement/goods_receipts/show";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -343,6 +350,28 @@ export default function App() {
                   icon: <TruckOutlined/>,
                   parent: "procurement"
                 }
+              },
+              {
+                name: "purchase_orders",
+                list: "/procurement/purchase_orders",
+                create: "/procurement/purchase_orders/create",
+                show: "/procurement/purchase_orders/show/:id",
+                meta: {
+                  label: t("pages.sidebar.purchase_orders"),
+                  icon: <ShoppingCartOutlined/>,
+                  parent: "procurement"
+                }
+              },
+              {
+                name: "goods_receipts",
+                list: "/procurement/goods_receipts",
+                create: "/procurement/goods_receipts/create",
+                show: "/procurement/goods_receipts/show/:id",
+                meta: {
+                  label: t("pages.sidebar.goods_receipts"),
+                  icon: <FileOutlined/>,
+                  parent: "procurement"
+                }
               }
             ]}
             options={{ syncWithLocation: true }}
@@ -469,6 +498,19 @@ export default function App() {
                   <Route path="suppliers">
                     <Route index element={<SupplierList/>}/>
                     <Route path="create" element={<SupplierCreate/>}/>
+                    <Route path="edit/:id" element={<SupplierEdit/>}/>
+                  </Route>
+
+                  <Route path="purchase_orders">
+                    <Route index element={<PurchaseOrderList/>}/>
+                    <Route path="create" element={<PurchaseOrderCreate/>}/>
+                    <Route path="show/:id" element={<PurchaseOrderShow/>}/>
+                  </Route>
+
+                  <Route path="goods_receipts">
+                    <Route index element={<GoodsReceiptList/>}/>
+                    <Route path="create" element={<GoodsReceiptCreate/>}/>
+                    <Route path="show/:id" element={<GoodsReceiptShow/>}/>
                   </Route>
                 </Route>
 

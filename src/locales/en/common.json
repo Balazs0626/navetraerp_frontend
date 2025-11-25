@@ -361,6 +361,98 @@
       "show": {
         "title": "Showing a performance review"
       }
+    },
+    "suppliers": {
+      "titles": {
+        "name": "Name",
+        "contact_person": "Contact",
+        "email": "E-mail address",
+        "phone_number": "Phone number",
+        "actions": "Actions",
+        "tax_number": "Tax number",
+        "address_country": "Country",
+        "address_region": "Region",
+        "address_postcode": "Post code",
+        "address_city": "City",
+        "address_first":"Address 1",
+        "address_second": "Address 2",
+        "data": "Default data",
+        "address_data": "Address data"
+      },
+      "buttons": {
+        "back": "Back to suppliers",
+        "create": "Create a new supplier"
+      },
+      "list": {
+        "title": "Suppliers"
+      },
+      "create": {
+        "title": "Creating a supplier"
+      },
+      "edit": {
+        "title": "Editing a supplier"
+      }
+    },
+    "purchase_orders": {
+      "titles": {
+        "id": "Receipt number",
+        "order_date": "Date of order",
+        "expected_delivery_date": "Date of delivery",
+        "status": "Status",
+        "actions": "Actions",
+        "supplier": "Supplier",
+        "total_amount": "Total amount",
+        "currency": "Currency",
+        "data": "Default data",
+        "products": "Products",
+        "product": "Product",
+        "amount": "Amount",
+        "price_per_unit":"Price per unit",
+        "discount": "Discount (%)",
+        "tax_rate": "Tax rate (%)"
+      },
+      "buttons": {
+        "back": "Back to purchase orders",
+        "create": "Create a new purchase order"
+      },
+      "list": {
+        "title": "Purchase orders"
+      },
+      "create": {
+        "title": "Creating a purchase order"
+      },
+      "show": {
+        "title": "Purchase order"
+      }
+    },
+    "goods_receipts": {
+      "titles": {
+        "purchase_order_id": "Purchase order number",
+        "warehouse": "Warehouse",
+        "receipt_date": "Date of receipt",
+        "status": "Status",
+        "actions": "Actions",
+        "purchase_order": "Purchase order",
+        "employee": "Receiver",
+        "data": "Default data",
+        "products": "Products",
+        "product": "Product",
+        "quantity_received": "Quantity received",
+        "batch_number": "Batch number"
+      },
+      "buttons": {
+        "back": "Back to goods receipts",
+        "create": "Create a new goods receipt"
+      },
+      "list": {
+        "title": "Goods receipts"
+      },
+      "create": {
+        "title": "Creating a goods receipt"
+      },
+      "show": {
+        "title": "Goods receipt"
+      }
     }
   },
   "notifications": {
@@ -383,7 +475,9 @@
     "search": "Search",
     "clear": "Clear",
     "show": "Show",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "print": "Print",
+    "add_product": "Add product"
   },
   "selects": {
     "products": {

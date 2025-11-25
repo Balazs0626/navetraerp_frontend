@@ -361,6 +361,98 @@
       "show": {
         "title": "Teljesítmény értékelés megtekintése"
       }
+    },
+    "suppliers": {
+      "titles": {
+        "name": "Megnevezés",
+        "contact_person": "Kapcsolattartó",
+        "email": "E-mail cím",
+        "phone_number": "Telefonszám",
+        "actions": "Műveletek",
+        "tax_number": "Adóazonosító",
+        "address_country": "Ország",
+        "address_region": "Régió",
+        "address_postcode": "Irányítószám",
+        "address_city": "Település",
+        "address_first":"Cím 1",
+        "address_second": "Cím 2",
+        "data": "Alapadatok",
+        "address_data": "Cím adatok"
+      },
+      "buttons": {
+        "back": "Vissza a beszállítákhoz",
+        "create": "Új beszállító létrehozása"
+      },
+      "list": {
+        "title": "Beszállítók"
+      },
+      "create": {
+        "title": "Beszállító létrehozása"
+      },
+      "edit": {
+        "title": "Beszállító szerkesztése"
+      }
+    },
+    "purchase_orders": {
+      "titles": {
+        "id": "Bizonylatszám",
+        "order_date": "Rendelés dátuma",
+        "expected_delivery_date": "Várható szállítás dátuma",
+        "status": "Státusz",
+        "actions": "Műveletek",
+        "supplier": "Beszállító",
+        "total_amount": "Összes mennyiség",
+        "currency": "Valuta",
+        "data": "Alapadatok",
+        "products": "Termékek",
+        "product": "Termék",
+        "amount": "Mennyiség",
+        "price_per_unit":"Egységenkénti ár",
+        "discount": "Kedvezmény (%)",
+        "tax_rate": "Adó (%)"
+      },
+      "buttons": {
+        "back": "Vissza a rendelési bizonylatokhoz",
+        "create": "Új rendelési bizonylat létrehozása"
+      },
+      "list": {
+        "title": "Rendelési bizonylatok"
+      },
+      "create": {
+        "title": "Rendelési bizonylat létrehozása"
+      },
+      "show": {
+        "title": "Rendelési bizonylat"
+      }
+    },
+    "goods_receipts": {
+      "titles": {
+        "purchase_order_id": "Rendelési bizonylat száma",
+        "warehouse": "Raktár",
+        "receipt_date": "Átvétel dátuma",
+        "status": "Státusz",
+        "actions": "Műveletek",
+        "purchase_order": "Rendelési bizonylat",
+        "employee": "Átvevő",
+        "data": "Alapadatok",
+        "products": "Termékek",
+        "product": "Termék",
+        "quantity_received": "Átvett mennyiség",
+        "batch_number": "Tételszám"
+      },
+      "buttons": {
+        "back": "Vissza az átvételi bizonylatokhoz",
+        "create": "Új átvételi bizonylat létrehozása"
+      },
+      "list": {
+        "title": "Átvételi bizonylatok"
+      },
+      "create": {
+        "title": "Átvételi bizonylat létrehozása"
+      },
+      "show": {
+        "title": "Átvételi bizonylat"
+      }
     }
   },
   "notifications": {
@@ -383,7 +475,9 @@
     "search": "Keresés",
     "clear": "Alaphelyzet",
     "show": "Megtekintés",
-    "refresh": "Frissítés"
+    "refresh": "Frissítés",
+    "print": "Nyomtatás",
+    "add_product": "Termék hozzáadása"
   },
   "selects": {
     "products": {
