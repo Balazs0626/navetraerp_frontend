@@ -123,7 +123,7 @@ const getPrintStyle = () => {
         headerButtons={
           <Space>
             <Button type="primary" size="large" icon={<PrinterOutlined />} onClick={reactToPrintFn}>
-              {translate("pages.buttons.print")}
+              {translate("buttons.print")}
             </Button>
             <RefreshButton
               size="large"  

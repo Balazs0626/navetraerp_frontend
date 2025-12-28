@@ -35,7 +35,7 @@ export const WarehouseList = () => {
       title={translate("pages.warehouses.list.title")}
       headerButtons={
           <Space>
-            <Button icon={<PlusOutlined/>} size="large" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:WORK_SCHEDULES")}>
+            <Button icon={<PlusOutlined/>} size="large" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:WAREHOUSES")}>
                 {translate("pages.warehouses.buttons.create")}
             </Button>
           </Space>
@@ -56,14 +56,14 @@ export const WarehouseList = () => {
                 recordItemId={record.id}
                 resource="warehouses"
                 onClick={() => navigate(`edit/${record.id}`)}
-                disabled={!permissions?.includes("EDIT:WORK_SCHEDULES")}
+                disabled={!permissions?.includes("EDIT:WAREHOUSES")}
               />
               <DeleteButton
                 size="small"
                 recordItemId={record.id}
                 resource="warehouses"
                 confirmTitle={translate("notifications.deleteMessage")}
-                disabled={!permissions?.includes("DELETE:WORK_SCHEDULES")}
+                disabled={!permissions?.includes("DELETE:WAREHOUSES")}
               />
             </Space>
           )}

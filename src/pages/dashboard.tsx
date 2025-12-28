@@ -78,13 +78,13 @@ export const DashboardPage = () => {
           <Row gutter={[24, 24]}>
             <Col xs={24} lg={12}>
               <Card 
-                hoverable={permissions?.includes("VIEW:EMPLOYEES")}
+                hoverable={permissions?.includes("VIEW:WAREHOUSES")}
                 style={{ 
                   borderRadius: 12,
-                  cursor: permissions?.includes("VIEW:EMPLOYEES") ? "pointer" : "not-allowed", 
-                  filter: permissions?.includes("VIEW:EMPLOYEES") ? "none" : "opacity(50%)"
+                  cursor: permissions?.includes("VIEW:WAREHOUSES") ? "pointer" : "not-allowed", 
+                  filter: permissions?.includes("VIEW:WAREHOUSES") ? "none" : "opacity(50%)"
                 }}
-                onClick={() => permissions?.includes("VIEW:EMPLOYEES") ? navigate("warehouses") : undefined}
+                onClick={() => permissions?.includes("VIEW:WAREHOUSES") ? navigate("warehouses") : undefined}
               >
                 <Space direction="horizontal">
                   <ShopOutlined style={{ fontSize: 48 }} />
@@ -99,13 +99,13 @@ export const DashboardPage = () => {
             </Col>
             <Col xs={24} lg={12}>
               <Card 
-                  hoverable={permissions?.includes("VIEW:EMPLOYEES")}
+                  hoverable={permissions?.includes("VIEW:PRODUCTS")}
                   style={{ 
                     borderRadius: 12,
-                    cursor: permissions?.includes("VIEW:EMPLOYEES") ? "pointer" : "not-allowed", 
-                    filter: permissions?.includes("VIEW:EMPLOYEES") ? "none" : "opacity(50%)"
+                    cursor: permissions?.includes("VIEW:PRODUCTS") ? "pointer" : "not-allowed", 
+                    filter: permissions?.includes("VIEW:PRODUCTS") ? "none" : "opacity(50%)"
                   }}
-                  onClick={() => permissions?.includes("VIEW:EMPLOYEES") ? navigate("products") : undefined}
+                  onClick={() => permissions?.includes("VIEW:PRODUCTS") ? navigate("products") : undefined}
                 >
                   <Space direction="horizontal">
                     <ProductOutlined style={{ fontSize: 48 }} />
@@ -181,13 +181,9 @@ export const DashboardPage = () => {
                     </Card>
                   </Col>
                 }
-                {(permissions?.includes("VIEW:EMPLOYEES") || 
-                  permissions?.includes("VIEW:DEPARTMENTS") || 
-                  permissions?.includes("VIEW:POSITIONS") || 
-                  permissions?.includes("VIEW:SHIFTS") || 
-                  permissions?.includes("VIEW:WORK_SCHEDULES") || 
-                  permissions?.includes("VIEW:LEAVE_REQUESTS") || 
-                  permissions?.includes("VIEW:PERFORMANCE_REVIEWS")) &&
+                {(permissions?.includes("VIEW:SUPPLIERS") || 
+                  permissions?.includes("VIEW:PURCHASE_ORDERS") || 
+                  permissions?.includes("VIEW:GOODS_RECEIPTS")) &&
                   <Col xs={24} lg={12}>
                     <Card 
                       hoverable

@@ -145,6 +145,14 @@ export default function App() {
                   return { can: false };
                 }
 
+                if (resource === "warehouses" && action === "list") {
+                  return { can: permissions.includes("VIEW:WAREHOUSES") };
+                }
+
+                if (resource === "products" && action === "list") {
+                  return { can: permissions.includes("VIEW:PRODUCTS") };
+                }
+
                 if (resource === "administrator" && action === "list") {
                   return { can: (permissions.includes("VIEW:USERS") || permissions.includes("VIEW:ROLES"))};
                 }
@@ -194,6 +202,22 @@ export default function App() {
 
                 if (resource === "performance_reviews" && action === "list") {
                   return { can: permissions.includes("VIEW:PERFORMANCE_REVIEWS") };
+                }
+
+                if (resource === "procurement" && action === "list") {
+                  return { can: (permissions.includes("VIEW:SUPPLIERS") || permissions.includes("VIEW:PURCHASE_ORDERS") || permissions.includes("VIEW:GOODS_RECEIPTS"))};
+                }
+
+                if (resource === "suppliers" && action === "list") {
+                  return { can: permissions.includes("VIEW:SUPPLIERS") };
+                }
+
+                if (resource === "purchase_orders" && action === "list") {
+                  return { can: permissions.includes("VIEW:PURCHASE_ORDERS") };
+                }
+
+                if (resource === "goods_receipts" && action === "list") {
+                  return { can: permissions.includes("VIEW:GOODS_RECEIPTS") };
                 }
 
                 return { can: true };

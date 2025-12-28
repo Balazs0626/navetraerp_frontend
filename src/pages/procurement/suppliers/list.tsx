@@ -35,7 +35,7 @@ export const SupplierList = () => {
       title={translate("pages.suppliers.list.title")}
       headerButtons={
           <Space>
-            <Button icon={<PlusOutlined/>} size="large" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:WORK_SCHEDULES")}>
+            <Button icon={<PlusOutlined/>} size="large" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:SUPPLIERS")}>
                 {translate("pages.suppliers.buttons.create")}
             </Button>
           </Space>
@@ -56,14 +56,14 @@ export const SupplierList = () => {
                 size="small"
                 recordItemId={record.id}
                 resource="suppliers"
-                disabled={!permissions?.includes("EDIT:WORK_SCHEDULES")}
+                disabled={!permissions?.includes("EDIT:SUPPLIERS")}
               />
               <DeleteButton
                 size="small"
                 recordItemId={record.id}
                 resource="suppliers"
                 confirmTitle={translate("notifications.deleteMessage")}
-                disabled={!permissions?.includes("DELETE:WORK_SCHEDULES")}
+                disabled={!permissions?.includes("DELETE:SUPPLIERS")}
               />
             </Space>
           )}

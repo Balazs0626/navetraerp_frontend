@@ -90,7 +90,7 @@ export const ProductList = () => {
       title={translate("pages.products.list.title")}
       headerButtons={
           <Space>
-            <Button icon={<PlusOutlined/>} size="large" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:WORK_SCHEDULES")}>
+            <Button icon={<PlusOutlined/>} size="large" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:PRODUCTS")}>
                 {translate("pages.products.buttons.create")}
             </Button>
             <ExportButton onClick={triggerExport} loading={exportLoading} size="large">Export</ExportButton>
@@ -203,14 +203,14 @@ export const ProductList = () => {
                     recordItemId={record.id}
                     resource="products"
                     onClick={() => navigate(`edit/${record.id}`)}
-                    disabled={!permissions?.includes("EDIT:WORK_SCHEDULES")}
+                    disabled={!permissions?.includes("EDIT:PRODUCTS")}
                   />
                   <DeleteButton
                     size="small"
                     recordItemId={record.id}
                     resource="products"
                     confirmTitle={translate("notifications.deleteMessage")}
-                    disabled={!permissions?.includes("DELETE:WORK_SCHEDULES")}
+                    disabled={!permissions?.includes("DELETE:PRODUCTS")}
                   />
                 </Space>
               )}
