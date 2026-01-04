@@ -22,7 +22,11 @@
       "procurement": "Procurement",
       "suppliers": "Suppliers",
       "purchase_orders": "Purchase orders",
-      "goods_receipts": "Goods receipts"
+      "goods_receipts": "Goods receipts",
+      "sales": "Sales",
+      "customers": "Customers",
+      "sales_orders": "Sales orders",
+      "invoices": "Invoices"
     },
     "dashboard": {
         "title": "Dashboard",
@@ -30,7 +34,7 @@
         "welcome_message": "Select the module you want to use",
         "active_users": "Active users",
         "modules": "Modules",
-        "main": "Még nem tudom",
+        "main": "Default modules",
         "warehouses": {
           "title": "Warehouses",
           "description": "Create, list, edit and delete warehouses"
@@ -74,6 +78,16 @@
           "purchase_orders_description": "Create, list, delete and print purchase orders",
           "goods_receipts": "Goods receipts",
           "goods_receipts_description": "Create, list, delete and print goods receipts"
+        },
+        "sales_module": {
+          "title": "Sales module",
+          "description": "Manage customers, sales orders and invoices",
+          "customers": "Customers",
+          "customers_description": "Create, list, edit and delete customers",
+          "sales_orders": "Sales orders",
+          "sales_orders_description": "Create, list, edit, delete and print sales orders",
+          "invoices": "Invoices",
+          "invoices_description": "Create, list, edit, delete and print invoices"
         }
     },
     "warehouses": {
@@ -453,6 +467,107 @@
       "show": {
         "title": "Goods receipt"
       }
+    },
+    "customers": {
+      "titles": {
+        "name": "Customer name",
+        "email": "E-mail address",
+        "phone_number": "Phone number",
+        "actions": "Actions",
+        "data": "Default data",
+        "tax_number": "Tax number",
+        "address_data": "Address data",
+        "billing_address_data": "Billing address data",
+        "shipping_address_data": "Shipping address data",
+        "address_country": "Country",
+        "address_region": "Region",
+        "address_postcode": "Post code",
+        "address_city": "City",
+        "address_first": "Address 1",
+        "address_second": "Address 2"
+      },
+      "buttons": {
+        "back": "Go back to customers",
+        "create": "Create a new customer"
+      },
+      "list": {
+        "title": "Customers"
+      },
+      "create": {
+        "title": "Creating a customer"
+      },
+      "edit": {
+        "title": "Editing a customer"
+      }
+    },
+    "sales_orders": {
+      "titles": {
+        "id": "Receipt number",
+        "order_date": "Date of order",
+        "required_delivery_date": "Required delivery date",
+        "status": "Status",
+        "actions": "Actions",
+        "data": "Default data",
+        "customer": "Customer",
+        "total_amount": "Total amount",
+        "products": "Products",
+        "product": "Product",
+        "quantity_ordered": "Ordered quantity",
+        "quantity_shipped": "Shipped quantity",
+        "price_per_unit": "Price per unit",
+        "discount": "Discount",
+        "tax_rate": "Tax rate"
+      },
+      "buttons": {
+        "back": "Go back to sales orders",
+        "create": "Create a new sales order"
+      },
+      "list": {
+        "title": "Sales orders"
+      },
+      "create": {
+        "title": "Creating a sales order"
+      },
+      "edit": {
+        "title": "Editing a sales order"
+      },
+      "show": {
+        "title": "Sales order"
+      }
+    },
+    "invoices": {
+      "titles": {
+        "id": "Receipt number",
+        "invoice_date": "Invoice date",
+        "due_date": "Due date",
+        "status": "Status",
+        "actions": "Actions",
+        "data": "Default data",
+        "sales_order": "Sales order",
+        "total_amount": "Total gross price",
+        "paid_amount": "Total net price",
+        "products": "Products",
+        "product": "Product",
+        "quantity": "Quantity",
+        "price_per_unit": "Price per unit",
+        "tax_rate": "Tax rate"
+      },
+      "buttons": {
+        "back": "Go back to invoices",
+        "create": "Create a new invoice"
+      },
+      "list": {
+        "title": "Invoices"
+      },
+      "create": {
+        "title": "Creating an invoice"
+      },
+      "edit": {
+        "title": "Editing an invoice"
+      },
+      "show": {
+        "title": "Invoice"
+      }
     }
   },
   "notifications": {
@@ -471,6 +586,7 @@
     "logout": "Logout",
     "delete": "Delete",
     "edit": "Edit",
+    "create": "Create",
     "cancel": "Cancel",
     "search": "Search",
     "clear": "Clear",

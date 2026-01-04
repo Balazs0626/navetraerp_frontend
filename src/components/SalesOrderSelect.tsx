@@ -4,21 +4,19 @@ import axios from "axios";
 import { API_URL } from "../constants/url";
 import { useTranslation } from "@refinedev/core";
 
-interface Product {
+interface SalesOrder {
   id: number;
-  sku: string;
-  name: string;
-  unit: string;
+  orderDate: string;
 }
 
-interface ProductSelectProps {
+interface SalesOrderSelectProps {
   value?: number;
   onChange?: (value: number) => void;
   disabled?: boolean;
 }
 
-export const ProductSelect: React.FC<ProductSelectProps> = ({ value, disabled, onChange }) => {
-  const [products, setProduct] = useState<Product[]>([]);
+export const SalesOrderSelect: React.FC<SalesOrderSelectProps> = ({ value, disabled, onChange }) => {
+  const [salesOrders, setSalesOrder] = useState<SalesOrder[]>([]);
   const [loading, setLoading] = useState(false);
 
   const { translate } = useTranslation();
@@ -26,13 +24,13 @@ export const ProductSelect: React.FC<ProductSelectProps> = ({ value, disabled, o
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${API_URL}/products`, {
+      .get(`${API_URL}/sales_orders`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       })
-      .then((res) => setProduct(res.data))
-      .catch((err) => console.error("Product fetch error:", err))
+      .then((res) => setSalesOrder(res.data))
+      .catch((err) => console.error("Sales order fetch error:", err))
       .finally(() => setLoading(false));
   }, []);
 
@@ -41,14 +39,14 @@ export const ProductSelect: React.FC<ProductSelectProps> = ({ value, disabled, o
       disabled={disabled}
       showSearch
       optionFilterProp="label"
-      placeholder={translate("selects.products.placeholder")}
+      placeholder={translate("selects.sales_order.placeholder")}
       loading={loading}
       value={value}
       onChange={onChange}
       style={{ width: "100%" }}
-      options={products.map((r) => ({
-        label: `${r.sku} | ${r.name}`,
-        value: r.id,
+      options={salesOrders.map((so) => ({
+        label: `${so.id} | ${so.orderDate}`,
+        value: so.id,
       }))}
     />
   );

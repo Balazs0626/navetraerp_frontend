@@ -22,7 +22,11 @@
       "procurement": "Beszerzés",
       "suppliers": "Beszállítók",
       "purchase_orders": "Rendelési bizonylatok",
-      "goods_receipts": "Átvételi bizonylatok"
+      "goods_receipts": "Átvételi bizonylatok",
+      "sales": "Értékesítés",
+      "customers": "Vevők",
+      "sales_orders": "Értékesítési rendelések",
+      "invoices": "Számlák"
     },
     "dashboard": {
         "title": "Irányítópult",
@@ -30,7 +34,7 @@
         "welcome_message": "Válassza ki a használni kívánt modult",
         "active_users": "Aktív felhasználók",
         "modules": "Modulok",
-        "main": "Még nem tudom",
+        "main": "Alap modulok",
         "warehouses": {
           "title": "Raktárak",
           "description": "Raktárak létrehozása, listázása, módosítása és törlése"
@@ -74,6 +78,16 @@
           "purchase_orders_description": "Rendelési bizonylatok létrehozása, listázása, törlése és nyomtatása",
           "goods_receipts": "Átvételi bizonylatok",
           "goods_receipts_description": "Átvételi bizonylatok létrehozása, listázása, törlése és nyomtatása"
+        },
+        "sales_module": {
+          "title": "Értékesítés modul",
+          "description": "Vevők, értékesítési rendelések és számlák kezelése",
+          "customers": "Vevők",
+          "customers_description": "Vevők létrehozása, listázása, módosítása és törlése",
+          "sales_orders": "Értékesítési rendelések",
+          "sales_orders_description": "Értékesítési rendelések létrehozása, listázása, módosítása, törlése és nyomtatása",
+          "invoices": "Számlák",
+          "invoices_description": "Számlák létrehozása, listázása, módosítása, törlése és nyomtatása"
         }
     },
     "warehouses": {
@@ -453,6 +467,107 @@
       "show": {
         "title": "Átvételi bizonylat"
       }
+    },
+    "customers": {
+      "titles": {
+        "name": "Vevő neve",
+        "email": "E-mail cím",
+        "phone_number": "Telefonszám",
+        "actions": "Műveletek",
+        "data": "Alapadatok",
+        "tax_number": "Adóazonosító",
+        "address_data": "Cím adatok",
+        "billing_address_data": "Számlázási cím adatok",
+        "shipping_address_data": "Szállítási cím adatok",
+        "address_country": "Ország",
+        "address_region": "Régió",
+        "address_postcode": "Irányítószám",
+        "address_city": "Település",
+        "address_first": "Cím 1",
+        "address_second": "Cím 2"
+      },
+      "buttons": {
+        "back": "Vissza a vevőkhöz",
+        "create": "Új vevő létrehozása"
+      },
+      "list": {
+        "title": "Vevők"
+      },
+      "create": {
+        "title": "Vevők létrehozása"
+      },
+      "edit": {
+        "title": "Vevő szerkesztése"
+      }
+    },
+    "sales_orders": {
+      "titles": {
+        "id": "Bizonylatszám",
+        "order_date": "Rendelés dátuma",
+        "required_delivery_date": "Szállítási határidő dátuma",
+        "status": "Státusz",
+        "actions": "Műveletek",
+        "data": "Alapadatok",
+        "customer": "Vevő",
+        "total_amount": "Összesített ár",
+        "products": "Termékek",
+        "product": "Termék",
+        "quantity_ordered": "Rendelt mennyiség",
+        "quantity_shipped": "Szállított mennyiség",
+        "price_per_unit": "Egységenkénti ár",
+        "discount": "Kedvezmény",
+        "tax_rate":"Adó"
+      },
+      "buttons": {
+        "back": "Vissza az értékesítési rendelésekhez",
+        "create": "Új értékesítési rendelés létrehozása"
+      },
+      "list": {
+        "title": "Értékesítési rendelések"
+      },
+      "create": {
+        "title": "Értékesítési rendelés létrehozása"
+      },
+      "edit": {
+        "title": "Értékesítési rendelés szerkesztése"
+      },
+      "show": {
+        "title": "Értékesítési rendelés"
+      }
+    },
+    "invoices": {
+      "titles": {
+        "id": "Bizonylatszám",
+        "invoice_date": "Számla dátuma",
+        "due_date": "Teljesítés dátuma",
+        "status": "Státusz",
+        "actions": "Műveletek",
+        "data": "Alapadatok",
+        "sales_order": "Értéksesítési rendelés",
+        "total_amount": "Összesített nettó ár",
+        "paid_amount": "Összesített bruttó ár",
+        "products": "Termékek",
+        "product": "Termék",
+        "quantity": "Mennyiség",
+        "price_per_unit": "Egységenkénti ár",
+        "tax_rate":"Adó"
+      },
+      "buttons": {
+        "back": "Vissza a számlákhoz",
+        "create": "Új számla létrehozása"
+      },
+      "list": {
+        "title": "Számlák"
+      },
+      "create": {
+        "title": "Számla létrehozása"
+      },
+      "edit": {
+        "title": "Számla szerkesztése"
+      },
+      "show": {
+        "title": "Számla"
+      }
     }
   },
   "notifications": {
@@ -471,6 +586,7 @@
     "logout": "Kijelentkezés",
     "delete": "Törlés",
     "edit": "Szerkesztés",
+    "create": "Létrehozás",
     "cancel": "Mégsem",
     "search": "Keresés",
     "clear": "Alaphelyzet",

@@ -5,7 +5,7 @@ import { CatchAllNavigate } from "@refinedev/react-router";
 import { DashboardPage } from "./pages/dashboard";
 import { RefineThemes, ThemedLayout, ThemedTitle, useNotificationProvider } from "@refinedev/antd";
 import { App as AntdApp, ConfigProvider, Select, Switch, theme, notification } from "antd";
-import { CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, FileOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
+import { CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, FileOutlined, FileProtectOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, SolutionOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
 import { dataProvider } from "./providers/dataProvider";
 import { authProvider } from "./providers/authProvider";
 import { UserList } from "./pages/administrator/users/list";
@@ -46,6 +46,13 @@ import { PurchaseOrderShow } from "./pages/procurement/purchase_orders/show";
 import { GoodsReceiptList } from "./pages/procurement/goods_receipts";
 import { GoodsReceiptCreate } from "./pages/procurement/goods_receipts/create";
 import { GoodsReceiptShow } from "./pages/procurement/goods_receipts/show";
+import { SalesMainPage } from "./pages/sales/main";
+import { CustomerCreate, CustomerEdit, CustomerList } from "./pages/sales/customers";
+import { SalesOrderCreate, SalesOrderList } from "./pages/sales/sales_orders";
+import { InvoiceCreate, InvoiceList } from "./pages/sales/invoices";
+import { InvoiceEdit } from "./pages/sales/invoices/edit";
+import { SalesOrderShow } from "./pages/sales/sales_orders/show";
+import { SalesOrderEdit } from "./pages/sales/sales_orders/edit";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -396,6 +403,47 @@ export default function App() {
                   icon: <FileOutlined/>,
                   parent: "procurement"
                 }
+              },
+              {
+                name: "sales",
+                meta: {
+                  label: t("pages.sidebar.sales")
+                }
+              },
+              {
+                name: "customers",
+                list: "/sales/customers",
+                create: "/sales/customers/create",
+                edit: "/sales/customers/edit/:id",
+                meta: {
+                  label: t("pages.sidebar.customers"),
+                  icon: <SolutionOutlined/>,
+                  parent: "sales"
+                }
+              },
+              {
+                name: "sales_orders",
+                list: "/sales/sales_orders",
+                create: "/sales/sales_orders/create",
+                edit: "/sales/sales_orders/edit/:id",
+                show: "/sales/sales_orders/show/:id",
+                meta: {
+                  label: t("pages.sidebar.sales_orders"),
+                  icon: <FileTextOutlined/>,
+                  parent: "sales"
+                }
+              },
+              {
+                name: "invoices",
+                list: "/sales/invoices",
+                create: "/sales/invoices/create",
+                edit: "/sales/invoices/edit/:id",
+                show: "/sales/invoices/show/:id",
+                meta: {
+                  label: t("pages.sidebar.invoices"),
+                  icon: <FileProtectOutlined/>,
+                  parent: "sales"
+                }
               }
             ]}
             options={{ syncWithLocation: true }}
@@ -535,6 +583,29 @@ export default function App() {
                     <Route index element={<GoodsReceiptList/>}/>
                     <Route path="create" element={<GoodsReceiptCreate/>}/>
                     <Route path="show/:id" element={<GoodsReceiptShow/>}/>
+                  </Route>
+                </Route>
+
+                <Route path="sales">
+                  <Route index element={<SalesMainPage/>}/>
+                  <Route path="customers">
+                    <Route index element={<CustomerList/>}/>
+                    <Route path="create" element={<CustomerCreate/>}/>
+                    <Route path="edit/:id" element={<CustomerEdit/>}/>
+                  </Route>
+
+                  <Route path="sales_orders">
+                    <Route index element={<SalesOrderList/>}/>
+                    <Route path="create" element={<SalesOrderCreate/>}/>
+                    <Route path="edit/:id" element={<SalesOrderEdit/>}/>
+                    <Route path="show/:id" element={<SalesOrderShow/>}/>
+                  </Route>
+
+                  <Route path="invoices">
+                    <Route index element={<InvoiceList/>}/>
+                    <Route path="create" element={<InvoiceCreate/>}/>
+                    <Route path="edit/:id" element={<InvoiceEdit/>}/>
+                    <Route path="show/:id" element={<PurchaseOrderShow/>}/>
                   </Route>
                 </Route>
 

@@ -1,7 +1,7 @@
 import { useCustom, useGetIdentity, usePermissions } from "@refinedev/core";
 import { useNavigate } from "react-router";
 import { Row, Col, Card, Avatar, Typography, Space, Button, Divider, Select } from "antd";
-import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined, SettingOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, SafetyOutlined, TeamOutlined, ShoppingCartOutlined, ShopOutlined, ProductOutlined } from "@ant-design/icons";
+import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined, SettingOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, SafetyOutlined, TeamOutlined, ShoppingCartOutlined, ShopOutlined, ProductOutlined, DollarOutlined } from "@ant-design/icons";
 import "antd/dist/reset.css";
 import { Column } from "@ant-design/plots";
 import { act, useEffect, useState } from "react";
@@ -202,7 +202,27 @@ export const DashboardPage = () => {
                     </Card>
                   </Col>
                 }
-                
+                {(permissions?.includes("VIEW:SUPPLIERS") || 
+                  permissions?.includes("VIEW:PURCHASE_ORDERS") || 
+                  permissions?.includes("VIEW:GOODS_RECEIPTS")) &&
+                  <Col xs={24} lg={12}>
+                    <Card 
+                      hoverable
+                      style={{ borderRadius: 12 }}
+                      onClick={() => navigate("/sales")}
+                    >
+                      <Space direction="horizontal">
+                        <DollarOutlined style={{ fontSize: 48 }} />
+                        <Space direction="vertical" style={{gap: 1}}>
+                          <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.sales_module.title")}</Text>
+                          <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
+                            {translate("pages.dashboard.sales_module.description")}
+                          </Text>
+                        </Space>
+                      </Space>
+                    </Card>
+                  </Col>
+                }
               </Row>
             </Card>
 {/*           </div> */}

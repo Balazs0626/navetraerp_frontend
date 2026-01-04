@@ -4,21 +4,18 @@ import axios from "axios";
 import { API_URL } from "../constants/url";
 import { useTranslation } from "@refinedev/core";
 
-interface Product {
+interface Customer {
   id: number;
-  sku: string;
   name: string;
-  unit: string;
 }
 
-interface ProductSelectProps {
+interface CustomerSelectProps {
   value?: number;
   onChange?: (value: number) => void;
-  disabled?: boolean;
 }
 
-export const ProductSelect: React.FC<ProductSelectProps> = ({ value, disabled, onChange }) => {
-  const [products, setProduct] = useState<Product[]>([]);
+export const CustomerSelect: React.FC<CustomerSelectProps> = ({ value, onChange }) => {
+  const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(false);
 
   const { translate } = useTranslation();
@@ -26,29 +23,28 @@ export const ProductSelect: React.FC<ProductSelectProps> = ({ value, disabled, o
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${API_URL}/products`, {
+      .get(`${API_URL}/customers`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       })
-      .then((res) => setProduct(res.data))
-      .catch((err) => console.error("Product fetch error:", err))
+      .then((res) => setCustomers(res.data))
+      .catch((err) => console.error("Customer fetch error:", err))
       .finally(() => setLoading(false));
   }, []);
 
   return (
     <Select
-      disabled={disabled}
       showSearch
       optionFilterProp="label"
-      placeholder={translate("selects.products.placeholder")}
+      placeholder={translate("selects.customers.placeholder")}
       loading={loading}
       value={value}
       onChange={onChange}
       style={{ width: "100%" }}
-      options={products.map((r) => ({
-        label: `${r.sku} | ${r.name}`,
-        value: r.id,
+      options={customers.map((customer) => ({
+        label: customer.name,
+        value: customer.id,
       }))}
     />
   );

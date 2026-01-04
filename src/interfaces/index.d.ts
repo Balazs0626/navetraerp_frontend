@@ -132,6 +132,7 @@ export interface IProductList {
     id: number;
     sku: string;
     name: string;
+    unit: string;
     active: boolean;
 }
 
@@ -167,4 +168,27 @@ export interface IGoodsReceiptList {
     purchaseOrderId: number;
     warehouseName: string;
     receiptDate: string;
+}
+
+  // Értékesítés \\
+
+export interface ICustomerList {
+    id: number;
+    name: string;
+    email: string;
+    phoneNumber: string;
+}
+
+export interface ISalesOrderList {
+    id: number;
+    orderDate: string;
+    requiredDeliveryDate: string;
+    status: string;
+}
+
+export interface IInvoiceList {
+    id: number;
+    invoiceDate: string;
+    dueDate: string;
+    status: string;
 }
