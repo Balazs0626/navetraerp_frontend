@@ -53,6 +53,8 @@ import { InvoiceCreate, InvoiceList } from "./pages/sales/invoices";
 import { InvoiceEdit } from "./pages/sales/invoices/edit";
 import { SalesOrderShow } from "./pages/sales/sales_orders/show";
 import { SalesOrderEdit } from "./pages/sales/sales_orders/edit";
+import { InvoiceShow } from "./pages/sales/invoices/show";
+import { PurchaseOrderEdit } from "./pages/procurement/purchase_orders/edit";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -386,6 +388,7 @@ export default function App() {
                 name: "purchase_orders",
                 list: "/procurement/purchase_orders",
                 create: "/procurement/purchase_orders/create",
+                edit: "/procurement/purchase_orders/edit/:id",
                 show: "/procurement/purchase_orders/show/:id",
                 meta: {
                   label: t("pages.sidebar.purchase_orders"),
@@ -462,6 +465,7 @@ export default function App() {
                         <ThemedTitle
                           collapsed={false}
                           text="NavetraERP"
+                          icon={<img src="/src/icons/logo.png" style={{ height: 24 }} />}
                         />
                       )}
                       Header={() => (
@@ -576,6 +580,7 @@ export default function App() {
                   <Route path="purchase_orders">
                     <Route index element={<PurchaseOrderList/>}/>
                     <Route path="create" element={<PurchaseOrderCreate/>}/>
+                    <Route path="edit/:id" element={<PurchaseOrderEdit/>}/>
                     <Route path="show/:id" element={<PurchaseOrderShow/>}/>
                   </Route>
 
@@ -605,7 +610,7 @@ export default function App() {
                     <Route index element={<InvoiceList/>}/>
                     <Route path="create" element={<InvoiceCreate/>}/>
                     <Route path="edit/:id" element={<InvoiceEdit/>}/>
-                    <Route path="show/:id" element={<PurchaseOrderShow/>}/>
+                    <Route path="show/:id" element={<InvoiceShow/>}/>
                   </Route>
                 </Route>
 

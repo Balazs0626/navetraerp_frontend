@@ -179,7 +179,7 @@ const getPrintStyle = () => {
                 </div>
               </Col>
               <Col xs={10} style={{paddingRight: 24}}>
-                <Text style={{fontSize: "1.3em"}}><b>Bizonylatszám:</b> {record?.id}</Text>
+                <Text style={{fontSize: "1.3em"}}><b>Bizonylatszám:</b> {record?.salesOrderNumber}</Text>
                 <br/>
                 <Text style={{fontSize: "1.3em"}}><b>Rendelés dátuma:</b> {dayjs(record?.orderDate).format("YYYY. MM. DD.")}</Text>
                 <br/>
