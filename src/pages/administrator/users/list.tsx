@@ -1,10 +1,9 @@
 import { DeleteButton, EditButton, List, useTable } from "@refinedev/antd";
 import { Space, Table, Input, Form, Row, Col, Button } from "antd";
 import { IUserList } from "../../../interfaces";
-import { Roles } from "../../../constants/users";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { useNavigation, usePermissions, useTranslation } from "@refinedev/core";
+import { usePermissions, useTranslation } from "@refinedev/core";
 import { useNavigate } from "react-router-dom";
 
 const { Search } = Input;
@@ -42,10 +41,6 @@ export const UserList = () => {
                       <Table.Column 
                           dataIndex={"role"} 
                           title={translate("pages.users.titles.role")}
-                          render={(value) => {
-                              const role = Roles.find(r => r.value === value);
-                              return role? role.label : value;
-                          }}
                       />
                       <Table.Column<IUserList>
                         title={translate("pages.users.list.actions")}

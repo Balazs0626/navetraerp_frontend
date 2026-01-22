@@ -5,7 +5,7 @@ import { CatchAllNavigate } from "@refinedev/react-router";
 import { DashboardPage } from "./pages/dashboard";
 import { RefineThemes, ThemedLayout, ThemedTitle, useNotificationProvider } from "@refinedev/antd";
 import { App as AntdApp, ConfigProvider, Select, Switch, theme, notification } from "antd";
-import { CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, FileOutlined, FileProtectOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, SolutionOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
+import { AppstoreAddOutlined, CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, FileOutlined, FileProtectOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, SolutionOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
 import { dataProvider } from "./providers/dataProvider";
 import { authProvider } from "./providers/authProvider";
 import { UserList } from "./pages/administrator/users/list";
@@ -55,6 +55,10 @@ import { SalesOrderShow } from "./pages/sales/sales_orders/show";
 import { SalesOrderEdit } from "./pages/sales/sales_orders/edit";
 import { InvoiceShow } from "./pages/sales/invoices/show";
 import { PurchaseOrderEdit } from "./pages/procurement/purchase_orders/edit";
+import { ProductBomShow } from "./pages/products/bom";
+import { ProductionMainPage } from "./pages/production/main";
+import { ProductionOrderCreate, ProductionOrderEdit, ProductionOrderList, ProductionOrderShow } from "./pages/production/production_orders";
+import { ProductionOutputCreate, ProductionOutputEdit, ProductionOutputList } from "./pages/production/production_outputs";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -447,6 +451,35 @@ export default function App() {
                   icon: <FileProtectOutlined/>,
                   parent: "sales"
                 }
+              },
+              {
+                name: "production",
+                meta: {
+                  label: t("pages.sidebar.production")
+                }
+              },
+              {
+                name: "production_orders",
+                list: "/production/production_orders",
+                create: "/production/production_orders/create",
+                edit: "/production/production_orders/edit/:id",
+                show: "/production/production_orders/show/:id",
+                meta: {
+                  label: t("pages.sidebar.production_orders"),
+                  icon: <AppstoreAddOutlined/>,
+                  parent: "production"
+                }
+              },
+              {
+                name: "production_outputs",
+                list: "/production/production_outputs",
+                create: "/production/production_outputs/create",
+                edit: "/production/production_outputs/edit/:id",
+                meta: {
+                  label: t("pages.sidebar.production_outputs"),
+                  icon: <AppstoreAddOutlined/>,
+                  parent: "production"
+                }
               }
             ]}
             options={{ syncWithLocation: true }}
@@ -614,6 +647,22 @@ export default function App() {
                   </Route>
                 </Route>
 
+                <Route path="production">
+                  <Route index element={<ProductionMainPage/>}/>
+                  <Route path="production_orders">
+                    <Route index element={<ProductionOrderList/>}/>
+                    <Route path="create" element={<ProductionOrderCreate/>}/>
+                    <Route path="edit/:id" element={<ProductionOrderEdit/>}/>
+                    <Route path="show/:id" element={<ProductionOrderShow/>}/>
+                  </Route>
+
+                  <Route path="production_outputs">
+                    <Route index element={<ProductionOutputList/>}/>
+                    <Route path="create" element={<ProductionOutputCreate/>}/>
+                    <Route path="edit/:id" element={<ProductionOutputEdit/>}/>
+                  </Route>
+                </Route>
+
                 {/* <Route path="main"> */}
                 <Route path="warehouses">
                   <Route index element={<WarehouseList/>}/>
@@ -626,6 +675,7 @@ export default function App() {
                   <Route path="create" element={<ProductCreate/>}/>
                   <Route path="edit/:id" element={<ProductEdit/>}/>
                   <Route path="show/:id" element={<ProductShow/>}/>
+                  <Route path="bom/:id" element={<ProductBomShow/>}/>
                 </Route>
                 {/* </Route> */}
 

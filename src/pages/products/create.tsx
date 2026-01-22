@@ -1,4 +1,4 @@
-import { ArrowLeftOutlined, MailOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, DeleteOutlined, MailOutlined, PlusOutlined } from "@ant-design/icons";
 import { Create, NumberField, useForm } from "@refinedev/antd";
 import { useNotification, useTranslation } from "@refinedev/core";
 import { Button, Space, Form, Card, Col, Row, Input, DatePicker, InputNumber, Divider, Typography, Select } from "antd";
@@ -13,6 +13,7 @@ import { useEmployeeStatus } from "../../constants/employee";
 import { EmployeeOneSelect } from "../../components/EmployeeOneSelect";
 import { useProductActiveStatus } from "../../constants/products";
 import dayjs from "dayjs";
+import { ProductSelect } from "../../components/ProductSelect";
 
 export const ProductCreate = () => {
 
@@ -123,6 +124,69 @@ export const ProductCreate = () => {
               </Form.Item>
             </Col>
           </Row>
+        </Card>
+        <Card 
+          title={translate("pages.products.titles.bom")}
+          type="inner"
+          style={{marginTop: 12}}
+        >
+          <Form.List name="bomComponents">
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, ...restField }) => (
+                  <>
+                    <Row gutter={16}>
+                      <Col span={4}>
+                        <Form.Item
+                          {...restField}
+                          label={translate("pages.products.titles.component")}
+                          name={[name, "componentProductId"]}
+                          rules={[{ required: true }]}
+                        >
+                          <ProductSelect />
+                        </Form.Item>
+                      </Col>
+                      <Col span={4}>
+                        <Form.Item
+                          {...restField}
+                          label={translate("pages.products.titles.quantity_per_unit")}
+                          name={[name, "quantityPerUnit"]}
+                          rules={[{ required: true }]}
+                        >
+                          <InputNumber min={1} step={0.01} style={{width: "100%"}} />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col span={24}>
+                        <Button 
+                          block 
+                          icon={<DeleteOutlined/>} 
+                          onClick={() => remove(name)} 
+                          danger
+                        >
+                          {translate("buttons.delete")}
+                        </Button>
+                      </Col>
+                      <Divider/>
+                    </Row>
+                  </>
+                ))}
+                
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
+                    {translate("buttons.add_component")}
+                  </Button>
+                </Form.Item>
+                </>
+            )}
+          </Form.List>
+
         </Card>
       </Form>
     </Create>

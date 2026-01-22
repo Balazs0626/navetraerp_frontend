@@ -1,18 +1,19 @@
 import { useTable, List, DeleteButton, EditButton, ShowButton } from "@refinedev/antd";
-import { ISalesOrderList } from "../../../interfaces";
+import { IProductionOrderList, IPurchaseOrderList, ISupplierList } from "../../../interfaces";
 import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker, InputNumber, Select } from "antd";
 import { CalendarOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
 import { useTranslation, usePermissions } from "@refinedev/core";
 import { useEffect } from "react";
 import dayjs from 'dayjs';
-import { useSalesOrderStatus } from "../../../constants/sales_orders";
+import { usePurchaseOrderStatus } from "../../../constants/purchase_orders";
+import { ProductSelect } from "../../../components/ProductSelect";
 
 
-export const SalesOrderList = () => {
+export const ProductionOrderList = () => {
 
-  const { tableProps, setFilters } = useTable<ISalesOrderList>({
-    resource: "sales_orders",
+  const { tableProps, setFilters } = useTable<IProductionOrderList>({
+    resource: "production_orders",
     pagination: {
       pageSize: 10,
     },
@@ -35,19 +36,27 @@ export const SalesOrderList = () => {
       });
     }
 
-    if (values.status) {
+    if (values.product) {
       filters.push({
-        field: "status",
+        field: "product",
         operator: "eq" as const,
-        value: values.status,
+        value: values.product,
       });
     }
 
-    if (values.orderDate) {
+    if (values.startDate) {
       filters.push({
-        field: "orderDate",
+        field: "startDate",
         operator: "eq" as const,
-        value: dayjs(values.orderDate).format("YYYY-MM-DD"),
+        value: dayjs(values.endDate).format("YYYY-MM-DD"),
+      });
+    }
+
+    if (values.endDate) {
+      filters.push({
+        field: "endDate",
+        operator: "eq" as const,
+        value: dayjs(values.endDate).format("YYYY-MM-DD"),
       });
     }
 
@@ -60,16 +69,16 @@ export const SalesOrderList = () => {
   const { data: permissions } = usePermissions<string[]>({});
 
   useEffect(() => {
-    document.title = translate("pages.sales_orders.list.title");
+    document.title = translate("pages.production_orders.list.title");
   }) 
 
   return (
     <List
-      title={translate("pages.sales_orders.list.title")}
+      title={translate("pages.production_orders.list.title")}
       headerButtons={
           <Space>
             <Button icon={<PlusOutlined/>} size="large" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:PURCHASE_ORDERS")}>
-                {translate("pages.sales_orders.buttons.create")}
+                {translate("pages.production_orders.buttons.create")}
             </Button>
           </Space>
       }
@@ -81,24 +90,33 @@ export const SalesOrderList = () => {
             type="inner"
           >
             <Form form={form} layout="vertical" onFinish={onSearch}>
+
               <Form.Item
                 name="receiptNumber"
-                label={translate("pages.sales_orders.titles.id")}
+                label={translate("pages.production_orders.titles.id")}
               >
-                {/* <InputNumber placeholder="Bizonylatszám..." style={{width: "100%"}}/> */}
                 <Input/>
               </Form.Item>
 
               <Form.Item
-                name="status"
-                label={translate("pages.sales_orders.titles.status")}
+                name="product"
+                label={translate("pages.production_orders.titles.product")}
               >
-                <Select options={useSalesOrderStatus()}/>
+                <ProductSelect/>
               </Form.Item>
 
               <Form.Item
-                name="orderDate"
-                label={translate("pages.sales_orders.titles.order_date")}
+                name="startDate"
+                label={translate("pages.production_orders.titles.start_date")}
+              >
+                <DatePicker 
+                  style={{ width: "100%" }}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="endDate"
+                label={translate("pages.production_orders.titles.end_date")}
               >
                 <DatePicker 
                   style={{ width: "100%" }}
@@ -128,12 +146,13 @@ export const SalesOrderList = () => {
         </Col>
         <Col xs={24} lg={16}>
           <Table {...tableProps} rowKey="id">
-            <Table.Column dataIndex={"receiptNumber"} title={translate("pages.sales_orders.titles.id")}/>
-            <Table.Column dataIndex={"orderDate"} title={translate("pages.sales_orders.titles.order_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
-            <Table.Column dataIndex={"requiredDeliveryDate"} title={translate("pages.sales_orders.titles.required_delivery_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
-            <Table.Column dataIndex={"status"} title={translate("pages.sales_orders.titles.status")}/>
+            <Table.Column dataIndex={"receiptNumber"} title={translate("pages.production_orders.titles.id")}/>
+            <Table.Column dataIndex={"productName"} title={translate("pages.production_orders.titles.product")}/>
+            <Table.Column dataIndex={"startDate"} title={translate("pages.production_orders.titles.start_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
+            <Table.Column dataIndex={"endDate"} title={translate("pages.production_orders.titles.end_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
+            <Table.Column dataIndex={"status"} title={translate("pages.production_orders.titles.status")}/>
             <Table.Column
-              title={translate("pages.sales_orders.titles.actions")}
+              title={translate("pages.production_orders.titles.actions")}
               dataIndex="actions"
               key="actions"
               render={(_, record) => (
@@ -141,18 +160,18 @@ export const SalesOrderList = () => {
                   <ShowButton
                     size="small"
                     recordItemId={record.id}
-                    resource="sales_orders"
+                    resource="production_orders"
                   />
                   <EditButton
                     size="small"
                     recordItemId={record.id}
-                    resource="sales_orders"
+                    resource="production_orders"
                     disabled={!permissions?.includes("EDIT:PURCHASE_ORDERS")}
                   />
                   <DeleteButton
                     size="small"
                     recordItemId={record.id}
-                    resource="sales_orders"
+                    resource="production_orders"
                     confirmTitle={translate("notifications.deleteMessage")}
                     disabled={!permissions?.includes("DELETE:PURCHASE_ORDERS")}
                   />

@@ -1,9 +1,9 @@
 import { useTable, List, DeleteButton, EditButton, ExportButton, ShowButton } from "@refinedev/antd";
 import { IProductCreate, IProductList } from "../../interfaces";
 import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker, Select } from "antd";
-import { CalendarOutlined, CheckCircleOutlined, CloseCircleOutlined, ImportOutlined, PlusOutlined } from "@ant-design/icons";
+import { CalendarOutlined, CheckCircleOutlined, CloseCircleOutlined, ImportOutlined, PlusOutlined, ProductOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
-import { useTranslation, usePermissions, useImport, useExport } from "@refinedev/core";
+import { useTranslation, usePermissions, useImport, useExport, useNavigation, useGo } from "@refinedev/core";
 import { useEffect } from "react";
 import dayjs from 'dayjs';
 import { useProductActiveStatus } from "../../constants/products";
@@ -198,6 +198,15 @@ export const ProductList = () => {
                     recordItemId={record.id}
                     resource="products"
                   />
+                  <Button
+                    size="small"
+                    resource="products"
+                    onClick={() => navigate(`bom/${record.id}`)}
+                    icon={<ProductOutlined/>}
+                    disabled={record.componentCount === 0}
+                  >
+                    Anyagjegyzék
+                  </Button>
                   <EditButton
                     size="small"
                     recordItemId={record.id}

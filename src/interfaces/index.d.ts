@@ -133,6 +133,7 @@ export interface IProductList {
     sku: string;
     name: string;
     unit: string;
+    componentCount: number;
     active: boolean;
 }
 
@@ -181,6 +182,7 @@ export interface ICustomerList {
 
 export interface ISalesOrderList {
     id: number;
+    receiptNumber: string;
     orderDate: string;
     requiredDeliveryDate: string;
     status: string;
@@ -191,4 +193,22 @@ export interface IInvoiceList {
     invoiceDate: string;
     dueDate: string;
     status: string;
+}
+
+  // Termelés \\
+
+export interface IProductionOrderList {
+    id: number;
+    productName: string;
+    startDate: string;
+    endDate: string;
+    status: string;
+}
+
+export interface IProductionOutputList {
+    id: number;
+    productionOrderId: number;
+    productionOrderReceiptNumber: string;
+    productName: string;
+    dateProduced: string;
 }

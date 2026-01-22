@@ -52,6 +52,7 @@ export const dataProvider: DataProvider = {
     });
     return { data: res.data };
   },
+  
   getApiUrl: () => {
     return API_URL;
   },
