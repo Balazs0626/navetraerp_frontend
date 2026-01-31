@@ -24,6 +24,18 @@ export const PurchaseOrderCreate = () => {
     document.title = translate("pages.purchase_orders.create.title");
   })
 
+  const handleFinish = (values: any) => {
+    const formattedValues = {
+        ...values,
+        orderDate: values.orderDate?.format("YYYY-MM-DD"),
+        expectedDeliveryDate: values.expectedDeliveryDate?.format("YYYY-MM-DD")
+    };
+
+    if (formProps.onFinish) {
+        formProps.onFinish(formattedValues);
+    }
+  };
+
   return (
     <Create
       saveButtonProps={saveButtonProps}
@@ -46,12 +58,13 @@ export const PurchaseOrderCreate = () => {
           const items = form.getFieldValue("items") || [];
 
           const total = items.reduce((sum: any, item: any) => {
-            const q = Number(item?.quantityOrdered) || 0;
+            const q = (Number(item?.quantityOrdered) * Number(item?.pricePerUnit)) * (100 - Number(item?.discount))/100 || 0;
             return sum + q;
           }, 0);
 
           form.setFieldValue("totalAmount", total);
         }}
+        onFinish={handleFinish}
       >
         <Card 
           title={translate("pages.purchase_orders.titles.data")}

@@ -11,6 +11,7 @@ import { useSalesOrderStatus } from "../../../constants/sales_orders";
 import dayjs from "dayjs";
 import { CustomerSelect } from "../../../components/CustomerSelect";
 import { IProductList } from "../../../interfaces";
+import { WarehouseSelect } from "../../../components/WarehouseSelect";
 
 export const SalesOrderEdit = () => {
   const { id } = useParams();
@@ -48,6 +49,18 @@ export const SalesOrderEdit = () => {
     return products.find(p => p.id === productId)?.unit ?? "";
   };
 
+  const handleFinish = (values: any) => {
+    const formattedValues = {
+        ...values,
+        orderDate: values.orderDate?.format ? values.orderDate.format("YYYY-MM-DD") : values.orderDate,
+        requiredDeliveryDate: values.requiredDeliveryDate?.format ? values.requiredDeliveryDate.format("YYYY-MM-DD") : values.requiredDeliveryDate
+    };
+
+    if (formProps.onFinish) {
+        formProps.onFinish(formattedValues);
+    }
+  };
+
   return (
     <Edit
       title={translate("pages.sales_orders.edit.title")}
@@ -75,6 +88,7 @@ export const SalesOrderEdit = () => {
 
           form.setFieldValue("totalAmount", total);
         }}
+        onFinish={handleFinish}
       >
         <Card 
           title={translate("pages.sales_orders.titles.data")}
@@ -131,6 +145,15 @@ export const SalesOrderEdit = () => {
             </Col>
           </Row>
           <Row gutter={16}>
+            <Col span={6}>
+              <Form.Item
+                label={translate("pages.sales_orders.titles.from_warehouse")}
+                name="warehouseId"
+                rules={[{ required: true }]}
+              >
+                <WarehouseSelect/>
+              </Form.Item>
+            </Col>
             <Col span={6}>
               <Form.Item
                 label={translate("pages.sales_orders.titles.total_amount")}

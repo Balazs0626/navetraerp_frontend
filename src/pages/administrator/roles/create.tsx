@@ -38,7 +38,7 @@ export const RoleCreate = () => {
   }, []);
 
   useEffect(() => {
-    document.title = `NavetraERP - ${translate("pages.roles.create.title")}`;
+    document.title = `${translate("pages.roles.create.title")}`;
   })
 
   return (
@@ -91,7 +91,7 @@ export const RoleCreate = () => {
                   mode="multiple"
                   options={allPermissions
                     .map((p) => ({
-                      label: p.permissionName,
+                      label: translate(`selects.permissions.options.` + p.permissionName),//p.permissionName,
                       value: p.permissionId,
                     }))
                 }

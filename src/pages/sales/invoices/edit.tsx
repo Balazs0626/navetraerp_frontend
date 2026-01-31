@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { Edit, useForm } from "@refinedev/antd";
-import { useNotification, useTranslation } from "@refinedev/core";
+import { useList, useNotification, useTranslation } from "@refinedev/core";
 import { Button, Card, Col, DatePicker, Divider, Form, Input, InputNumber, Row, Select, Space } from "antd";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -9,6 +9,8 @@ import { SalesOrderSelect } from "../../../components/SalesOrderSelect";
 import { ProductSelect } from "../../../components/ProductSelect";
 import { useSalesOrderStatus } from "../../../constants/sales_orders";
 import dayjs from "dayjs";
+import { IProductList } from "../../../interfaces";
+import { useInvoiceStatus } from "../../../constants/invoices";
 
 export const InvoiceEdit = () => {
   const { id } = useParams();
@@ -35,6 +37,29 @@ export const InvoiceEdit = () => {
 
   }, [formProps.initialValues])
 
+  const { result: productsData } = useList<IProductList>({
+    resource: "products",
+    pagination: { mode: "off" },
+  });
+
+  const products = productsData?.data ?? [];
+
+  const getUnitByProductId = (productId?: number) => {
+    return products.find(p => p.id === productId)?.unit ?? "";
+  };
+
+  const handleFinish = (values: any) => {
+    const formattedValues = {
+        ...values,
+        invoiceDate: values.invoiceDate?.format ? values.invoiceDate.format("YYYY-MM-DD") : values.invoiceDate,
+        dueDate: values.dueDate?.format ? values.dueDate.format("YYYY-MM-DD") : values.dueDate
+    };
+
+    if (formProps.onFinish) {
+        formProps.onFinish(formattedValues);
+    }
+  };
+
   return (
     <Edit
       title={translate("pages.invoices.edit.title")}
@@ -52,6 +77,7 @@ export const InvoiceEdit = () => {
         {...formProps}
         form={form}
         layout="vertical"
+        onFinish={handleFinish}
       >
         <Card 
           title={translate("pages.invoices.titles.data")}
@@ -105,7 +131,7 @@ export const InvoiceEdit = () => {
                 name="status"
                 rules={[{ required: true }]}
               >
-                <Select options={useSalesOrderStatus()}/>
+                <Select options={useInvoiceStatus()}/>
               </Form.Item>
             </Col>
           </Row>
@@ -116,7 +142,7 @@ export const InvoiceEdit = () => {
                 name="totalAmount"
                 rules={[{ required: true }]}
               >
-                <InputNumber disabled style={{width: "100%"}} addonAfter="Ft"/>
+                <InputNumber disabled style={{width: "100%"}} addonAfter="HUF"/>
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -125,7 +151,7 @@ export const InvoiceEdit = () => {
                 name="paidAmount"
                 rules={[{ required: true }]}
               >
-                <InputNumber disabled style={{width: "100%"}} addonAfter="Ft"/>
+                <InputNumber disabled style={{width: "100%"}} addonAfter="HUF"/>
               </Form.Item>
             </Col>
           </Row>
@@ -151,7 +177,7 @@ export const InvoiceEdit = () => {
                           <ProductSelect disabled/>
                         </Form.Item>
                       </Col>
-                      <Col span={4}>
+{/*                       <Col span={4}>
                         <Form.Item
                           {...restField}
                           label={translate("pages.invoices.titles.quantity")}
@@ -159,6 +185,36 @@ export const InvoiceEdit = () => {
                           rules={[{ required: true }]}
                         >
                           <InputNumber min={1} step={0.01} style={{width: "100%"}} disabled/>
+                        </Form.Item>
+                      </Col> */}
+                      <Col span={4}>
+                        <Form.Item
+                          shouldUpdate={(prev, curr) =>
+                            prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId
+                          }
+                          noStyle
+                        >
+                          {() => {
+                            const productId = form.getFieldValue(["items", name, "productId"]);
+                            const unit = getUnitByProductId(productId) || "";
+
+                            return (
+                              <Form.Item
+                                {...restField}
+                                label={translate("pages.invoices.titles.quantity")}
+                                name={[name, "quantity"]}
+                                rules={[{ required: true }]}
+                              >
+                                <InputNumber
+                                  min={0.01}
+                                  step={0.01}
+                                  style={{ width: "100%" }}
+                                  addonAfter={unit}
+                                  disabled
+                                />
+                              </Form.Item>
+                            );
+                          }}
                         </Form.Item>
                       </Col>
                       <Col span={4}>
@@ -168,7 +224,7 @@ export const InvoiceEdit = () => {
                           name={[name, "pricePerUnit"]}
                           rules={[{ required: true }]}
                         >
-                          <InputNumber min={1} step={0.01} style={{width: "100%"}} addonAfter="Ft" disabled/>
+                          <InputNumber min={1} step={0.01} style={{width: "100%"}} addonAfter="HUF" disabled/>
                         </Form.Item>
                       </Col>
                       <Col span={4}>

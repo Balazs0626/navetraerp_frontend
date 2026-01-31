@@ -4,6 +4,14 @@
       "backHome": "Vissza a főoldalra",
       "404": "404 - A keresett oldal nem található"
     },
+    "login": {
+      "title": "Bejelentkezés",
+      "titles": {
+        "login": "NavetraERP - Bejelentkezés",
+        "username": "Felhasználónév",
+        "password": "Jelszó"
+      }
+    },
     "sidebar": {
       "dashboard": "Irányítópult",
       "warehouses":"Raktárak",
@@ -26,7 +34,14 @@
       "sales": "Értékesítés",
       "customers": "Vevők",
       "sales_orders": "Értékesítési rendelések",
-      "invoices": "Számlák"
+      "invoices": "Számlák",
+      "production": "Termelés",
+      "production_orders": "Termelési rendelések",
+      "production_outputs": "Termelési kibocsátás",
+      "inventory": "Raktárkezelés",
+      "inventory_items": "Készlet",
+      "stock_movements": "Készletmozgás",
+      "inventory_counts": "Leltár"
     },
     "dashboard": {
         "title": "Irányítópult",
@@ -37,43 +52,43 @@
         "main": "Alap modulok",
         "warehouses": {
           "title": "Raktárak",
-          "description": "Raktárak létrehozása, listázása, módosítása és törlése"
+          "description": "Raktárak létrehozása, listázása, szerkesztése és törlése"
         },
         "products": {
           "title": "Termékek",
-          "description": "Termékek létrehozása, listázása, módosítása és törlése"
+          "description": "Termékek létrehozása, listázása, szerkesztése és törlése"
         },
         "administrator_module": {
           "title": "Adminisztrátor modul",
           "description": "Felhasználók és szerepkörök kezelése",
           "users": "Felhasználók",
-          "users_description": "Felhasználók létrehozása, listázása, módosítása és törlése",
+          "users_description": "Felhasználók létrehozása, listázása, szerkesztése és törlése",
           "roles": "Szerepkörök",
-          "roles_description": "Szerepkörök létrehozása, listázása, módosítása és törlése"
+          "roles_description": "Szerepkörök létrehozása, listázása, szerkesztése és törlése"
         },
         "hr_module": {
           "title": "HR modul",
           "description": "Alkalmazottak, osztályok, pozíciók, műszakok, beosztások, távollétek és teljesítmény értékelések kezelése",
           "employee": "Alkalmazottak",
-          "employee_description": "Alkalmazottak létrehozása, listázása, módosítása és törlése",
+          "employee_description": "Alkalmazottak létrehozása, listázása, szerkesztése és törlése",
           "shifts": "Műszakok",
-          "shifts_description": "Műszakok létrehozása, listázása, módosítása és törlése",
+          "shifts_description": "Műszakok létrehozása, listázása, szerkesztése és törlése",
           "departments": "Osztályok",
-          "departments_description": "Osztályok létrehozása, listázása, módosítása és törlése",
+          "departments_description": "Osztályok létrehozása, listázása, szerkesztése és törlése",
           "positions": "Pozíciók",
-          "positions_description": "Pozíciók létrehozása, listázása, módosítása és törlése",
+          "positions_description": "Pozíciók létrehozása, listázása, szerkesztése és törlése",
           "work_schedules": "Beosztások",
           "work_schedules_description": "Beosztások létrehozása, listázása és törlése",
           "performance_reviews": "Teljesítmény értékelések",
-          "performance_reviews_description": "Teljesítmény értékelések létrehozása, listázása, módosítása és törlése",
+          "performance_reviews_description": "Teljesítmény értékelések létrehozása, listázása, szerkesztése és törlése",
           "leave_requests": "Távollétek",
-          "leave_requests_description": "Távollétek létrehozása, listázása, módosítása és törlése"
+          "leave_requests_description": "Távollétek létrehozása, listázása, szerkesztése és törlése"
         },
         "procurement_module": {
           "title": "Beszerzés modul",
           "description": "Beszállítók, rendelési bizonylatok és átvételi bitonylatok kezelése",
           "suppliers": "Beszállítók",
-          "suppliers_description": "Beszállítók létrehozása, listázása, módosítása és törlése",
+          "suppliers_description": "Beszállítók létrehozása, listázása, szerkesztése és törlése",
           "purchase_orders": "Rendelési bizonylatok",
           "purchase_orders_description": "Rendelési bizonylatok létrehozása, listázása, törlése és nyomtatása",
           "goods_receipts": "Átvételi bizonylatok",
@@ -83,11 +98,29 @@
           "title": "Értékesítés modul",
           "description": "Vevők, értékesítési rendelések és számlák kezelése",
           "customers": "Vevők",
-          "customers_description": "Vevők létrehozása, listázása, módosítása és törlése",
+          "customers_description": "Vevők létrehozása, listázása, szerkesztése és törlése",
           "sales_orders": "Értékesítési rendelések",
-          "sales_orders_description": "Értékesítési rendelések létrehozása, listázása, módosítása, törlése és nyomtatása",
+          "sales_orders_description": "Értékesítési rendelések létrehozása, listázása, szerkesztése, törlése és nyomtatása",
           "invoices": "Számlák",
-          "invoices_description": "Számlák létrehozása, listázása, módosítása, törlése és nyomtatása"
+          "invoices_description": "Számlák létrehozása, listázása, szerkesztése, törlése és nyomtatása"
+        },
+        "production_module": {
+          "title": "Termelés modul",
+          "description": "Termelési rendelések és termelési kibocsátások kezelése",
+          "production_orders": "Termelési rendelések",
+          "production_orders_description": "Termelési rendelések létrehozása, listázása, szerkesztése, törlése és nyomtatása",
+          "production_outputs": "Termelési kibocsátások",
+          "production_outputs_description": "Termelési kibocsátások létrehozása, listázása, szerkesztése és törlése"
+        },
+        "inventory_module": {
+          "title": "Raktárkezelés modul",
+          "description": "Készletek, készletmozgások és leltár kezelése",
+          "inventory_items": "Készletek",
+          "inventory_items_description": "Készleten lévő termékek létrehozása, listázása és törlése",
+          "stock_movements": "Készletmozgások",
+          "stock_movements_description": "Készletmozgások létrehozása, listázása, megtekintése, szerkesztése és törlése",
+          "inventory_counts": "Leltár",
+          "inventory_counts_description": "Leltár naplózás létrehozása, listázása, megtekintése, szerkesztése és törlése"
         }
     },
     "warehouses": {
@@ -116,7 +149,7 @@
         "title": "Raktár létrehozása"
       },
       "edit": {
-        "title": "Raktár módosítása"
+        "title": "Raktár szerkesztése"
       }
     },
     "products": {
@@ -141,7 +174,7 @@
         "title": "Termék létrehozása"
       },
       "edit": {
-        "title": "Termék módosítása"
+        "title": "Termék szerkesztése"
       }
     },
     "users": {
@@ -164,7 +197,7 @@
         "title": "Felhasználó létrehozása"
       },
       "edit": {
-        "title": "Felhasználó módosítása"
+        "title": "Felhasználó szerkesztése"
       }
     },
     "roles": {
@@ -456,7 +489,8 @@
       },
       "buttons": {
         "back": "Vissza az átvételi bizonylatokhoz",
-        "create": "Új átvételi bizonylat létrehozása"
+        "create": "Új átvételi bizonylat létrehozása",
+        "load_items": "Tételek betöltése"
       },
       "list": {
         "title": "Átvételi bizonylatok"
@@ -554,7 +588,8 @@
       },
       "buttons": {
         "back": "Vissza a számlákhoz",
-        "create": "Új számla létrehozása"
+        "create": "Új számla létrehozása",
+        "load_items": "Tételek betöltése"
       },
       "list": {
         "title": "Számlák"
@@ -567,6 +602,152 @@
       },
       "show": {
         "title": "Számla"
+      }
+    },
+    "production_orders": {
+      "titles": {
+        "id": "Bizonylatszám",
+        "product": "Termék",
+        "start_date": "Kezdés dátuma",
+        "end_date": "Befejezés dátuma",
+        "status": "Státusz",
+        "actions": "Műveletek",
+        "data": "Törzsadatok",
+        "planned_quantity": "Tervezett mennyiség",
+        "responsible_employee": "Felelős",
+        "components": "Alkatrészek",
+        "component_product": "Alkatrész",
+        "quantity_used": "Felhasznált mennyiség",
+        "warehouse": "Raktár",
+        "date_used": "Felhasználás dátuma"
+      },
+      "buttons": {
+        "back": "Vissza a termelési rendelésekhez",
+        "create": "Új termelési rendelés létrehozása",
+        "load_bom": "Anyagjegyzék betöltése"
+      },
+      "list": {
+        "title": "Termelési rendelések"
+      },
+      "create": {
+        "title": "Termelési rendelés létrehozása"
+      },
+      "edit": {
+        "title": "Termelési rendelés szerkesztése"
+      },
+      "show": {
+        "title": "Termelési rendelés"
+      }
+    },
+    "production_outputs": {
+      "titles": {
+        "production_order_receipt_number": "Termelési rendelés száma",
+        "product": "Termék",
+        "quantity_produced": "Előállított mennyiség",
+        "product_unit": "Egység",
+        "warehouse": "Raktár",
+        "date_produced": "Előállítás dátuma",
+        "actions": "Műveletek",
+        "data": "Törzsadatok",
+        "production_order": "Termelési rendelés"
+      },
+      "buttons": {
+        "back": "Vissza a termelési kibocsátásokhoz",
+        "create": "Új termelési kibocsátás létrehozása"
+      },
+      "list": {
+        "title": "Termelési kibocsátások"
+      },
+      "create": {
+        "title": "Termelési kibocsátás létrehozása"
+      },
+      "edit": {
+        "title": "Termelési kibocsátás szerkesztése"
+      },
+      "show": {
+        "title": "Termelési kibocsátás"
+      }
+    },
+    "inventory_items": {
+      "titles": {
+        "warehouse": "Raktár",
+        "product": "Termék",
+        "batch_number": "Tételszám",
+        "quantity_on_hand": "Mennyiség",
+        "unit": "Egység",
+        "last_updated": "Utoljára módosítva",
+        "actions": "Műveletek",
+        "data": "Törzsadatok"
+      },
+      "buttons": {
+        "back": "Vissza a készletekhez",
+        "create": "Új készlet létrehozása"
+      },
+      "list": {
+        "title": "Készletek"
+      },
+      "create": {
+        "title": "Készlet létrehozása"
+      }
+    },
+    "stock_movements": {
+      "titles": {
+        "product": "Termék",
+        "reference_document": "Hivatkozott dokumentum",
+        "movement_type": "Mozgás típusa",
+        "movement_date": "Mozgás dátuma",
+        "actions": "Műveletek",
+        "from_warehouse": "Raktár (kimenő)",
+        "to_warehouse": "Raktár (beérkező)",
+        "quantity": "Mennyiség",
+        "performed_by": "Teljesítette",
+        "details": "Részletek",
+        "data": "Törzsadatok"
+      },
+      "buttons": {
+        "back": "Vissza a készletmozgásokhoz",
+        "create": "Új készletmozgás létrehozása"
+      },
+      "list": {
+        "title": "Készletmozgások"
+      },
+      "create": {
+        "title": "Készletmozgás létrehozása"
+      },
+      "edit": {
+        "title": "Készletmozgás szerkesztése"
+      },
+      "show": {
+        "title": "Készletmozhás"
+      }
+    },
+    "inventory_counts": {
+      "titles": {
+        "id": "Azonosító",
+        "warehouse": "Raktár",
+        "counted_by": "Leltárfelelős",
+        "count_date": "Leltár dátuma",
+        "actions": "Műveletek",
+        "details": "Részletek",
+        "product": "Termék",
+        "counted_quantity": "Számolt mennyiség",
+        "system_quantity": "Raktáron lévő mennyiség",
+        "unit": "Egység",
+        "products": "Termékek",
+        "data": "Törzsadatok"
+      },
+      "buttons": {
+        "back": "Vissza a leltár naplózásokhoz",
+        "create": "Új leltár létrehozása"
+      },
+      "list": {
+        "title": "Leltár napló"
+      },
+      "create": {
+        "title": "Leltár létrehozása"
+      },
+      "show": {
+        "title": "Leltár"
       }
     }
   },
@@ -582,6 +763,7 @@
     "search": "Keresés"
   },
   "buttons": {
+    "login": "Bejelentkezés",
     "save": "Mentés",
     "logout": "Kijelentkezés",
     "delete": "Törlés",
@@ -609,7 +791,10 @@
       "placeholder": "Válasszon szerepkört"
     },
     "permissions": {
-      "placeholder": "Válasszon jogosultságot"
+      "placeholder": "Válasszon jogosultságot",
+      "options": {
+        "CREATE_USERS": "Felhasználó létrehozása"
+      }
     },
     "employees": {
       "placeholder": "Válasszon alkalmazottat",

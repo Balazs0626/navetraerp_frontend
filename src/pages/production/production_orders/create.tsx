@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, DeleteOutlined, ImportOutlined, MailOutlined, PlusOutlined } from "@ant-design/icons";
 import { Create, NumberField, useForm } from "@refinedev/antd";
-import { useNotification, useOne, useTranslation } from "@refinedev/core";
+import { useList, useNotification, useOne, useTranslation } from "@refinedev/core";
 import { Button, Space, Form, Card, Col, Row, Input, DatePicker, InputNumber, Divider, Typography, Select } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -10,6 +10,7 @@ import { usePurchaseOrderStatus } from "../../../constants/purchase_orders";
 import { EmployeeOneSelect } from "../../../components/EmployeeOneSelect";
 import { WarehouseSelect } from "../../../components/WarehouseSelect";
 import { useProductionOrderStatus } from "../../../constants/production_orders";
+import { IProductList } from "../../../interfaces";
 
 export const ProductionOrderCreate = () => {
 
@@ -52,6 +53,17 @@ export const ProductionOrderCreate = () => {
         components: calculatedItems
       });
     }
+  };
+
+  const { result: productsData } = useList<IProductList>({
+    resource: "products",
+    pagination: { mode: "off" },
+  });
+  
+  const products = productsData?.data ?? [];
+
+  const getUnitByProductId = (productId?: number) => {
+    return products.find(p => p.id === productId)?.unit ?? "";
   };
 
   const handleFinish = (values: any) => {
@@ -135,13 +147,39 @@ export const ProductionOrderCreate = () => {
             </Col>
           </Row>
           <Row gutter={16}>
-            <Col span={8}>
+{/*             <Col span={8}>
               <Form.Item
                 label={translate("pages.production_orders.titles.planned_quantity")}
                 name="plannedQuantity"
                 rules={[{ required: true }]}
               >
                 <InputNumber min={1} step={0.01} style={{width: "100%"}}/>
+              </Form.Item>
+            </Col> */}
+            <Col span={8}>
+              <Form.Item
+                shouldUpdate={(prev, curr) => prev.productId !== curr.productId}
+                noStyle
+              >
+                {() => {
+                  const productId = form.getFieldValue("productId");
+                  const unit = getUnitByProductId(productId) || "";
+
+                  return (
+                    <Form.Item
+                      label={translate("pages.production_orders.titles.planned_quantity")}
+                      name="plannedQuantity"
+                      rules={[{ required: true }]}
+                    >
+                      <InputNumber
+                        min={0.01}
+                        step={0.01}
+                        style={{ width: "100%" }}
+                        addonAfter={unit}
+                      />
+                    </Form.Item>
+                  );
+                }}
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -185,7 +223,7 @@ export const ProductionOrderCreate = () => {
                           <ProductSelect />
                         </Form.Item>
                       </Col>
-                      <Col span={6}>
+{/*                       <Col span={6}>
                         <Form.Item
                           {...restField}
                           label={translate("pages.production_orders.titles.quantity_used")}
@@ -193,6 +231,35 @@ export const ProductionOrderCreate = () => {
                           rules={[{ required: true }]}
                         >
                           <InputNumber min={1} step={0.01} style={{width: "100%"}} />
+                        </Form.Item>
+                      </Col> */}
+                      <Col span={6}>
+                        <Form.Item
+                          shouldUpdate={(prev, curr) =>
+                            prev?.components?.[name]?.componentProductId !== curr?.components?.[name]?.componentProductId
+                          }
+                          noStyle
+                        >
+                          {() => {
+                            const productId = form.getFieldValue(["components", name, "componentProductId"]);
+                            const unit = getUnitByProductId(productId) || "";
+
+                            return (
+                              <Form.Item
+                                {...restField}
+                                label={translate("pages.production_orders.titles.quantity_used")}
+                                name={[name, "quantityUsed"]}
+                                rules={[{ required: true }]}
+                              >
+                                <InputNumber
+                                  min={0.01}
+                                  step={0.01}
+                                  style={{ width: "100%" }}
+                                  addonAfter={unit}
+                                />
+                              </Form.Item>
+                            );
+                          }}
                         </Form.Item>
                       </Col>
                       <Col span={6}>

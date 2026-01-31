@@ -21,6 +21,18 @@ export const LeaveRequestCreate = () => {
     document.title = translate("pages.leave_requests.create.title");
   })  
 
+  const handleFinish = (values: any) => {
+    const formattedValues = {
+        ...values,
+        startDate: values.startDate?.format("YYYY-MM-DD"),
+        endDate: values.endDate?.format("YYYY-MM-DD"),
+    };
+
+    if (formProps.onFinish) {
+        formProps.onFinish(formattedValues);
+    }
+  };
+
   return (
     <Create
       saveButtonProps={saveButtonProps}
@@ -39,6 +51,7 @@ export const LeaveRequestCreate = () => {
         {...formProps}
         form={form}
         layout="vertical"
+        onFinish={handleFinish}
       >
         <Card title={translate("pages.leave_requests.titles.data")}>
           <Row gutter={16}>

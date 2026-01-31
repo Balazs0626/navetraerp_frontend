@@ -5,7 +5,7 @@ import { CatchAllNavigate } from "@refinedev/react-router";
 import { DashboardPage } from "./pages/dashboard";
 import { RefineThemes, ThemedLayout, ThemedTitle, useNotificationProvider } from "@refinedev/antd";
 import { App as AntdApp, ConfigProvider, Select, Switch, theme, notification } from "antd";
-import { AppstoreAddOutlined, CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, FileOutlined, FileProtectOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, SolutionOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
+import { AppstoreAddOutlined, AppstoreOutlined, CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, DragOutlined, ExportOutlined, FileOutlined, FileProtectOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, OrderedListOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, SolutionOutlined, StockOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
 import { dataProvider } from "./providers/dataProvider";
 import { authProvider } from "./providers/authProvider";
 import { UserList } from "./pages/administrator/users/list";
@@ -59,6 +59,11 @@ import { ProductBomShow } from "./pages/products/bom";
 import { ProductionMainPage } from "./pages/production/main";
 import { ProductionOrderCreate, ProductionOrderEdit, ProductionOrderList, ProductionOrderShow } from "./pages/production/production_orders";
 import { ProductionOutputCreate, ProductionOutputEdit, ProductionOutputList } from "./pages/production/production_outputs";
+import { InventoryItemCreate, InventoryItemList } from "./pages/inventory/inventory_items";
+import { InventoryMainPage } from "./pages/inventory/main";
+import { StockMovementList } from "./pages/inventory/stock_movements/list";
+import { StockMovementCreate, StockMovementEdit, StockMovementShow } from "./pages/inventory/stock_movements";
+import { InventoryCountCreate, InventoryCountList, InventoryCountShow } from "./pages/inventory/inventory_counts";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -477,10 +482,49 @@ export default function App() {
                 edit: "/production/production_outputs/edit/:id",
                 meta: {
                   label: t("pages.sidebar.production_outputs"),
-                  icon: <AppstoreAddOutlined/>,
+                  icon: <ExportOutlined/>,
                   parent: "production"
                 }
-              }
+              },
+              {
+                name: "inventory",
+                meta: {
+                  label: t("pages.sidebar.inventory")
+                }
+              },
+              {
+                name: "inventory_items",
+                list: "/inventory/inventory_items",
+                create: "/inventory/inventory_items/create",
+                meta: {
+                  label: t("pages.sidebar.inventory_items"),
+                  icon: <AppstoreOutlined/>,
+                  parent: "inventory"
+                }
+              },
+              {
+                name: "stock_movements",
+                list: "/inventory/stock_movements",
+                create: "/inventory/stock_movements/create",
+                edit: "/inventory/stock_movements/edit/:id",
+                show: "/inventory/stock_movements/show/:id",
+                meta: {
+                  label: t("pages.sidebar.stock_movements"),
+                  icon: <DragOutlined/>,
+                  parent: "inventory"
+                }
+              },
+              {
+                name: "inventory_counts",
+                list: "/inventory/inventory_counts",
+                create: "/inventory/inventory_counts/create",
+                show: "/inventory/inventory_counts/show/:id",
+                meta: {
+                  label: t("pages.sidebar.inventory_counts"),
+                  icon: <OrderedListOutlined/>,
+                  parent: "inventory"
+                }
+              },
             ]}
             options={{ syncWithLocation: true }}
           >
@@ -660,6 +704,27 @@ export default function App() {
                     <Route index element={<ProductionOutputList/>}/>
                     <Route path="create" element={<ProductionOutputCreate/>}/>
                     <Route path="edit/:id" element={<ProductionOutputEdit/>}/>
+                  </Route>
+                </Route>
+
+                <Route path="inventory">
+                  <Route index element={<InventoryMainPage/>}/>
+                  <Route path="inventory_items">
+                    <Route index element={<InventoryItemList/>}/>
+                    <Route path="create" element={<InventoryItemCreate/>}/>
+                  </Route>
+
+                  <Route path="stock_movements">
+                    <Route index element={<StockMovementList/>}/>
+                    <Route path="create" element={<StockMovementCreate/>}/>
+                    <Route path="edit/:id" element={<StockMovementEdit/>}/>
+                    <Route path="show/:id" element={<StockMovementShow/>}/>
+                  </Route>
+
+                  <Route path="inventory_counts">
+                    <Route index element={<InventoryCountList/>}/>
+                    <Route path="create" element={<InventoryCountCreate/>}/>
+                    <Route path="show/:id" element={<InventoryCountShow/>}/>
                   </Route>
                 </Route>
 

@@ -44,7 +44,7 @@ export const ProductionOutputEdit = () => {
   const handleFinish = (values: any) => {
     const formattedValues = {
         ...values,
-        dateProduced: values.dateProduced?.format("YYYY-MM-DD"),
+        dateProduced: values.dateProduced?.format ? values.dateProduced.format("YYYY-MM-DD") : values.dateProduced,
     };
 
     if (formProps.onFinish) {

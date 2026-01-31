@@ -49,6 +49,18 @@ export const PurchaseOrderEdit = () => {
     return products.find(p => p.id === productId)?.unit ?? "";
   };
 
+  const handleFinish = (values: any) => {
+    const formattedValues = {
+        ...values,
+        orderDate: values.orderDate?.format ? values.orderDate.format("YYYY-MM-DD") : values.orderDate,
+        expectedDeliveryDate: values.expectedDeliveryDate?.format ? values.expectedDeliveryDate.format("YYYY-MM-DD") : values.expectedDeliveryDate
+    };
+
+    if (formProps.onFinish) {
+        formProps.onFinish(formattedValues);
+    }
+  };
+
   return (
     <Edit
       title={translate("pages.purchase_orders.edit.title")}
@@ -70,12 +82,13 @@ export const PurchaseOrderEdit = () => {
           const items = form.getFieldValue("items") || [];
 
           const total = items.reduce((sum: any, item: any) => {
-            const q = (Number(item?.quantityShipped) * Number(item?.pricePerUnit)) * (100 - Number(item?.discount))/100 || 0;
+            const q = (Number(item?.quantityOrdered) * Number(item?.pricePerUnit)) * (100 - Number(item?.discount))/100 || 0;
             return sum + q;
           }, 0);
 
           form.setFieldValue("totalAmount", total);
         }}
+        onFinish={handleFinish}
       >
         <Card 
           title={translate("pages.purchase_orders.titles.data")}

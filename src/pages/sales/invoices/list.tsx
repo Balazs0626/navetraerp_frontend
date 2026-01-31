@@ -7,6 +7,7 @@ import { useTranslation, usePermissions } from "@refinedev/core";
 import { useEffect } from "react";
 import dayjs from 'dayjs';
 import { useSalesOrderStatus } from "../../../constants/sales_orders";
+import { useInvoiceStatus } from "../../../constants/invoices";
 
 
 export const InvoiceList = () => {
@@ -92,7 +93,7 @@ export const InvoiceList = () => {
                 name="status"
                 label={translate("pages.invoices.titles.status")}
               >
-                <Select options={useSalesOrderStatus()}/>
+                <Select options={useInvoiceStatus()}/>
               </Form.Item>
 
               <Form.Item

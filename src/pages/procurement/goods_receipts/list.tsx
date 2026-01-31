@@ -97,7 +97,7 @@ export const GoodsReceiptList = () => {
 
               <Form.Item
                 name="date"
-                label={translate("pages.work_schedules.titles.date")}
+                label={translate("pages.goods_receipts.titles.date")}
               >
                 <DatePicker 
                   style={{ width: "100%" }}

@@ -1,6 +1,6 @@
-import { ArrowLeftOutlined, DeleteOutlined, MailOutlined, PlusOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, DeleteOutlined, ImportOutlined, MailOutlined, PlusOutlined } from "@ant-design/icons";
 import { Create, NumberField, useForm } from "@refinedev/antd";
-import { useNotification, useTranslation } from "@refinedev/core";
+import { useList, useNotification, useOne, useTranslation } from "@refinedev/core";
 import { Button, Space, Form, Card, Col, Row, Input, DatePicker, InputNumber, Divider, Typography, Select } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -10,6 +10,8 @@ import { usePurchaseOrderStatus } from "../../../constants/purchase_orders";
 import { CustomerSelect } from "../../../components/CustomerSelect";
 import { useSalesOrderStatus } from "../../../constants/sales_orders";
 import { SalesOrderSelect } from "../../../components/SalesOrderSelect";
+import { IProductList } from "../../../interfaces";
+import { useInvoiceStatus } from "../../../constants/invoices";
 
 export const InvoiceCreate = () => {
 
@@ -27,6 +29,65 @@ export const InvoiceCreate = () => {
     document.title = translate("pages.invoices.create.title");
   })
 
+  const selectedSalesOrderId = Form.useWatch("salesOrderId", form);
+
+  const id = selectedSalesOrderId;
+
+  const { result, query } = useOne({
+    resource: "sales_orders",
+    id
+  });
+
+  const salesOrderData = query.data;
+
+  const loadItems = () => {
+    if (salesOrderData?.data?.items) {
+      const calculatedItems = salesOrderData.data.items.map((item: any) => ({
+        productId: item.productId,
+        quantity: item.quantityShipped || 1,
+        pricePerUnit: item.pricePerUnitWithDiscount,
+        taxRate: item.taxRate
+      }));
+
+      const total = calculatedItems.reduce((sum: number, item: any) => {
+        return sum + (Number(item.quantity) * Number(item.pricePerUnit) || 0);
+      }, 0);
+
+      const totalWithTax = calculatedItems.reduce((sum: number, item: any) => {
+        return sum + (Number(item.quantity) * Number(item.pricePerUnit) * (1 + Number(item.taxRate) / 100) || 0);
+      }, 0);
+
+      form.setFieldsValue({
+        items: calculatedItems,
+        totalAmount: total,
+        paidAmount: totalWithTax
+      });
+    }
+  };
+
+  const { result: productsData } = useList<IProductList>({
+    resource: "products",
+    pagination: { mode: "off" },
+  });
+  
+  const products = productsData?.data ?? [];
+
+  const getUnitByProductId = (productId?: number) => {
+    return products.find(p => p.id === productId)?.unit ?? "";
+  };
+
+  const handleFinish = (values: any) => {
+    const formattedValues = {
+        ...values,
+        invoiceDate: values.invoiceDate?.format("YYYY-MM-DD"),
+        dueDate: values.dueDate?.format("YYYY-MM-DD"),
+    };
+
+    if (formProps.onFinish) {
+        formProps.onFinish(formattedValues);
+    }
+  };
+
   return (
     <Create
       saveButtonProps={saveButtonProps}
@@ -34,6 +95,11 @@ export const InvoiceCreate = () => {
       goBack={null}
       headerButtons={
         <Space>
+          <Button
+            onClick={loadItems}
+            size="large"
+            disabled={!selectedSalesOrderId}
+          ><ImportOutlined/>{translate("pages.invoices.buttons.load_items")}</Button>
           <Button
             onClick={() => navigate("/sales/invoices")}
             size="large"
@@ -53,10 +119,16 @@ export const InvoiceCreate = () => {
             return sum + q;
           }, 0);
 
+          const totalWithTax = items.reduce((sum: any, item: any) => {
+            const q = Number(item?.quantity) * Number(item?.pricePerUnit) * (1 + Number(item?.taxRate)/100) || 0;
+            return sum + q;
+          }, 0);
+
           form.setFieldValue("totalAmount", total);
 
-          form.setFieldValue("paidAmount", (total * 1.27));
+          form.setFieldValue("paidAmount", totalWithTax);
         }}
+        onFinish={handleFinish}
       >
         <Card 
           title={translate("pages.invoices.titles.data")}
@@ -102,7 +174,7 @@ export const InvoiceCreate = () => {
                 name="status"
                 rules={[{ required: true }]}
               >
-                <Select options={useSalesOrderStatus()}/>
+                <Select options={useInvoiceStatus()}/>
               </Form.Item>
             </Col>
           </Row>
@@ -113,7 +185,7 @@ export const InvoiceCreate = () => {
                 name="totalAmount"
                 rules={[{ required: true }]}
               >
-                <InputNumber disabled style={{width: "100%"}} addonAfter="Ft"/>
+                <InputNumber disabled style={{width: "100%"}} addonAfter="HUF"/>
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -122,7 +194,7 @@ export const InvoiceCreate = () => {
                 name="paidAmount"
                 rules={[{ required: true }]}
               >
-                <InputNumber disabled style={{width: "100%"}} addonAfter="Ft"/>
+                <InputNumber disabled style={{width: "100%"}} addonAfter="HUF"/>
               </Form.Item>
             </Col>
           </Row>
@@ -148,14 +220,43 @@ export const InvoiceCreate = () => {
                           <ProductSelect />
                         </Form.Item>
                       </Col>
-                      <Col span={4}>
+                      {/* <Col span={4}>
                         <Form.Item
                           {...restField}
                           label={translate("pages.invoices.titles.quantity")}
                           name={[name, "quantity"]}
                           rules={[{ required: true }]}
                         >
-                          <InputNumber min={1} step={0.01} style={{width: "100%"}} addonAfter="Ft"/>
+                          <InputNumber min={1} step={0.01} style={{width: "100%"}} addonAfter="HUF"/>
+                        </Form.Item>
+                      </Col> */}
+                      <Col span={4}>
+                        <Form.Item
+                          shouldUpdate={(prev, curr) =>
+                            prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId
+                          }
+                          noStyle
+                        >
+                          {() => {
+                            const productId = form.getFieldValue(["items", name, "productId"]);
+                            const unit = getUnitByProductId(productId) || "";
+
+                            return (
+                              <Form.Item
+                                {...restField}
+                                label={translate("pages.invoices.titles.quantity")}
+                                name={[name, "quantity"]}
+                                rules={[{ required: true }]}
+                              >
+                                <InputNumber
+                                  min={0.01}
+                                  step={0.01}
+                                  style={{ width: "100%" }}
+                                  addonAfter={unit}
+                                />
+                              </Form.Item>
+                            );
+                          }}
                         </Form.Item>
                       </Col>
                       <Col span={4}>
@@ -165,7 +266,7 @@ export const InvoiceCreate = () => {
                           name={[name, "pricePerUnit"]}
                           rules={[{ required: true }]}
                         >
-                          <InputNumber min={1} step={0.01} style={{width: "100%"}} addonAfter="Ft"/>
+                          <InputNumber min={1} step={0.01} style={{width: "100%"}} addonAfter="HUF"/>
                         </Form.Item>
                       </Col>
                       <Col span={4}>

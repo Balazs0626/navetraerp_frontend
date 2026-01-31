@@ -1,6 +1,6 @@
-import { ArrowLeftOutlined, DeleteOutlined, MailOutlined, PlusOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, DeleteOutlined, ImportOutlined, MailOutlined, PlusOutlined } from "@ant-design/icons";
 import { Create, NumberField, useForm } from "@refinedev/antd";
-import { useNotification, useTranslation } from "@refinedev/core";
+import { useNotification, useOne, useTranslation } from "@refinedev/core";
 import { Button, Space, Form, Card, Col, Row, Input, DatePicker, InputNumber, Divider, Typography, Select } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -27,6 +27,42 @@ export const GoodsReceiptCreate = () => {
     document.title = translate("pages.goods_receipts.create.title");
   })
 
+  const selectedPurchaseOrderId = Form.useWatch("purchaseOrderId", form);
+
+  const id = selectedPurchaseOrderId;
+
+  const { result, query } = useOne({
+    resource: "purchase_orders",
+    id
+  });
+
+  const purchaseOrderData = query.data;
+
+  const loadItems = () => {
+    if (purchaseOrderData?.data?.items) {
+      const calculatedItems = purchaseOrderData.data.items.map((item: any) => ({
+        productId: item.productId,
+        quantityReceived: null,
+        batchNumber: null
+      }));
+
+      form.setFieldsValue({
+        items: calculatedItems
+      });
+    }
+  };
+
+  const handleFinish = (values: any) => {
+    const formattedValues = {
+        ...values,
+        receiptDate: values.receiptDate?.format("YYYY-MM-DD")
+    };
+
+    if (formProps.onFinish) {
+        formProps.onFinish(formattedValues);
+    }
+  };
+
   return (
     <Create
       saveButtonProps={saveButtonProps}
@@ -34,6 +70,11 @@ export const GoodsReceiptCreate = () => {
       goBack={null}
       headerButtons={
         <Space>
+          <Button
+            onClick={loadItems}
+            size="large"
+            disabled={!selectedPurchaseOrderId}
+          ><ImportOutlined/>{translate("pages.goods_receipts.buttons.load_items")}</Button>
           <Button
             onClick={() => navigate("/procurement/goods_receipts")}
             size="large"
@@ -55,6 +96,7 @@ export const GoodsReceiptCreate = () => {
 
           form.setFieldValue("totalAmount", total);
         }}
+        onFinish={handleFinish}
       >
         <Card 
           title={translate("pages.goods_receipts.titles.data")}

@@ -121,12 +121,7 @@ export const WorkScheduleList = () => {
             <Table.Column 
               dataIndex={"date"} 
               title={translate("pages.work_schedules.titles.date")}
-              render={(value) => {
-                if (typeof value === 'string' && value.length >= 10) {
-                  return value.substring(0, 10);
-                }
-                return value;
-              }}
+              render={(value) => dayjs(value).format("YYYY. MM. DD.")}
             />
             <Table.Column
               title={translate("pages.work_schedules.list.actions")}

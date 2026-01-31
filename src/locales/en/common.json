@@ -4,6 +4,14 @@
       "backHome": "Go back to homepage",
       "404": "404 - Page not found"
     },
+    "login": {
+      "title": "Login",
+      "titles": {
+        "login": "NavetraERP - Login",
+        "username": "Username",
+        "password": "Password"
+      }
+    },
     "sidebar": {
       "dashboard": "Dashboard",
       "warehouses":"Warehouses",
@@ -26,7 +34,14 @@
       "sales": "Sales",
       "customers": "Customers",
       "sales_orders": "Sales orders",
-      "invoices": "Invoices"
+      "invoices": "Invoices",
+      "production": "Production",
+      "production_orders": "Production orders",
+      "production_outputs": "Production outputs",
+      "inventory": "Inventory",
+      "inventory_items": "Inventory items",
+      "stock_movements": "Stock movements",
+      "inventory_counts": "Inventory counts"
     },
     "dashboard": {
         "title": "Dashboard",
@@ -34,7 +49,7 @@
         "welcome_message": "Select the module you want to use",
         "active_users": "Active users",
         "modules": "Modules",
-        "main": "Default modules",
+        "main": "Basic modules",
         "warehouses": {
           "title": "Warehouses",
           "description": "Create, list, edit and delete warehouses"
@@ -88,11 +103,29 @@
           "sales_orders_description": "Create, list, edit, delete and print sales orders",
           "invoices": "Invoices",
           "invoices_description": "Create, list, edit, delete and print invoices"
+        },
+        "production_module": {
+          "title": "Production module",
+          "description": "Manage production orders and production outputs",
+          "production_orders": "Production orders",
+          "production_orders_description": "Create, list, edit, delete and print production orders",
+          "production_outputs": "Production outputs",
+          "production_outputs_description": "Create, list, edit, delete and print production outputs"
+        },
+        "inventory_module": {
+          "title": "Inventory module",
+          "description": "Manage inventory items, stock movements and inventory counts",
+          "inventory_items": "Inventory items",
+          "inventory_items_description": "Create list and delete inventory items",
+          "stock_movements": "Stock movements",
+          "stock_movements_description": "Create, list, edit and delete stock movements",
+          "inventory_counts": "Inventory counts",
+          "inventory_counts_description": "Create, list, edit and delete inventory counts"
         }
     },
     "warehouses": {
       "titles": {
-        "data": "Default data",
+        "data": "Master data",
         "address_data": "Address data",
         "name": "Name",
         "address": "Address",
@@ -121,7 +154,7 @@
     },
     "products": {
       "titles": {
-        "data": "Default data",
+        "data": "Master data",
         "sku": "SKU",
         "name": "Name",
         "unit": "Unit",
@@ -169,7 +202,7 @@
     },
     "roles": {
       "titles": {
-        "default_data": "Default data",
+        "default_data": "Master data",
         "role": "Role",
         "name": "Role name",
         "permissions": "Permissions"
@@ -390,7 +423,7 @@
         "address_city": "City",
         "address_first":"Address 1",
         "address_second": "Address 2",
-        "data": "Default data",
+        "data": "Master data",
         "address_data": "Address data"
       },
       "buttons": {
@@ -417,7 +450,7 @@
         "supplier": "Supplier",
         "total_amount": "Total amount",
         "currency": "Currency",
-        "data": "Default data",
+        "data": "Master data",
         "products": "Products",
         "product": "Product",
         "amount": "Amount",
@@ -448,7 +481,7 @@
         "actions": "Actions",
         "purchase_order": "Purchase order",
         "employee": "Receiver",
-        "data": "Default data",
+        "data": "Master data",
         "products": "Products",
         "product": "Product",
         "quantity_received": "Quantity received",
@@ -456,7 +489,8 @@
       },
       "buttons": {
         "back": "Back to goods receipts",
-        "create": "Create a new goods receipt"
+        "create": "Create a new goods receipt",
+        "load_items": "Load items"
       },
       "list": {
         "title": "Goods receipts"
@@ -474,7 +508,7 @@
         "email": "E-mail address",
         "phone_number": "Phone number",
         "actions": "Actions",
-        "data": "Default data",
+        "data": "Master data",
         "tax_number": "Tax number",
         "address_data": "Address data",
         "billing_address_data": "Billing address data",
@@ -507,7 +541,7 @@
         "required_delivery_date": "Required delivery date",
         "status": "Status",
         "actions": "Actions",
-        "data": "Default data",
+        "data": "Master data",
         "customer": "Customer",
         "total_amount": "Total amount",
         "products": "Products",
@@ -542,7 +576,7 @@
         "due_date": "Due date",
         "status": "Status",
         "actions": "Actions",
-        "data": "Default data",
+        "data": "Master data",
         "sales_order": "Sales order",
         "total_amount": "Total gross price",
         "paid_amount": "Total net price",
@@ -554,7 +588,8 @@
       },
       "buttons": {
         "back": "Go back to invoices",
-        "create": "Create a new invoice"
+        "create": "Create a new invoice",
+        "load_items": "Load items"
       },
       "list": {
         "title": "Invoices"
@@ -567,6 +602,152 @@
       },
       "show": {
         "title": "Invoice"
+      }
+    },
+    "production_orders": {
+      "titles": {
+        "id": "Receipt number",
+        "product": "Product",
+        "start_date": "Start date",
+        "end_date": "End date",
+        "status": "Status",
+        "actions": "Actions",
+        "data": "Master data",
+        "planned_quantity": "Planned quantity",
+        "responsible_employee": "Responsible employee",
+        "components": "Components",
+        "component_product": "Component",
+        "quantity_used": "Quantity used",
+        "warehouse": "Warehouse",
+        "date_used": "Date used"
+      },
+      "buttons": {
+        "back": "Go back to production orders",
+        "create": "Create a new production order",
+        "load_bom": "Load BOM"
+      },
+      "list": {
+        "title": "Production orders"
+      },
+      "create": {
+        "title": "Creating a production order"
+      },
+      "edit": {
+        "title": "Editing a production order"
+      },
+      "show": {
+        "title": "Production order"
+      }
+    },
+    "production_outputs": {
+      "titles": {
+        "production_order_receipt_number": "Production order number",
+        "product": "Product",
+        "quantity_produced": "Quantity produced",
+        "product_unit": "Unit",
+        "warehouse": "Warehouse",
+        "date_produced": "Date produced",
+        "actions": "Actions",
+        "data": "Master data",
+        "production_order": "Production order"
+      },
+      "buttons": {
+        "back": "Go back to production outputs",
+        "create": "Create a new production order"
+      },
+      "list": {
+        "title": "Production outputs"
+      },
+      "create": {
+        "title": "Creating a production output"
+      },
+      "edit": {
+        "title": "Editing a production output"
+      },
+      "show": {
+        "title": "Production output"
+      }
+    },
+    "inventory_items": {
+      "titles": {
+        "warehouse": "Warehouse",
+        "product": "Product",
+        "batch_number": "Batch number",
+        "quantity_on_hand": "Quantity",
+        "unit": "Unit",
+        "last_updated": "Last updated",
+        "actions": "Actions",
+        "data": "Master data"
+      },
+      "buttons": {
+        "back": "Back to inventory items",
+        "create": "Create a new inventory item"
+      },
+      "list": {
+        "title": "Inventory items"
+      },
+      "create": {
+        "title": "Creating an inventory item"
+      }
+    },
+    "stock_movements": {
+      "titles": {
+        "product": "Product",
+        "reference_document": "Reference document",
+        "movement_type": "Movement type",
+        "movement_date": "Movement date",
+        "actions": "Actions",
+        "from_warehouse": "Warehouse (from)",
+        "to_warehouse": "Warehouse (to)",
+        "quantity": "Quantity",
+        "performed_by": "Performed by",
+        "details": "Details",
+        "data": "Master data"
+      },
+      "buttons": {
+        "back": "Back to stock movements",
+        "create": "Create a new stock movement"
+      },
+      "list": {
+        "title": "Stock movements"
+      },
+      "create": {
+        "title": "Creating a stock movement"
+      },
+      "edit": {
+        "title": "Editing a stock movement"
+      },
+      "show": {
+        "title": "Stock movement"
+      }
+    },
+    "inventory_counts": {
+      "titles": {
+        "id": "ID",
+        "warehouse": "Warehouse",
+        "counted_by": "Counted by",
+        "count_date": "Count date",
+        "actions": "Actions",
+        "details": "Details",
+        "product": "Product",
+        "counted_quantity": "Counted quantity",
+        "system_quantity": "System quantity",
+        "unit": "Unit",
+        "products": "Products",
+        "data": "Master data"
+      },
+      "buttons": {
+        "back": "Back to inventory counts",
+        "create": "Create a new inventory count"
+      },
+      "list": {
+        "title": "Inventory counts"
+      },
+      "create": {
+        "title": "Creating an inventory count"
+      },
+      "show": {
+        "title": "Inventory count"
       }
     }
   },
@@ -582,6 +763,7 @@
     "search": "Search"
   },
   "buttons": {
+    "login": "Login",
     "save": "Save",
     "logout": "Logout",
     "delete": "Delete",

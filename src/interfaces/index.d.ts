@@ -212,3 +212,31 @@ export interface IProductionOutputList {
     productName: string;
     dateProduced: string;
 }
+
+  // Raktárkezelés \\
+
+export interface IInventoryItems {
+    id: number;
+    warehouseName: string;
+    productName: string;
+    productUnit: string;
+    quantityOnHand: number;
+    batchNumber: string;
+    lastUpdated;
+}
+
+export interface IStockMovements {
+    id: number;
+    productId: number;
+    poductName: string;
+    referenceDocument: string;
+    movementDate: string;
+    movementType: string;
+}
+
+export interface IInventoryCounts {
+    id: number;
+    countedByName: string;
+    warehouseName: string;
+    countDate: string;
+}

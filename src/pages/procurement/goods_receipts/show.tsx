@@ -68,22 +68,17 @@ const getPrintStyle = () => {
     {
       title: "Mennyiség",
       dataIndex: "quantityReceived",
-      key: "quantityReceived",
-      render: (data: any) => (
-        <>
-          {data?.quantityReceived} db
-        </>
-      ),
+      key: "quantityReceived"
     },
     {
-      title: "Batchnumber",
+      title: "Egység",
+      dataIndex: "productUnit",
+      key: "productUnit"
+    },
+    {
+      title: "Tételszám",
       dataIndex: "batchNumber",
-      key: "batchNumber",
-      render: (data: any) => (
-        <>
-          {data?.batchNumber}
-        </>
-      ),
+      key: "batchNumber"
     }
   ];
 

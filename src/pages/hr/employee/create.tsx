@@ -36,7 +36,19 @@ export const EmployeeCreate = () => {
         return `+${countryCode} ${areaCode} ${phoneNumber.replace(/(\d{3})(\d{4})/, '$1 $2')}`;
     }
     return '';
-};
+  };
+
+  const handleFinish = (values: any) => {
+    const formattedValues = {
+        ...values,
+        birthDate: values.birthDate?.format("YYYY-MM-DD"),
+        hireDate: values.hireDate?.format("YYYY-MM-DD"),
+    };
+
+    if (formProps.onFinish) {
+        formProps.onFinish(formattedValues);
+    }
+  };
 
   return (
     <Create
@@ -56,6 +68,7 @@ export const EmployeeCreate = () => {
         {...formProps}
         form={form}
         layout="vertical"
+        onFinish={handleFinish}
       >
         <Card 
           title={translate("pages.employee.titles.personal_data")}

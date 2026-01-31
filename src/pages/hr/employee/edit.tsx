@@ -37,6 +37,18 @@ export const EmployeeEdit = () => {
 
   }, [formProps.initialValues])
 
+  const handleFinish = (values: any) => {
+    const formattedValues = {
+        ...values,
+        birthDate: values.birthDate?.format ? values.birthDate.format("YYYY-MM-DD") : values.birthDate,
+        hireDate: values.hireDate?.format ? values.hireDate.format("YYYY-MM-DD") : values.hireDate
+    };
+
+    if (formProps.onFinish) {
+        formProps.onFinish(formattedValues);
+    }
+  };
+
   return (
     <Edit
       title={translate("pages.employee.edit.title")}
@@ -54,6 +66,7 @@ export const EmployeeEdit = () => {
         {...formProps}
         form={form}
         layout="vertical"
+        onFinish={handleFinish}
       >
         <Form.Item
           name="addressId"

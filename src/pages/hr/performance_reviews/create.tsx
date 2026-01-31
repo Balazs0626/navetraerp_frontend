@@ -22,6 +22,17 @@ export const PerformanceReviewCreate = () => {
     document.title = translate("pages.performance_reviews.create.title");
   })  
 
+  const handleFinish = (values: any) => {
+    const formattedValues = {
+        ...values,
+        reviewDate: values.reviewDate?.format("YYYY-MM-DD")
+    };
+
+    if (formProps.onFinish) {
+        formProps.onFinish(formattedValues);
+    }
+  };
+
   return (
     <Create
       saveButtonProps={saveButtonProps}
@@ -40,6 +51,7 @@ export const PerformanceReviewCreate = () => {
         {...formProps}
         form={form}
         layout="vertical"
+        onFinish={handleFinish}
       >
         <Card title={translate("pages.performance_reviews.titles.data")}>
           <Row gutter={16}>

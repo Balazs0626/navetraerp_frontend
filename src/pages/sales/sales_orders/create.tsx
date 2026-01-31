@@ -10,6 +10,7 @@ import { usePurchaseOrderStatus } from "../../../constants/purchase_orders";
 import { CustomerSelect } from "../../../components/CustomerSelect";
 import { useSalesOrderStatus } from "../../../constants/sales_orders";
 import { IProductList } from "../../../interfaces";
+import { WarehouseSelect } from "../../../components/WarehouseSelect";
 
 export const SalesOrderCreate = () => {
 
@@ -36,6 +37,18 @@ export const SalesOrderCreate = () => {
 
   const getUnitByProductId = (productId?: number) => {
     return products.find(p => p.id === productId)?.unit ?? "";
+  };
+
+  const handleFinish = (values: any) => {
+    const formattedValues = {
+        ...values,
+        orderDate: values.orderDate?.format("YYYY-MM-DD"),
+        requiredDeliveryDate: values.requiredDeliveryDate?.format("YYYY-MM-DD"),
+    };
+
+    if (formProps.onFinish) {
+        formProps.onFinish(formattedValues);
+    }
   };
   
   return (
@@ -66,6 +79,7 @@ export const SalesOrderCreate = () => {
 
           form.setFieldValue("totalAmount", total);
         }}
+        onFinish={handleFinish}
       >
         <Card 
           title={translate("pages.sales_orders.titles.data")}
@@ -116,6 +130,15 @@ export const SalesOrderCreate = () => {
             </Col>
           </Row>
           <Row gutter={16}>
+            <Col span={6}>
+              <Form.Item
+                label={translate("pages.sales_orders.titles.from_warehouse")}
+                name="warehouseId"
+                rules={[{ required: true }]}
+              >
+                <WarehouseSelect/>
+              </Form.Item>
+            </Col>
             <Col span={6}>
               <Form.Item
                 label={translate("pages.sales_orders.titles.total_amount")}

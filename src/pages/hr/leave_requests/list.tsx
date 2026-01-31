@@ -114,6 +114,9 @@ export const LeaveRequestList = () => {
     try {
       await axios.put(`${API_URL}/leave_requests/${action}`, {
         ids: selectedRowKeys,
+      },
+      {
+        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
       });
 
       setSelectedRowKeys([]);

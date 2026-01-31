@@ -207,6 +207,8 @@ const getPrintStyle = () => {
             <Row gutter={16}>
               <Col xs={24} style={{textAlign: "right", padding: 24}}>
                 <Text style={{fontSize: "1.3em"}}><b>Fizetendő végösszeg:</b> {record?.paidAmount} Ft</Text>
+                <br></br>
+                <Text style={{fontSize: "1.15em"}}>azaz, {record?.paidAmountText} forint</Text>
               </Col>
             </Row>
           </Col>
