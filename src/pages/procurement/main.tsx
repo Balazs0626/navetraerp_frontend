@@ -1,8 +1,9 @@
 import { useTranslation, usePermissions } from "@refinedev/core";
 import { useNavigate } from "react-router";
-import { Row, Col, Card, Typography, Space } from "antd";
-import { UserOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, BankOutlined, ProductOutlined, ShopOutlined, TruckOutlined, ShoppingCartOutlined, FileOutlined } from "@ant-design/icons";
+import { Row, Col, Card, Typography, Space, TabsProps, Collapse, Tabs } from "antd";
+import { UserOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, BankOutlined, ProductOutlined, ShopOutlined, TruckOutlined, ShoppingCartOutlined, FileOutlined, LockOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
+import { PurchaseLeadTimeColumn } from "../../components/diagrams/PurchaseLeadTimeColumn";
 
 const { Text } = Typography;
 
@@ -17,8 +18,43 @@ export const ProcurementMainPage = () => {
 
   const navigate = useNavigate();
 
-  return (
-    <Card
+    const hasAccess = (requiredPerm: string) => {
+    if (!requiredPerm) return true; 
+    return permissions?.includes(requiredPerm);
+  };
+
+  const panelsData = [
+    {
+      key: "1",
+      title: translate("pages.purchase_orders.list.title"),
+      icon: <ShoppingCartOutlined />,
+      content: <PurchaseLeadTimeColumn/>,
+      permission: "VIEW:PURCHASE_ORDERS",
+    }
+  ];
+
+  const collapseItems = panelsData.map((panel: any) => {
+    const accessible = hasAccess(panel.permission);
+
+    return {
+      key: panel.key,
+      label: accessible ? (
+        <span>{panel.icon} {panel.title}</span>
+      ) : (
+        <span style={{ color: "gray" }}>
+          <LockOutlined /> {panel.title}
+        </span>
+      ),
+      children: panel.content,
+      collapsible: accessible ? "header" : "disabled",
+    };
+  });
+
+  const items: TabsProps["items"] = [
+    {
+      key: "1",
+      label: "Modul",
+      children:     <Card
       style={{
         margin: 12
       }}
@@ -28,13 +64,13 @@ export const ProcurementMainPage = () => {
       <Row gutter={[24, 24]}>
         <Col xs={24} lg={12}>
           <Card 
-            hoverable={permissions?.includes("VIEW:EMPLOYEES")}
+            hoverable={permissions?.includes("VIEW:SUPPLIERS")}
             style={{ 
               borderRadius: 12,
-              cursor: permissions?.includes("VIEW:EMPLOYEES") ? "pointer" : "not-allowed", 
-              filter: permissions?.includes("VIEW:EMPLOYEES") ? "none" : "opacity(50%)"
+              cursor: permissions?.includes("VIEW:SUPPLIERS") ? "pointer" : "not-allowed", 
+              filter: permissions?.includes("VIEW:SUPPLIERS") ? "none" : "opacity(50%)"
             }}
-            onClick={() => permissions?.includes("VIEW:EMPLOYEES") ? navigate("/procurement/suppliers") : undefined}
+            onClick={() => permissions?.includes("VIEW:SUPPLIERS") ? navigate("/procurement/suppliers") : undefined}
           >
             <Space direction="horizontal">
               <TruckOutlined style={{ fontSize: 48 }} />
@@ -50,13 +86,13 @@ export const ProcurementMainPage = () => {
 
         <Col xs={24} lg={12}>
           <Card 
-            hoverable={permissions?.includes("VIEW:EMPLOYEES")}
+            hoverable={permissions?.includes("VIEW:PURCHASE_ORDERS")}
             style={{ 
               borderRadius: 12,
-              cursor: permissions?.includes("VIEW:EMPLOYEES") ? "pointer" : "not-allowed", 
-              filter: permissions?.includes("VIEW:EMPLOYEES") ? "none" : "opacity(50%)"
+              cursor: permissions?.includes("VIEW:PURCHASE_ORDERS") ? "pointer" : "not-allowed", 
+              filter: permissions?.includes("VIEW:PURCHASE_ORDERS") ? "none" : "opacity(50%)"
             }}
-            onClick={() => permissions?.includes("VIEW:EMPLOYEES") ? navigate("/procurement/purchase_orders") : undefined}
+            onClick={() => permissions?.includes("VIEW:PURCHASE_ORDERS") ? navigate("/procurement/purchase_orders") : undefined}
           >
             <Space direction="horizontal">
               <ShoppingCartOutlined style={{ fontSize: 48 }} />
@@ -72,13 +108,13 @@ export const ProcurementMainPage = () => {
 
         <Col xs={24} lg={12}>
           <Card 
-            hoverable={permissions?.includes("VIEW:EMPLOYEES")}
+            hoverable={permissions?.includes("VIEW:GOODS_RECEIPTS")}
             style={{ 
               borderRadius: 12,
-              cursor: permissions?.includes("VIEW:EMPLOYEES") ? "pointer" : "not-allowed", 
-              filter: permissions?.includes("VIEW:EMPLOYEES") ? "none" : "opacity(50%)"
+              cursor: permissions?.includes("VIEW:GOODS_RECEIPTS") ? "pointer" : "not-allowed", 
+              filter: permissions?.includes("VIEW:GOODS_RECEIPTS") ? "none" : "opacity(50%)"
             }}
-            onClick={() => permissions?.includes("VIEW:EMPLOYEES") ? navigate("/procurement/goods_receipts") : undefined}
+            onClick={() => permissions?.includes("VIEW:GOODS_RECEIPTS") ? navigate("/procurement/goods_receipts") : undefined}
           >
             <Space direction="horizontal">
               <FileOutlined style={{ fontSize: 48 }} />
@@ -93,5 +129,17 @@ export const ProcurementMainPage = () => {
         </Col>
       </Row>
     </Card>
+    },
+    {
+      key: "2",
+      label: "Diagramok",
+      children: <Collapse items={collapseItems as any} bordered={false} />,
+    },
+    
+  ];
+
+  return (
+    <Tabs defaultActiveKey="1" items={items} type="card"/>
   );
+
 };

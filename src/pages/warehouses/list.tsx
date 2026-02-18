@@ -3,9 +3,11 @@ import { IWarehouseList } from "../../interfaces";
 import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker } from "antd";
 import { CalendarOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
-import { useTranslation, usePermissions } from "@refinedev/core";
+import { useTranslation, usePermissions, ErrorComponent } from "@refinedev/core";
 import { useEffect } from "react";
 import dayjs from 'dayjs';
+import { CanAccess } from "@refinedev/core";
+import { CustomErrorComponent } from "../error";
 
 
 export const WarehouseList = () => {
@@ -27,48 +29,54 @@ export const WarehouseList = () => {
   const { data: permissions } = usePermissions<string[]>({});
 
   useEffect(() => {
-    document.title = translate("pages.warehouses.list.title");
-  }) 
+    document.title = `${translate("pages.warehouses.list.title")} | NavetraERP`;
+  })
 
   return (
-    <List
-      title={translate("pages.warehouses.list.title")}
-      headerButtons={
-          <Space>
-            <Button icon={<PlusOutlined/>} size="large" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:WAREHOUSES")}>
-                {translate("pages.warehouses.buttons.create")}
-            </Button>
-          </Space>
-      }
+    <CanAccess 
+      resource="warehouses" 
+      action="list" 
+      fallback={<CustomErrorComponent status="403"/>}
     >
-      <Table {...tableProps} rowKey="id">
-        <Table.Column dataIndex={"name"} title={translate("pages.warehouses.titles.name")}/>
-        <Table.Column dataIndex={"address"} title={translate("pages.warehouses.titles.address")}/>
-        <Table.Column dataIndex={"managerName"} title={translate("pages.warehouses.titles.manager")}/>
-        <Table.Column
-          title={translate("pages.warehouses.list.actions")}
-          dataIndex="actions"
-          key="actions"
-          render={(_, record) => (
+      <List
+        title={translate("pages.warehouses.list.title")}
+        headerButtons={
             <Space>
-              <EditButton
-                size="small"
-                recordItemId={record.id}
-                resource="warehouses"
-                onClick={() => navigate(`edit/${record.id}`)}
-                disabled={!permissions?.includes("EDIT:WAREHOUSES")}
-              />
-              <DeleteButton
-                size="small"
-                recordItemId={record.id}
-                resource="warehouses"
-                confirmTitle={translate("notifications.deleteMessage")}
-                disabled={!permissions?.includes("DELETE:WAREHOUSES")}
-              />
+              <Button icon={<PlusOutlined/>} size="large" type="primary" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:WAREHOUSES")}>
+                {translate("pages.warehouses.buttons.create")}
+              </Button>
             </Space>
-          )}
-        />
-      </Table>
-    </List>
+        }
+      >
+        <Table {...tableProps} rowKey="id">
+          <Table.Column dataIndex={"name"} title={translate("pages.warehouses.titles.name")}/>
+          <Table.Column dataIndex={"address"} title={translate("pages.warehouses.titles.address")}/>
+          <Table.Column dataIndex={"managerName"} title={translate("pages.warehouses.titles.manager")}/>
+          <Table.Column
+            title={translate("pages.warehouses.list.actions")}
+            dataIndex="actions"
+            key="actions"
+            render={(_, record) => (
+              <Space>
+                <EditButton
+                  size="small"
+                  recordItemId={record.id}
+                  resource="warehouses"
+                  onClick={() => navigate(`edit/${record.id}`)}
+                  disabled={!permissions?.includes("EDIT:WAREHOUSES")}
+                />
+                <DeleteButton
+                  size="small"
+                  recordItemId={record.id}
+                  resource="warehouses"
+                  confirmTitle={translate("notifications.deleteMessage")}
+                  disabled={!permissions?.includes("DELETE:WAREHOUSES")}
+                />
+              </Space>
+            )}
+          />
+        </Table>
+      </List>
+    </CanAccess>
   )
 };

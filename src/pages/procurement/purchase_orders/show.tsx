@@ -1,10 +1,11 @@
 import { ArrowLeftOutlined, PrinterOutlined } from "@ant-design/icons";
 import { Show, DateField, RefreshButton } from "@refinedev/antd";
-import { useShow, useTranslation } from "@refinedev/core";
+import { CanAccess, useShow, useTranslation } from "@refinedev/core";
 import { Typography, Descriptions, Rate, Space, Button, Col, Row, Table } from "antd";
 import { useNavigate } from "react-router";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import { CustomErrorComponent } from "../../error";
 
 const { Title, Text } = Typography;
 
@@ -19,38 +20,42 @@ export const PurchaseOrderShow = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
-const getPrintStyle = () => {
-  return `
-    @media print {
-      * {
-        color: black !important;
-      }
+  useEffect(() => {
+    document.title = `${translate("pages.purchase_orders.show.title")} | NavetraERP`;
+  })
 
-      .ant-table,
-      .ant-table-container,
-      .ant-table-content {
-        background: white !important;
-      }
+  const getPrintStyle = () => {
+    return `
+      @media print {
+        * {
+          color: black !important;
+        }
 
-      .ant-table-tbody > tr > td {
-        background: white !important;
-        color: black !important;
-        border: none !important;
-        border-bottom: 1px solid black !important;
-      }
+        .ant-table,
+        .ant-table-container,
+        .ant-table-content {
+          background: white !important;
+        }
 
-      .ant-table-thead > tr > th {
-        background: #f0f0f0 !important;
-        color: black !important;
-        border: none !important;
-        border-bottom: 1px solid black !important;
-      }
+        .ant-table-tbody > tr > td {
+          background: white !important;
+          color: black !important;
+          border: none !important;
+          border-bottom: 1px solid black !important;
+        }
 
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-  `;
-};
+        .ant-table-thead > tr > th {
+          background: #f0f0f0 !important;
+          color: black !important;
+          border: none !important;
+          border-bottom: 1px solid black !important;
+        }
+
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    `;
+  };
 
 
   const columns = [
@@ -68,7 +73,7 @@ const getPrintStyle = () => {
       title: "Mennyiség",
       dataIndex: "quantityOrdered",
       key: "quantityOrdered",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.quantityOrdered} db
         </>
@@ -78,9 +83,9 @@ const getPrintStyle = () => {
       title: "Nettó",
       dataIndex: "nettoPrice",
       key: "nettoPrice",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
-          {data?.nettoPrice} {record?.currency}
+          {data?.nettoPrice} HUF
         </>
       ),
     },
@@ -88,7 +93,7 @@ const getPrintStyle = () => {
       title: "Áfa",
       dataIndex: "taxRate",
       key: "taxRate",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.taxRate} %
         </>
@@ -98,9 +103,9 @@ const getPrintStyle = () => {
       title: "Bruttó",
       dataIndex: "bruttoPrice",
       key: "bruttoPrice",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
-          {data?.bruttoPrice} {record?.currency}
+          {data?.bruttoPrice} HUF
         </>
       ),
     },
@@ -108,7 +113,7 @@ const getPrintStyle = () => {
       title: "Kedvezmény",
       dataIndex: "discount",
       key: "discount",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.discount} %
         </>
@@ -117,6 +122,11 @@ const getPrintStyle = () => {
   ];
 
   return (
+    <CanAccess 
+      resource="purchase_orders" 
+      action="show" 
+      fallback={<CustomErrorComponent status="403"/>}
+    >
       <Show
         goBack={null}
         title={translate("pages.purchase_orders.show.title")}
@@ -143,7 +153,7 @@ const getPrintStyle = () => {
           <style>{getPrintStyle()}</style>
           <Col xs={24}>
             <Row gutter={16}>
-              <Text style={{margin: 20}}>Bizonylat száma: {record?.id}</Text>
+              <Text style={{margin: 20}}>Bizonylat száma: {record?.receiptNumber}</Text>
               <Col xs={24}>
                 <Title level={2} style={{textAlign: "center", padding: 50}}>Rendelési bizonylat</Title>
               </Col>
@@ -160,6 +170,8 @@ const getPrintStyle = () => {
                     <Text>{record?.supplierAddressPostCode}, {record?.supplierAddressCity} {record?.supplierAddressFirstLine} {record?.supplierAddressSecondLine}</Text>
                     <br></br>
                     <Text><b>Adószám: </b>{record?.supplierTaxNumber}</Text>
+                    <br></br>
+                    <Text><b>Közösségi adószám: </b>{record?.supplierEuTaxNumber}</Text>
                   </Col>
                 </Row>
               </Col>
@@ -168,12 +180,14 @@ const getPrintStyle = () => {
                 <Title level={4} style={{textAlign: "left"}}>Vevő:</Title>
                 <Row gutter={16}>
                   <Col xs={24} style={{textAlign: "left"}}>
-                    <Title level={3}>Saját Kft.</Title>
-                    <Text>Magyarország, Vas</Text>
+                    <Title level={3}>{record?.companyName}</Title>
+                    <Text>{record?.companyAddress_1}</Text>
                     <br></br>
-                    <Text>9600, Sárvár Fő utca 43.</Text>
+                    <Text>{record?.companyAddress_2}</Text>
                     <br></br>
-                    <Text><b>Adószám: </b>123456789-11</Text>
+                    <Text><b>Adószám: </b>{record?.companyTaxNumber}</Text>
+                    <br></br>
+                    <Text><b>Közösségi adószám: </b>{record?.companyEuTaxNumber}</Text>
                   </Col>
                 </Row>
               </Col>
@@ -189,5 +203,6 @@ const getPrintStyle = () => {
           </Col>
         </div>
       </Show>
-  );
-};
+    </CanAccess>
+  )
+}

@@ -1,8 +1,10 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Show, DateField, RefreshButton } from "@refinedev/antd";
-import { useShow, useTranslation } from "@refinedev/core";
+import { CanAccess, useShow, useTranslation } from "@refinedev/core";
 import { Typography, Descriptions, Rate, Space, Button } from "antd";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import { CustomErrorComponent } from "../../error";
 
 const { Title, Text } = Typography;
 
@@ -14,7 +16,16 @@ export const PerformanceReviewShow = () => {
   const { result: data } = useShow();
   const record = data;
 
+  useEffect(() => {
+    document.title = `${translate("pages.performance_reviews.show.title")} | NavetraERP`;
+  })  
+
   return (
+    <CanAccess 
+      resource="performance_reviews" 
+      action="show" 
+      fallback={<CustomErrorComponent status="403"/>}
+    >
       <Show
         goBack={null}
         title={translate("pages.performance_reviews.show.title")}
@@ -56,5 +67,6 @@ export const PerformanceReviewShow = () => {
           </Descriptions>
           
       </Show>
+    </CanAccess>
   );
 };

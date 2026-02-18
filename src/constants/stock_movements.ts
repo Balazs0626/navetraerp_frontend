@@ -7,15 +7,15 @@ export const useStockMovementType = () => {
     const MovementType = [
         { 
             value: "in", 
-            label: translate("selects.stock_movements.options.in")
+            label: translate("selects.stock_movements.options_movement_type.in")
         },
         { 
             value: "out", 
-            label: translate("selects.stock_movements.options.out")
+            label: translate("selects.stock_movements.options_movement_type.out")
         },
         { 
             value: "transfer", 
-            label: translate("selects.stock_movements.options.transfer")
+            label: translate("selects.stock_movements.options_movement_type.transfer")
         },
     ];
 

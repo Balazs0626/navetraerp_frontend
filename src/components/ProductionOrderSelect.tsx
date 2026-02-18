@@ -38,7 +38,7 @@ export const ProductionOrderSelect: React.FC<ProductionOrderSelectProps> = ({ va
     <Select
       showSearch
       optionFilterProp="label"
-      placeholder={translate("selects.production_order.placeholder")}
+      placeholder={translate("selects.production_orders.placeholder")}
       loading={loading}
       value={value}
       onChange={onChange}

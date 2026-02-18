@@ -159,6 +159,7 @@ export interface ISupplierList {
 
 export interface IPurchaseOrderList {
     id: number;
+    receiptNumber: string;
     orderDate: string;
     expectedDeliveryDate: string;
     status: string;
@@ -166,6 +167,7 @@ export interface IPurchaseOrderList {
 
 export interface IGoodsReceiptList {
     id: number;
+    receiptNumber: string;
     purchaseOrderId: number;
     warehouseName: string;
     receiptDate: string;
@@ -185,6 +187,7 @@ export interface ISalesOrderList {
     receiptNumber: string;
     orderDate: string;
     requiredDeliveryDate: string;
+    totalAmount: number;
     status: string;
 }
 

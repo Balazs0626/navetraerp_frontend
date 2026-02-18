@@ -1,10 +1,11 @@
 import { ArrowLeftOutlined, PrinterOutlined } from "@ant-design/icons";
 import { Show, DateField, RefreshButton } from "@refinedev/antd";
-import { useCustom, useOne, useShow, useTranslation } from "@refinedev/core";
+import { CanAccess, useCustom, useOne, useShow, useTranslation } from "@refinedev/core";
 import { Typography, Descriptions, Rate, Space, Button, Col, Row, Table } from "antd";
 import { useNavigate, useParams } from "react-router";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import { CustomErrorComponent } from "../error";
 
 const { Title, Text } = Typography;
 
@@ -24,38 +25,42 @@ export const ProductBomShow = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
-const getPrintStyle = () => {
-  return `
-    @media print {
-      * {
-        color: black !important;
-      }
+  useEffect(() => {
+    document.title = `${translate("pages.products.bom.title")} | NavetraERP`;
+  })
 
-      .ant-table,
-      .ant-table-container,
-      .ant-table-content {
-        background: white !important;
-      }
+  const getPrintStyle = () => {
+    return `
+      @media print {
+        * {
+          color: black !important;
+        }
 
-      .ant-table-tbody > tr > td {
-        background: white !important;
-        color: black !important;
-        border: none !important;
-        border-bottom: 1pt solid black !important;
-      }
+        .ant-table,
+        .ant-table-container,
+        .ant-table-content {
+          background: white !important;
+        }
 
-      .ant-table-thead > tr > th {
-        background: #f0f0f0 !important;
-        color: black !important;
-        border: none !important;
-        border-bottom: 1pt solid black !important;
-      }
+        .ant-table-tbody > tr > td {
+          background: white !important;
+          color: black !important;
+          border: none !important;
+          border-bottom: 1pt solid black !important;
+        }
 
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-  `;
-};
+        .ant-table-thead > tr > th {
+          background: #f0f0f0 !important;
+          color: black !important;
+          border: none !important;
+          border-bottom: 1pt solid black !important;
+        }
+
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    `;
+  };
 
 
   const columns = [
@@ -102,9 +107,14 @@ const getPrintStyle = () => {
   ];
 
   return (
+    <CanAccess 
+      resource="products" 
+      action="show" 
+      fallback={<CustomErrorComponent status="403"/>}
+    >
       <Show
         goBack={null}
-        title={translate("pages.products.bom")}
+        title={translate("pages.products.titles.bom")}
         headerButtons={
           <Space>
             <Button type="primary" size="large" icon={<PrinterOutlined />} onClick={reactToPrintFn}>
@@ -145,5 +155,6 @@ const getPrintStyle = () => {
             />
         </div>
       </Show>
+    </CanAccess>
   );
 };

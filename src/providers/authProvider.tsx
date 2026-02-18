@@ -51,19 +51,6 @@ export const authProvider : AuthProvider = {
       error: new Error("Not authenticated"),
     });
   },
-  /* getPermissions: async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return null;
-
-      try {
-          const res = await axios.get(`${API_URL}/Auth/me`, {
-              headers: { Authorization: `Bearer ${token}` },
-          });
-          return res.data.permissions;
-      } catch (e) {
-          return null;
-      }
-  }, */
 
   getPermissions: async (): Promise<string[] | null> => {
     const token = sessionStorage.getItem("token");
@@ -105,4 +92,76 @@ export const authProvider : AuthProvider = {
     console.error("Auth error:", error);
     return { error };
   },
+  forgotPassword: async ({ email }) => {
+        try {
+            const response = await fetch(`${API_URL}/Auth/forgot-password`, {
+                method: "POST",
+                body: JSON.stringify({ email }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.ok) {
+                return {
+                    success: true,
+                };
+            }
+            
+            return {
+                success: false,
+                error: {
+                    message: "Hiba történt a kérés küldésekor.",
+                    name: "Forgot Password Error",
+                },
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: {
+                    message: "A szerver nem elérhető.",
+                    name: "Network Error",
+                },
+            };
+        }
+    },
+
+    updatePassword: async ({ email, token, password }) => {
+        try {
+            const response = await fetch(`${API_URL}/Auth/reset-password`, {
+                method: "POST",
+                body: JSON.stringify({ 
+                    email, 
+                    token, 
+                    newPassword: password
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.ok) {
+                return {
+                    success: true,
+                    redirectTo: "/login",
+                };
+            }
+
+            return {
+                success: false,
+                error: {
+                    message: "Érvénytelen vagy lejárt token.",
+                    name: "Reset Error",
+                },
+            };
+        } catch (error) {
+            return {
+                success: false,
+                error: {
+                    message: "Hiba a jelszó frissítésekor.",
+                    name: "Network Error",
+                },
+            };
+        }
+    },
 };

@@ -1,6 +1,6 @@
-import { useCustom, useGetIdentity, usePermissions } from "@refinedev/core";
+import { useCustom, useGetIdentity, usePermissions, useNavigation } from "@refinedev/core";
 import { useNavigate } from "react-router";
-import { Row, Col, Card, Avatar, Typography, Space, Button, Divider, Select } from "antd";
+import { Row, Col, Card, Avatar, Typography, Space, Button, Divider, Select, Statistic, FloatButton, theme } from "antd";
 import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined, SettingOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, SafetyOutlined, TeamOutlined, ShoppingCartOutlined, ShopOutlined, ProductOutlined, DollarOutlined, AppstoreAddOutlined, DatabaseOutlined } from "@ant-design/icons";
 import "antd/dist/reset.css";
 import { Column } from "@ant-design/plots";
@@ -14,6 +14,8 @@ const { Text, Title } = Typography;
 export const DashboardPage = () => {
 
   const { translate } = useTranslation();
+
+  const { token } = theme.useToken();
 
   useEffect(() => {
       document.title = translate("pages.dashboard.title");
@@ -36,11 +38,15 @@ export const DashboardPage = () => {
 
   const navigate = useNavigate();
 
+  const { show } = useNavigation();
+
   return (
     <div style={{ padding: 24, height: "100%" }}>
       <Row gutter={[24, 24]} align="middle">
         <Col span={12}>
-          <Card style={{ borderRadius: 16 }}>
+          <Card 
+            style={{ borderRadius: 16 }}
+          >
             <Space size="large" align="center">
               <div>
                 <Title level={4} style={{ margin: 0 }}>
@@ -53,15 +59,33 @@ export const DashboardPage = () => {
         </Col>
 
         <Col span={12}>
-          <Card style={{ borderRadius: 16 }}>
-            <Space size="large" align="center">
-              <div>
-                <Title level={4} style={{ margin: 0 }}>
-                  {translate("pages.dashboard.active_users")}: {activeUsers || 0}
-                </Title>
-                <Text type="secondary">&nbsp;</Text>
-              </div>
-            </Space>
+          <Card 
+            style={{ borderRadius: 16, height: '100%' }}
+            bodyStyle={{ padding: '20px 24px' }}
+          >
+            <Row align="middle" justify="space-between">
+              <Col>
+                <Statistic 
+                  title={<Text type="secondary">{translate("pages.dashboard.active_users")}</Text>}
+                  value={activeUsers || 0}
+                  prefix={<TeamOutlined style={{ marginRight: 8, fontSize: 20 }} />}
+                />
+              </Col>
+              <Col>
+                <Button 
+                  icon={<ShopOutlined />} 
+                  size="large"
+                  onClick={() => navigate("/company_data")}
+                  style={{ 
+                    display: 'flex', 
+                    alignItems: 'center',
+                    height: '45px',
+                  }}
+                >
+                  {translate("buttons.company_data")}
+                </Button>
+              </Col>
+            </Row>
           </Card>
         </Col>
       </Row>
@@ -82,7 +106,7 @@ export const DashboardPage = () => {
                 style={{ 
                   borderRadius: 12,
                   cursor: permissions?.includes("VIEW:WAREHOUSES") ? "pointer" : "not-allowed", 
-                  filter: permissions?.includes("VIEW:WAREHOUSES") ? "none" : "opacity(50%)"
+                  filter: permissions?.includes("VIEW:WAREHOUSES") ? "none" : "opacity(50%)",
                 }}
                 onClick={() => permissions?.includes("VIEW:WAREHOUSES") ? navigate("warehouses") : undefined}
               >
@@ -136,135 +160,181 @@ export const DashboardPage = () => {
               type="inner"
             >
               <Row gutter={[24, 24]}>
-                {(permissions?.includes("VIEW:USERS") || 
-                permissions?.includes("VIEW:ROLES")) &&
-                  <Col xs={24} lg={12}>
-                    <Card 
-                      hoverable
-                      style={{ borderRadius: 12 }}
-                      onClick={() => navigate("/administrator")}
-                    >
-                      <Space direction="horizontal">
-                        <SafetyOutlined style={{ fontSize: 48 }} />
-                        <Space direction="vertical" style={{gap: 1}}>
-                          <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.administrator_module.title")}</Text>
-                          <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
-                            {translate("pages.dashboard.administrator_module.description")}
-                          </Text>
-                        </Space>
+                <Col xs={24} lg={12}>
+                  <Card 
+                    hoverable={permissions?.includes("VIEW:USERS") || permissions?.includes("VIEW:ROLES")}
+                    style={{ 
+                      borderRadius: 12,
+                      cursor: permissions?.includes("VIEW:USERS") || permissions?.includes("VIEW:ROLES") ? "pointer" : "not-allowed", 
+                      filter: permissions?.includes("VIEW:USERS") || permissions?.includes("VIEW:ROLES") ? "none" : "opacity(50%)"
+                    }}
+                    onClick={() => navigate("/administrator")}
+                  >
+                    <Space direction="horizontal">
+                      <SafetyOutlined style={{ fontSize: 48 }} />
+                      <Space direction="vertical" style={{gap: 1}}>
+                        <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.administrator_module.title")}</Text>
+                        <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
+                          {translate("pages.dashboard.administrator_module.description")}
+                        </Text>
                       </Space>
-                    </Card>
-                  </Col>
-                }
-                {(permissions?.includes("VIEW:EMPLOYEES") || 
-                  permissions?.includes("VIEW:DEPARTMENTS") || 
-                  permissions?.includes("VIEW:POSITIONS") || 
-                  permissions?.includes("VIEW:SHIFTS") || 
-                  permissions?.includes("VIEW:WORK_SCHEDULES") || 
-                  permissions?.includes("VIEW:LEAVE_REQUESTS") || 
-                  permissions?.includes("VIEW:PERFORMANCE_REVIEWS")) &&
-                  <Col xs={24} lg={12}>
-                    <Card 
-                      hoverable
-                      style={{ borderRadius: 12 }}
-                      onClick={() => navigate("/hr")}
-                    >
-                      <Space direction="horizontal">
-                        <TeamOutlined style={{ fontSize: 48 }} />
-                        <Space direction="vertical" style={{gap: 1}}>
-                          <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.hr_module.title")}</Text>
-                          <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
-                            {translate("pages.dashboard.hr_module.description")}
-                          </Text>
-                        </Space>
+                    </Space>
+                  </Card>
+                </Col>
+                <Col xs={24} lg={12}>
+                  <Card 
+                    hoverable={
+                      permissions?.includes("VIEW:EMPLOYEES") || 
+                      permissions?.includes("VIEW:DEPARTMENTS") || 
+                      permissions?.includes("VIEW:POSITIONS") || 
+                      permissions?.includes("VIEW:SHIFTS") || 
+                      permissions?.includes("VIEW:WORK_SCHEDULES") || 
+                      permissions?.includes("VIEW:LEAVE_REQUESTS") || 
+                      permissions?.includes("VIEW:PERFORMANCE_REVIEWS")
+                    }
+                    style={{ 
+                      borderRadius: 12,
+                      cursor: permissions?.includes("VIEW:EMPLOYEES") || 
+                      permissions?.includes("VIEW:DEPARTMENTS") || 
+                      permissions?.includes("VIEW:POSITIONS") || 
+                      permissions?.includes("VIEW:SHIFTS") || 
+                      permissions?.includes("VIEW:WORK_SCHEDULES") || 
+                      permissions?.includes("VIEW:LEAVE_REQUESTS") || 
+                      permissions?.includes("VIEW:PERFORMANCE_REVIEWS") ? "pointer" : "not-allowed", 
+                      filter: permissions?.includes("VIEW:EMPLOYEES") || 
+                      permissions?.includes("VIEW:DEPARTMENTS") || 
+                      permissions?.includes("VIEW:POSITIONS") || 
+                      permissions?.includes("VIEW:SHIFTS") || 
+                      permissions?.includes("VIEW:WORK_SCHEDULES") || 
+                      permissions?.includes("VIEW:LEAVE_REQUESTS") || 
+                      permissions?.includes("VIEW:PERFORMANCE_REVIEWS") ? "none" : "opacity(50%)"
+                    }}
+                    onClick={() => navigate("/hr")}
+                  >
+                    <Space direction="horizontal">
+                      <TeamOutlined style={{ fontSize: 48 }} />
+                      <Space direction="vertical" style={{gap: 1}}>
+                        <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.hr_module.title")}</Text>
+                        <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
+                          {translate("pages.dashboard.hr_module.description")}
+                        </Text>
                       </Space>
-                    </Card>
-                  </Col>
-                }
-                {(permissions?.includes("VIEW:SUPPLIERS") || 
-                  permissions?.includes("VIEW:PURCHASE_ORDERS") || 
-                  permissions?.includes("VIEW:GOODS_RECEIPTS")) &&
-                  <Col xs={24} lg={12}>
-                    <Card 
-                      hoverable
-                      style={{ borderRadius: 12 }}
-                      onClick={() => navigate("/procurement")}
-                    >
-                      <Space direction="horizontal">
-                        <ShoppingCartOutlined style={{ fontSize: 48 }} />
-                        <Space direction="vertical" style={{gap: 1}}>
-                          <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.procurement_module.title")}</Text>
-                          <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
-                            {translate("pages.dashboard.procurement_module.description")}
-                          </Text>
-                        </Space>
+                    </Space>
+                  </Card>
+                </Col>
+                <Col xs={24} lg={12}>
+                  <Card 
+                    hoverable={
+                      permissions?.includes("VIEW:SUPPLIERS") || 
+                      permissions?.includes("VIEW:PURCHASE_ORDERS") || 
+                      permissions?.includes("VIEW:GOODS_RECEIPTS")
+                    }
+                    style={{ 
+                      borderRadius: 12,
+                      cursor: permissions?.includes("VIEW:SUPPLIERS") || 
+                      permissions?.includes("VIEW:PURCHASE_ORDERS") || 
+                      permissions?.includes("VIEW:GOODS_RECEIPTS") ? "pointer" : "not-allowed", 
+                      filter: permissions?.includes("VIEW:SUPPLIERS") || 
+                      permissions?.includes("VIEW:PURCHASE_ORDERS") || 
+                      permissions?.includes("VIEW:GOODS_RECEIPTS") ? "none" : "opacity(50%)"
+                    }}
+                    onClick={() => navigate("/procurement")}
+                  >
+                    <Space direction="horizontal">
+                      <ShoppingCartOutlined style={{ fontSize: 48 }} />
+                      <Space direction="vertical" style={{gap: 1}}>
+                        <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.procurement_module.title")}</Text>
+                        <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
+                          {translate("pages.dashboard.procurement_module.description")}
+                        </Text>
                       </Space>
-                    </Card>
-                  </Col>
-                }
-                {(permissions?.includes("VIEW:SUPPLIERS") || 
-                  permissions?.includes("VIEW:PURCHASE_ORDERS") || 
-                  permissions?.includes("VIEW:GOODS_RECEIPTS")) &&
-                  <Col xs={24} lg={12}>
-                    <Card 
-                      hoverable
-                      style={{ borderRadius: 12 }}
-                      onClick={() => navigate("/sales")}
-                    >
-                      <Space direction="horizontal">
-                        <DollarOutlined style={{ fontSize: 48 }} />
-                        <Space direction="vertical" style={{gap: 1}}>
-                          <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.sales_module.title")}</Text>
-                          <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
-                            {translate("pages.dashboard.sales_module.description")}
-                          </Text>
-                        </Space>
+                    </Space>
+                  </Card>
+                </Col>
+                <Col xs={24} lg={12}>
+                  <Card 
+                    hoverable={
+                      permissions?.includes("VIEW:CUSTOMERS") || 
+                      permissions?.includes("VIEW:SALES_ORDERS") || 
+                      permissions?.includes("VIEW:INVOICES")
+                    }
+                    style={{ 
+                      borderRadius: 12,
+                      cursor: permissions?.includes("VIEW:CUSTOMERS") || 
+                      permissions?.includes("VIEW:SALES_ORDERS") || 
+                      permissions?.includes("VIEW:INVOICES") ? "pointer" : "not-allowed", 
+                      filter: permissions?.includes("VIEW:CUSTOMERS") || 
+                      permissions?.includes("VIEW:SALES_ORDERS") || 
+                      permissions?.includes("VIEW:INVOICES") ? "none" : "opacity(50%)"
+                    }}
+                    onClick={() => navigate("/sales")}
+                  >
+                    <Space direction="horizontal">
+                      <DollarOutlined style={{ fontSize: 48 }} />
+                      <Space direction="vertical" style={{gap: 1}}>
+                        <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.sales_module.title")}</Text>
+                        <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
+                          {translate("pages.dashboard.sales_module.description")}
+                        </Text>
                       </Space>
-                    </Card>
-                  </Col>
-                }
-                {(permissions?.includes("VIEW:SUPPLIERS") || 
-                  permissions?.includes("VIEW:PURCHASE_ORDERS") || 
-                  permissions?.includes("VIEW:GOODS_RECEIPTS")) &&
-                  <Col xs={24} lg={12}>
-                    <Card 
-                      hoverable
-                      style={{ borderRadius: 12 }}
-                      onClick={() => navigate("/production")}
-                    >
-                      <Space direction="horizontal">
-                        <AppstoreAddOutlined style={{ fontSize: 48 }} />
-                        <Space direction="vertical" style={{gap: 1}}>
-                          <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.production_module.title")}</Text>
-                          <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
-                            {translate("pages.dashboard.production_module.description")}
-                          </Text>
-                        </Space>
+                    </Space>
+                  </Card>
+                </Col>
+                <Col xs={24} lg={12}>
+                  <Card 
+                    hoverable={
+                      permissions?.includes("VIEW:PRODUCTION_ORDERS") || 
+                      permissions?.includes("VIEW:PRODUCTION_OUTPUTS")
+                    }
+                    style={{ 
+                      borderRadius: 12,
+                      cursor: permissions?.includes("VIEW:PRODUCTION_ORDERS") || 
+                      permissions?.includes("VIEW:PRODUCTION_OUTPUTS") ? "pointer" : "not-allowed", 
+                      filter: permissions?.includes("VIEW:PRODUCTION_ORDERS") || 
+                      permissions?.includes("VIEW:PRODUCTION_OUTPUTS") ? "none" : "opacity(50%)"
+                    }}
+                    onClick={() => navigate("/production")}
+                  >
+                    <Space direction="horizontal">
+                      <AppstoreAddOutlined style={{ fontSize: 48 }} />
+                      <Space direction="vertical" style={{gap: 1}}>
+                        <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.production_module.title")}</Text>
+                        <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
+                          {translate("pages.dashboard.production_module.description")}
+                        </Text>
                       </Space>
-                    </Card>
-                  </Col>
-                }
-                {(permissions?.includes("VIEW:SUPPLIERS") || 
-                  permissions?.includes("VIEW:PURCHASE_ORDERS") || 
-                  permissions?.includes("VIEW:GOODS_RECEIPTS")) &&
-                  <Col xs={24} lg={12}>
-                    <Card 
-                      hoverable
-                      style={{ borderRadius: 12 }}
-                      onClick={() => navigate("/inventory")}
-                    >
-                      <Space direction="horizontal">
-                        <DatabaseOutlined style={{ fontSize: 48 }} />
-                        <Space direction="vertical" style={{gap: 1}}>
-                          <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.inventory_module.title")}</Text>
-                          <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
-                            {translate("pages.dashboard.inventory_module.description")}
-                          </Text>
-                        </Space>
+                    </Space>
+                  </Card>
+                </Col>
+                <Col xs={24} lg={12}>
+                  <Card 
+                    hoverable={
+                    permissions?.includes("VIEW:INVENTORY_ITEMS") || 
+                    permissions?.includes("VIEW:STOCK_MOVEMENTS") || 
+                    permissions?.includes("VIEW:INVENTORY_COUNTS")
+                    }
+                    style={{ 
+                      borderRadius: 12,
+                      cursor: permissions?.includes("VIEW:INVENTORY_ITEMS") || 
+                      permissions?.includes("VIEW:STOCK_MOVEMENTS") || 
+                      permissions?.includes("VIEW:INVENTORY_COUNTS") ? "pointer" : "not-allowed", 
+                      filter: permissions?.includes("VIEW:INVENTORY_ITEMS") || 
+                      permissions?.includes("VIEW:STOCK_MOVEMENTS") || 
+                      permissions?.includes("VIEW:INVENTORY_COUNTS") ? "none" : "opacity(50%)"
+                    }}
+                    onClick={() => navigate("/inventory")}
+                  >
+                    <Space direction="horizontal">
+                      <DatabaseOutlined style={{ fontSize: 48 }} />
+                      <Space direction="vertical" style={{gap: 1}}>
+                        <Text strong style={{fontSize: 18}}>{translate("pages.dashboard.inventory_module.title")}</Text>
+                        <Text type="secondary" style={{ fontSize: 14, textAlign: "center" }}>
+                          {translate("pages.dashboard.inventory_module.description")}
+                        </Text>
                       </Space>
-                    </Card>
-                  </Col>
-                }
+                    </Space>
+                  </Card>
+                </Col>
               </Row>
             </Card>
 {/*           </div> */}

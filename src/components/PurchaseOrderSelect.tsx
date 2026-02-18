@@ -37,7 +37,7 @@ export const PurchaseOrderSelect: React.FC<PurchaseOrderSelectProps> = ({ value,
     <Select
       showSearch
       optionFilterProp="label"
-      placeholder={translate("selects.purchase_order.placeholder")}
+      placeholder={translate("selects.purchase_orders.placeholder")}
       loading={loading}
       value={value}
       onChange={onChange}

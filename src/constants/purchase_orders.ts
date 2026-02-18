@@ -7,19 +7,19 @@ export const usePurchaseOrderStatus = () => {
     const PurchaseOrderStatus = [
         { 
             value: "pending", 
-            label: translate("selects.purchase_orders.options.pending")
+            label: translate("selects.purchase_orders.options_status.pending")
         },
         { 
             value: "received", 
-            label: translate("selects.purchase_orders.options.received")
+            label: translate("selects.purchase_orders.options_status.received")
         },
         { 
             value: "delayed", 
-            label: translate("selects.purchase_orders.options.delayed")
+            label: translate("selects.purchase_orders.options_status.delayed")
         },
         { 
             value: "cancelled", 
-            label: translate("selects.purchase_orders.options.cancelled")
+            label: translate("selects.purchase_orders.options_status.cancelled")
         },
     ];
 

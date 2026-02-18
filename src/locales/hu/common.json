@@ -2,14 +2,38 @@
   "pages": {
     "error": {
       "backHome": "Vissza a főoldalra",
-      "404": "404 - A keresett oldal nem található"
+      "404": "A keresett oldal nem található",
+      "403": "Engedély megtagadva",
+      "500": "Szerveroldali hiba"
     },
     "login": {
       "title": "Bejelentkezés",
       "titles": {
-        "login": "NavetraERP - Bejelentkezés",
         "username": "Felhasználónév",
         "password": "Jelszó"
+      },
+      "buttons": {
+        "forgot_password": "Elfejeltette a jelszavát?"
+      }
+    },
+    "forgot_password": {
+      "title": "Elfelejtett jelszó",
+      "titles": {
+        "email": "E-mail cím"
+      },
+      "buttons": {
+        "send_reset": "E-mail elküldése",
+        "back_login": "Vissza a bejelentkezéshez"
+      }
+    },
+    "reset_password": {
+      "title": "Új jelszó beállítása",
+      "titles": {
+        "password": "Új jelszó",
+        "confirm_password": "Jelszó megerősítése"
+      },
+      "buttons": {
+        "save_password": "Jelszó mentése"
       }
     },
     "sidebar": {
@@ -123,6 +147,32 @@
           "inventory_counts_description": "Leltár naplózás létrehozása, listázása, megtekintése, szerkesztése és törlése"
         }
     },
+    "company_data": {
+      "titles": {
+        "data": "Adatok",
+        "name": "Cégnév",
+        "tax_number": "Adóazonosító",
+        "eu_tax_number": "EU adóazonosító",
+        "bank_account_number": "Bankszámlaszám",
+        "registration_number": "Cégjegyzékszám",
+        "email": "E-mail cím",
+        "phone_number": "Telefonszám",
+        "billing_address_data": "Számlázási cím adatok",
+        "shipping_address_data":"Szállítási cím adatok",
+        "country": "Ország",
+        "region": "Régió",
+        "post_code": "Irányítószám",
+        "city": "Település",
+        "address_1": "Cím első sora",
+        "address_2": "Cím második sora"
+      },
+      "show": {
+        "title": "Cég adatok"
+      },
+      "edit": {
+        "title": "Cég adatok szerkesztése"
+      }
+    },
     "warehouses": {
       "titles": {
         "data": "Alapadatok",
@@ -139,7 +189,7 @@
       },
       "buttons": {
         "back": "Vissza a raktárakhoz",
-        "create": "Új raktár létrehozása"
+        "create": "Új raktár"
       },
       "list": {
         "title": "Raktárak",
@@ -154,17 +204,20 @@
     },
     "products": {
       "titles": {
-        "data": "Alapadatok",
+        "data": "Törzsadatok",
         "sku": "Cikkszám",
         "name": "Név",
         "unit": "Egység",
         "price_per_unit": "Egységenkénti ár",
         "active": "Státusz",
-        "description": "Leírás"
+        "description": "Leírás",
+        "bom": "Anyagjegyzék",
+        "component": "Alkatrész",
+        "quantity_per_unit": "Mennyiség egységenként"
       },
       "buttons": {
         "back": "Vissza a termékekhez",
-        "create": "Új termék létrehozása"
+        "create": "Új termék"
       },
       "list": {
         "title": "Termékek",
@@ -183,11 +236,13 @@
         "email": "E-mail cím",
         "role": "Szerepkör",
         "password": "Jelszó (Hagyja üresen, ha nem akar változtatni)",
+        "password_req": "Jelszó",
+        "confirm_password": "Jelszó megerősítése",
         "user_data": "Felhasználó adatai"
       },
       "buttons": {
         "back": "Vissza a felhasználókhoz",
-        "create": "Új felhasználó létrehozása"
+        "create": "Új felhasználó"
       },
       "list": {
         "title": "Felhasználók",
@@ -209,7 +264,7 @@
       },
       "buttons": {
         "back": "Vissza a szerepkörökhöz",
-        "create": "Új szerepkör létrehozása"
+        "create": "Új szerepkör"
       },
       "list": {
         "title": "Szerepkörök",
@@ -257,7 +312,7 @@
       },
       "buttons": {
         "back": "Vissza az alkalmazottakhoz",
-        "create": "Új alkalmazott létrehozása"
+        "create": "Új alkalmazott"
       },
       "list": {
         "title": "Alkalmazottak",
@@ -279,7 +334,7 @@
       },
       "buttons": {
         "back": "Vissza az osztályokhoz",
-        "create": "Új osztály létrehozása"
+        "create": "Új osztály"
       },
       "list": {
         "title": "Osztályok",
@@ -301,7 +356,7 @@
       },
       "buttons": {
         "back": "Vissza a pozíciókhoz",
-        "create": "Új pozíció létrehozása"
+        "create": "Új pozíció"
       },
       "list": {
         "title": "Pozíciók",
@@ -324,7 +379,7 @@
       },
       "buttons": {
         "back": "Vissza a műszakokhoz",
-        "create": "Új műszak létrehozása"
+        "create": "Új műszak"
       },
       "list": {
         "title": "Műszakok",
@@ -348,7 +403,7 @@
       },
       "buttons": {
         "back": "Vissza a beosztásokhoz",
-        "create": "Új beosztás létrehozása",
+        "create": "Új beosztás",
         "calendar": "Naptárnézet",
         "list": "Listanézet"
       },
@@ -373,7 +428,7 @@
       },
       "buttons": {
         "back": "Vissza a távollétekhez",
-        "create": "Új távollét létrehozása",
+        "create": "Új távollét",
         "approve": "Elfogadás",
         "reject": "Elutasítás"
       },
@@ -396,7 +451,7 @@
       },
       "buttons": {
         "back": "Vissza a teljesítmény értékelésekhez",
-        "create": "Új teljesítmény értékelés létrehozása"
+        "create": "Új teljesítmény értékelés"
       },
       "list": {
         "title": "Teljesítmény értékelések",
@@ -417,6 +472,8 @@
         "phone_number": "Telefonszám",
         "actions": "Műveletek",
         "tax_number": "Adóazonosító",
+        "eu_tax_number": "EU adóazonosító",
+        "bank_account_number": "Bankszámlaszám",
         "address_country": "Ország",
         "address_region": "Régió",
         "address_postcode": "Irányítószám",
@@ -428,7 +485,7 @@
       },
       "buttons": {
         "back": "Vissza a beszállítákhoz",
-        "create": "Új beszállító létrehozása"
+        "create": "Új beszállító"
       },
       "list": {
         "title": "Beszállítók"
@@ -448,19 +505,19 @@
         "status": "Státusz",
         "actions": "Műveletek",
         "supplier": "Beszállító",
-        "total_amount": "Összes mennyiség",
+        "total_amount": "Összesített ár",
         "currency": "Valuta",
         "data": "Alapadatok",
         "products": "Termékek",
         "product": "Termék",
         "amount": "Mennyiség",
         "price_per_unit":"Egységenkénti ár",
-        "discount": "Kedvezmény (%)",
-        "tax_rate": "Adó (%)"
+        "discount": "Kedvezmény",
+        "tax_rate": "Adó"
       },
       "buttons": {
         "back": "Vissza a rendelési bizonylatokhoz",
-        "create": "Új rendelési bizonylat létrehozása"
+        "create": "Új rendelési bizonylat"
       },
       "list": {
         "title": "Rendelési bizonylatok"
@@ -489,7 +546,7 @@
       },
       "buttons": {
         "back": "Vissza az átvételi bizonylatokhoz",
-        "create": "Új átvételi bizonylat létrehozása",
+        "create": "Új átvételi bizonylat",
         "load_items": "Tételek betöltése"
       },
       "list": {
@@ -510,6 +567,8 @@
         "actions": "Műveletek",
         "data": "Alapadatok",
         "tax_number": "Adóazonosító",
+        "eu_tax_number": "EU adóazonosító",
+        "bank_account_number": "Bankszámlaszám",
         "address_data": "Cím adatok",
         "billing_address_data": "Számlázási cím adatok",
         "shipping_address_data": "Szállítási cím adatok",
@@ -522,7 +581,7 @@
       },
       "buttons": {
         "back": "Vissza a vevőkhöz",
-        "create": "Új vevő létrehozása"
+        "create": "Új vevő"
       },
       "list": {
         "title": "Vevők"
@@ -554,7 +613,7 @@
       },
       "buttons": {
         "back": "Vissza az értékesítési rendelésekhez",
-        "create": "Új értékesítési rendelés létrehozása"
+        "create": "Új értékesítési rendelés"
       },
       "list": {
         "title": "Értékesítési rendelések"
@@ -588,7 +647,7 @@
       },
       "buttons": {
         "back": "Vissza a számlákhoz",
-        "create": "Új számla létrehozása",
+        "create": "Új számla",
         "load_items": "Tételek betöltése"
       },
       "list": {
@@ -623,7 +682,7 @@
       },
       "buttons": {
         "back": "Vissza a termelési rendelésekhez",
-        "create": "Új termelési rendelés létrehozása",
+        "create": "Új termelési rendelés",
         "load_bom": "Anyagjegyzék betöltése"
       },
       "list": {
@@ -653,7 +712,7 @@
       },
       "buttons": {
         "back": "Vissza a termelési kibocsátásokhoz",
-        "create": "Új termelési kibocsátás létrehozása"
+        "create": "Új termelési kibocsátás"
       },
       "list": {
         "title": "Termelési kibocsátások"
@@ -681,7 +740,7 @@
       },
       "buttons": {
         "back": "Vissza a készletekhez",
-        "create": "Új készlet létrehozása"
+        "create": "Új készlet"
       },
       "list": {
         "title": "Készletek"
@@ -706,7 +765,7 @@
       },
       "buttons": {
         "back": "Vissza a készletmozgásokhoz",
-        "create": "Új készletmozgás létrehozása"
+        "create": "Új készletmozgás"
       },
       "list": {
         "title": "Készletmozgások"
@@ -738,7 +797,7 @@
       },
       "buttons": {
         "back": "Vissza a leltár naplózásokhoz",
-        "create": "Új leltár létrehozása"
+        "create": "Új leltár"
       },
       "list": {
         "title": "Leltár napló"
@@ -775,14 +834,24 @@
     "show": "Megtekintés",
     "refresh": "Frissítés",
     "print": "Nyomtatás",
-    "add_product": "Termék hozzáadása"
+    "add_product": "Termék hozzáadása",
+    "add_component": "Komponens hozzáadása",
+    "back_module": "Vissza a modulhoz",
+    "back": "Vissza",
+    "dashboard": "Irányítópult",
+    "company_data": "Cég adatok"
   },
   "selects": {
     "products": {
+      "placeholder": "Válasszon terméket",
+      "placeholder_status": "Válasszon státuszt",
       "options_active": {
         "active": "Elérhető",
         "inactive": "Nem elérhető"
       }
+    },
+    "warehouses": {
+      "placeholder": "Válasszon raktárt"
     },
     "users": {
       "placeholder": "Válasszon felhasználót"
@@ -793,11 +862,96 @@
     "permissions": {
       "placeholder": "Válasszon jogosultságot",
       "options": {
-        "CREATE_USERS": "Felhasználó létrehozása"
+        "EDIT_COMPANY_DATA": "Cég adatok szerkesztése",
+        "VIEW_COMPANY_DATA": "Cég adatok megtekintése",
+        "CREATE_USERS": "Felhasználó létrehozása",
+        "EDIT_USERS": "Felhasználó szerkesztése",
+        "DELETE_USERS": "Felhasználó törlése",
+        "VIEW_USERS": "Felhasználó megtekintése",
+        "CREATE_ROLES": "Szerepkör létrehozása",
+        "EDIT_ROLES": "Szerepkör szerkesztése",
+        "DELETE_ROLES": "Szerepkör törlése",
+        "VIEW_ROLES": "Szerepkör megtekintése",
+        "CREATE_PRODUCTS": "Termék létrehozása",
+        "EDIT_PRODUCTS": "Termék szerkesztése",
+        "DELETE_PRODUCTS": "Termék törlése",
+        "VIEW_PRODUCTS": "Termék megtekintése",
+        "CREATE_WAREHOUSES": "Raktár létrehozása",
+        "EDIT_WAREHOUSES": "Raktár szerkesztése",
+        "DELETE_WAREHOUSES": "Raktár törlése",
+        "VIEW_WAREHOUSES": "Raktár megtekintése",
+        "CREATE_EMPLOYEES": "Alkalmazott létrehozása",
+        "EDIT_EMPLOYEES": "Alkalmazott szerkesztése",
+        "DELETE_EMPLOYEES": "Alkalmazott törlése",
+        "VIEW_EMPLOYEES": "Alkalmazott megtekintése",
+        "CREATE_DEPARTMENTS": "Osztály létrehozása",
+        "EDIT_DEPARTMENTS": "Osztály szerkesztése",
+        "DELETE_DEPARTMENTS": "Osztály törlése",
+        "VIEW_DEPARTMENTS": "Osztály megtekintése",
+        "CREATE_POSITIONS": "Pozíció létrehozása",
+        "EDIT_POSITIONS": "Pozíció szerkesztése",
+        "DELETE_POSITIONS": "Pozíció törlése",
+        "VIEW_POSITIONS": "Pozíció megtekintése",
+        "CREATE_SHIFTS": "Műszak létrehozása",
+        "EDIT_SHIFTS": "Műszak szerkesztése",
+        "DELETE_SHIFTS": "Műszak törlése",
+        "VIEW_SHIFTS": "Műszak megtekintése",
+        "CREATE_WORK_SCHEDULES": "Beosztás létrehozása",
+        "DELETE_WORK_SCHEDULES": "Beosztás törlése",
+        "VIEW_WORK_SCHEDULES": "Beosztás megtekintése",
+        "CREATE_LEAVE_REQUESTS": "Szabadság létrehozása",
+        "EDIT_LEAVE_REQUESTS": "Szabadság szerkesztése",
+        "DELETE_LEAVE_REQUESTS": "Szabadság törlése",
+        "VIEW_LEAVE_REQUESTS": "Szabadság megtekintése",
+        "CREATE_PERFORMANCE_REVIEWS": "Teljesítményértékelés létrehozása",
+        "DELETE_PERFORMANCE_REVIEWS": "Teljesítményértékelés törlése",
+        "VIEW_PERFORMANCE_REVIEWS": "Teljesítményértékelés megtekintése",
+        "CREATE_SUPPLIERS": "Beszállító létrehozása",
+        "EDIT_SUPPLIERS": "Beszállító szerkesztése",
+        "DELETE_SUPPLIERS": "Beszállító törlése",
+        "VIEW_SUPPLIERS": "Beszállító megtekintése",
+        "CREATE_PURCHASE_ORDERS": "Rendelési bizonylat létrehozása",
+        "EDIT_PURCHASE_ORDERS": "Rendelési bizonylat szerkesztése",
+        "DELETE_PURCHASE_ORDERS": "Rendelési bizonylat törlése",
+        "VIEW_PURCHASE_ORDERS": "Rendelési bizonylat megtekintése",
+        "CREATE_GOODS_RECEIPTS": "Átvételi bizonylat létrehozása",
+        "DELETE_GOODS_RECEIPTS": "Átvételi bizonylat törlése",
+        "VIEW_GOODS_RECEIPTS": "Átvételi bizonylat megtekintése",
+        "CREATE_CUSTOMERS": "Vevő létrehozása",
+        "EDIT_CUSTOMERS": "Vevő szerkesztése",
+        "DELETE_CUSTOMERS": "Vevő törlése",
+        "VIEW_CUSTOMERS": "Vevő megtekintése",
+        "CREATE_SALES_ORDERS": "Értékesítési rendelés létrehozása",
+        "EDIT_SALES_ORDERS": "Értékesítési rendelés szerkesztése",
+        "DELETE_SALES_ORDERS": "Értékesítési rendelés törlése",
+        "VIEW_SALES_ORDERS": "Értékesítési rendelés megtekintése",
+        "CREATE_INVOICES": "Számla létrehozása",
+        "EDIT_INVOICES": "Számla szerkesztése",
+        "DELETE_INVOICES": "Számla törlése",
+        "VIEW_INVOICES": "Számla megtekintése",
+        "CREATE_PRODUCTION_ORDERS": "Termelési rendelés létrehozása",
+        "EDIT_PRODUCTION_ORDERS": "Termelési rendelés szerkesztése",
+        "DELETE_PRODUCTION_ORDERS": "Termelési rendelés törlése",
+        "VIEW_PRODUCTION_ORDERS": "Termelési rendelés megtekintése",
+        "CREATE_PRODUCTION_OUTPUTS": "Termelési kibocsátás létrehozása",
+        "EDIT_PRODUCTION_OUTPUTS": "Termelési kibocsátás szerkesztése",
+        "DELETE_PRODUCTION_OUTPUTS": "Termelési kibocsátás törlése",
+        "VIEW_PRODUCTION_OUTPUTS": "Termelési kibocsátás megtekintése",
+        "CREATE_INVENTORY_ITEMS": "Készlet létrehozása",
+        "DELETE_INVENTORY_ITEMS": "Készlet törlése",
+        "VIEW_INVENTORY_ITEMS": "Készlet megtekintése",
+        "CREATE_STOCK_MOVEMENTS": "Készletmozgás létrehozása",
+        "EDIT_STOCK_MOVEMENTS": "Készletmozgás szerkesztése",
+        "DELETE_STOCK_MOVEMENTS": "Készletmozgás törlése",
+        "VIEW_STOCK_MOVEMENTS": "Készletmozgás megtekintése",
+        "CREATE_INVENTORY_COUNTS": "Leltár létrehozása",
+        "DELETE_INVENTORY_COUNTS": "Leltár törlése",
+        "VIEW_INVENTORY_COUNTS": "Leltár megtekintése"
       }
     },
     "employees": {
       "placeholder": "Válasszon alkalmazottat",
+      "placeholder_status":"Válasszon státuszt",
       "options_status": {
         "active": "Aktív",
         "inactive": "Inaktív",
@@ -815,7 +969,7 @@
     },
     "leave_requests": {
       "placeholder_type": "Válasszon típust",
-      "placeholder_status": "Válasszont státuszt",
+      "placeholder_status": "Válasszon státuszt",
       "options_type": {
         "paid_leave": "Fizetett szabadság",
         "sick_leave": "Betegszabadság",
@@ -829,6 +983,64 @@
         "rejected": "Elutasítva",
         "pending": "Függőben"
       }
+    },
+    "suppliers": {
+      "placeholder": "Válasszon beszállítót"
+    },
+    "purchase_orders": {
+      "placeholder": "Válasszon rendelési bizonylatot",
+      "placeholder_status": "Válasszon státuszt",
+      "options_status": {
+        "pending": "Függőben",
+        "received": "Átvett",
+        "delayed": "Elnapolt",
+        "cancelled": "Lemondott"
+      }
+    },
+    "customers": {
+      "placeholder": "Válasszon vevőt"
+    },
+    "sales_orders": {
+      "placeholder": "Válasszon értékesítési rendelést",
+      "placeholder_status": "Válasszon státuszt",
+      "options_status": {
+        "draft": "Tervezett",
+        "confirmed": "Igazolt",
+        "delivered": "Kiszállított",
+        "invoiced": "Számlázott",
+        "closed": "Lezárt"
+      }
+    },
+    "invoices": {
+      "placeholder_status": "Válasszon státuszt",
+      "options_status": {
+        "draft": "Tervezett",
+        "issued": "Kiadott",
+        "paid": "Fizetett"
+      }
+    },
+    "production_orders": {
+      "placeholder": "Válasszon termelési rendelést",
+      "placeholder_status": "Válasszon státuszt",
+      "options_status": {
+        "planned": "Tervezett",
+        "in_progress": "Folyamatban",
+        "finished": "Befejezett"
+      }
+    },
+    "stock_movements": {
+      "placeholder_movement_type": "Válasszon típust",
+      "options_movement_type": {
+        "in": "Bejövő",
+        "out": "Kimenő",
+        "transfer": "Áthelyezett"
+      }
+    }
+  },
+  "messages": {
+    "errors": {
+      "required_item": "Legalább egy tétel hozzáadása kötelező!",
+      "required_field": "Kötelező mező!"
     }
   }
 }

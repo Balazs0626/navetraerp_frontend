@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, DeleteOutlined, MailOutlined, PlusOutlined } from "@ant-design/icons";
 import { Create, NumberField, useForm } from "@refinedev/antd";
-import { useApiUrl, useList, useNotification, useTranslation } from "@refinedev/core";
+import { CanAccess, useApiUrl, useList, useNotification, useTranslation } from "@refinedev/core";
 import { Button, Space, Form, Card, Col, Row, Input, DatePicker, InputNumber, Divider, Typography, Select } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -11,6 +11,7 @@ import { WarehouseSelect } from "../../../components/WarehouseSelect";
 import { EmployeeOneSelect } from "../../../components/EmployeeOneSelect";
 import { useStockMovementType } from "../../../constants/stock_movements";
 import { IProductList } from "../../../interfaces";
+import { CustomErrorComponent } from "../../error";
 
 export const InventoryCountCreate = () => {
 
@@ -26,8 +27,8 @@ export const InventoryCountCreate = () => {
   const apiUrl = useApiUrl();
 
   useEffect(() => {
-    document.title = translate("pages.inventory_counts.create.title");
-  })
+    document.title = `${translate("pages.inventory_counts.create.title")} | NavetraERP`;
+  }) 
 
   const warehouse = Form.useWatch("warehouseId", form);
 
@@ -97,168 +98,190 @@ export const InventoryCountCreate = () => {
   };
 
   return (
-    <Create
-      saveButtonProps={saveButtonProps}
-      title={translate("pages.inventory_counts.create.title")}
-      goBack={null}
-      headerButtons={
-        <Space>
-          <Button
-            onClick={() => navigate("/inventory/inventory_counts")}
-            size="large"
-          ><ArrowLeftOutlined/>{translate("pages.inventory_counts.buttons.back")}</Button>
-        </Space>
-      }
+    <CanAccess 
+      resource="inventory_counts" 
+      action="create" 
+      fallback={<CustomErrorComponent status="403"/>}
     >
-      <Form
-        {...formProps}
-        form={form}
-        layout="vertical"
-        onFinish={handleFinish}
-        onValuesChange={handleValuesChange}
+      <Create
+        saveButtonProps={saveButtonProps}
+        title={translate("pages.inventory_counts.create.title")}
+        goBack={null}
+        headerButtons={
+          <Space>
+            <Button
+              onClick={() => navigate("/inventory/inventory_counts")}
+              size="large"
+            ><ArrowLeftOutlined/>{translate("pages.inventory_counts.buttons.back")}</Button>
+          </Space>
+        }
       >
-        <Card 
-          title={translate("pages.inventory_counts.titles.data")}
-          type="inner"
+        <Form
+          {...formProps}
+          form={form}
+          layout="vertical"
+          onFinish={handleFinish}
+          onValuesChange={handleValuesChange}
         >
-          <Row gutter={16}>
-            <Col span={8}>
-              <Form.Item
-                label={translate("pages.inventory_counts.titles.warehouse")}
-                name="warehouseId"
-                rules={[{ required: true }]}
-              >
-                <WarehouseSelect/>
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item
-                label={translate("pages.inventory_counts.titles.count_date")}
-                name="countDate"
-                rules={[{ required: true }]}
-              >
-                <DatePicker
-									style={{width: '100%'}}
-                  format="YYYY-MM-DD"
-								/>
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item
-                label={translate("pages.inventory_counts.titles.counted_by")}
-                name="countedById"
-                rules={[{ required: true }]}
-              >
-                <EmployeeOneSelect/>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Card>
-        <Card 
-          title={translate("pages.inventory_counts.titles.products")}
-          type="inner"
-          style={{marginTop: 12}}
-        >
-          <Form.List name="items">
-            {(fields, { add, remove }) => (
-              <>
-                {fields.map(({ key, name, ...restField }) => (
-                  <>
-                    <Row gutter={16}>
-                      <Col span={8}>
-                        <Form.Item
-                          {...restField}
-                          label={translate("pages.inventory_counts.titles.product")}
-                          name={[name, "productId"]}
-                          rules={[{ required: true }]}
-                        >
-                          <ProductSelect />
-                        </Form.Item>
-                      </Col>
-                      <Col span={8}>
-                        <Form.Item
-                          shouldUpdate={(prev, curr) =>
-                            prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId
-                          }
-                          noStyle
-                        >
-                          {() => {
-                            const productId = form.getFieldValue(["items", name, "productId"]);
-                            const unit = getUnitByProductId(productId) || "";
-
-                            return (
-                              <Form.Item
-                                {...restField}
-                                label={translate("pages.inventory_counts.titles.counted_quantity")}
-                                name={[name, "countedQuantity"]}
-                                rules={[{ required: true }]}
-                              >
-                                <InputNumber
-                                  min={0.01}
-                                  step={0.01}
-                                  style={{ width: "100%" }}
-                                  addonAfter={unit}
-                                />
-                              </Form.Item>
-                            );
-                          }}
-                        </Form.Item>
-                      </Col>
-                      <Col span={8}>
-                        <Form.Item
-                          shouldUpdate={(prev, curr) =>
-                            prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId || prev?.items?.[name]?.systemQuantity !== curr?.items?.[name]?.systemQuantity
-                          }
-                          noStyle
-                        >
-                          {() => {
-                            const productId = form.getFieldValue(["items", name, "productId"]);
-                            const unit = getUnitByProductId(productId) || "";
-
-                            return (
-                              <Form.Item
-                                {...restField}
-                                label={translate("pages.inventory_counts.titles.system_quantity")}
-                                name={[name, "systemQuantity"]}
-                                rules={[{ required: true }]}
-                              >
-                                <InputNumber
-                                  min={0.01}
-                                  step={0.01}
-                                  style={{ width: "100%" }}
-                                  addonAfter={unit}
-                                  disabled
-                                />
-                              </Form.Item>
-                            );
-                          }}
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                  </>
-                ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => add()}
-                    block
-                    icon={<PlusOutlined />}
-                    disabled={!warehouse}
-                  >
-                    {translate("buttons.add_product")}
-                  </Button>
+          <Card 
+            title={translate("pages.inventory_counts.titles.data")}
+            type="inner"
+          >
+            <Row gutter={16}>
+              <Col span={8}>
+                <Form.Item
+                  label={translate("pages.inventory_counts.titles.warehouse")}
+                  name="warehouseId"
+                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                >
+                  <WarehouseSelect/>
                 </Form.Item>
-                </>
-            )}
-          </Form.List>
-        </Card>
-      </Form>
-    </Create>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label={translate("pages.inventory_counts.titles.count_date")}
+                  name="countDate"
+                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                >
+                  <DatePicker
+                    style={{width: '100%'}}
+                    format="YYYY-MM-DD"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  label={translate("pages.inventory_counts.titles.counted_by")}
+                  name="countedById"
+                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                >
+                  <EmployeeOneSelect/>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Card>
+          <Divider/>
+          <Card 
+            title={translate("pages.inventory_counts.titles.products")}
+            type="inner"
+            style={{marginTop: 12}}
+          >
+            <Form.List name="items">
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <>
+                      <Row gutter={16}>
+                        <Col span={8}>
+                          <Form.Item
+                            {...restField}
+                            label={translate("pages.inventory_counts.titles.product")}
+                            name={[name, "productId"]}
+                            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                          >
+                            <ProductSelect />
+                          </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                          <Form.Item
+                            shouldUpdate={(prev, curr) =>
+                              prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId
+                            }
+                            noStyle
+                          >
+                            {() => {
+                              const productId = form.getFieldValue(["items", name, "productId"]);
+                              const unit = getUnitByProductId(productId) || "";
+
+                              return (
+                                <Form.Item
+                                  {...restField}
+                                  label={translate("pages.inventory_counts.titles.counted_quantity")}
+                                  name={[name, "countedQuantity"]}
+                                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                                >
+                                  <InputNumber
+                                    placeholder={`${translate("pages.inventory_counts.titles.counted_quantity")}...`}
+                                    min={0.01}
+                                    step={0.01}
+                                    style={{ width: "100%" }}
+                                    addonAfter={unit}
+                                  />
+                                </Form.Item>
+                              );
+                            }}
+                          </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                          <Form.Item
+                            shouldUpdate={(prev, curr) =>
+                              prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId || prev?.items?.[name]?.systemQuantity !== curr?.items?.[name]?.systemQuantity
+                            }
+                            noStyle
+                          >
+                            {() => {
+                              const productId = form.getFieldValue(["items", name, "productId"]);
+                              const unit = getUnitByProductId(productId) || "";
+
+                              return (
+                                <Form.Item
+                                  {...restField}
+                                  label={translate("pages.inventory_counts.titles.system_quantity")}
+                                  name={[name, "systemQuantity"]}
+                                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                                >
+                                  <InputNumber
+                                    placeholder={`${translate("pages.inventory_counts.titles.system_quantity")}...`}
+                                    min={0.01}
+                                    step={0.01}
+                                    style={{ width: "100%" }}
+                                    addonAfter={unit}
+                                    disabled
+                                  />
+                                </Form.Item>
+                              );
+                            }}
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                      <Row gutter={16}>
+                        <Col span={24}>
+                          <Button 
+                            block 
+                            icon={<DeleteOutlined/>} 
+                            onClick={() => remove(name)} 
+                            danger
+                          >
+                            {translate("buttons.delete")}
+                          </Button>
+                        </Col>
+                        <Divider/>
+                      </Row>
+                    </>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                      disabled={!warehouse}
+                    >
+                      {translate("buttons.add_product")}
+                    </Button>
+                  </Form.Item>
+                  </>
+              )}
+            </Form.List>
+          </Card>
+        </Form>
+      </Create>
+    </CanAccess>
   )
 
 }
 
-/* import { ArrowLeftOutlined, PlusOutlined } from "@ant-design/icons";
+{/* /* import { ArrowLeftOutlined, PlusOutlined } from "@ant-design/icons";
 import { Create, useForm } from "@refinedev/antd";
 import { useTranslation, useList, useApiUrl } from "@refinedev/core"; // useApiUrl importálása
 import { Button, Space, Form, Card, Col, Row, DatePicker, InputNumber, Divider } from "antd";
@@ -395,7 +418,7 @@ export const InventoryCountCreate = () => {
               <Form.Item
                 label={translate("pages.inventory_counts.titles.warehouse")}
                 name="warehouseId" // FONTOS: warehouseId a neve
-                rules={[{ required: true }]}
+                rules={[{ required: true, message: translate("messages.errors.required_field") }]}
               >
                 <WarehouseSelect/>
               </Form.Item>
@@ -404,7 +427,7 @@ export const InventoryCountCreate = () => {
               <Form.Item
                 label={translate("pages.inventory_counts.titles.count_date")}
                 name="countDate"
-                rules={[{ required: true }]}
+                rules={[{ required: true, message: translate("messages.errors.required_field") }]}
               >
                 <DatePicker
                   style={{width: '100%'}}
@@ -416,7 +439,7 @@ export const InventoryCountCreate = () => {
               <Form.Item
                 label={translate("pages.inventory_counts.titles.counted_by")}
                 name="countedById"
-                rules={[{ required: true }]}
+                rules={[{ required: true, message: translate("messages.errors.required_field") }]}
               >
                 <EmployeeOneSelect/>
               </Form.Item>
@@ -438,7 +461,7 @@ export const InventoryCountCreate = () => {
                         {...restField}
                         label={translate("pages.inventory_counts.titles.product")}
                         name={[name, "productId"]}
-                        rules={[{ required: true }]}
+                        rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                       >
                         <ProductSelect />
                       </Form.Item>
@@ -459,7 +482,7 @@ export const InventoryCountCreate = () => {
                               {...restField}
                               label={translate("pages.inventory_counts.titles.counted_quantity")}
                               name={[name, "countedQuantity"]}
-                              rules={[{ required: true }]}
+                              rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                             >
                               <InputNumber
                                 min={0.01}
@@ -524,4 +547,4 @@ export const InventoryCountCreate = () => {
       </Form>
     </Create>
   )
-} */
+}  */}

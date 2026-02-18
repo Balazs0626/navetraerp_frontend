@@ -37,7 +37,7 @@ export const WarehouseSelect: React.FC<WarehouseSelectProps> = ({ value, onChang
     <Select
       showSearch
       optionFilterProp="label"
-      placeholder={translate("selects.warehouse.placeholder")}
+      placeholder={translate("selects.warehouses.placeholder")}
       loading={loading}
       value={value}
       onChange={onChange}

@@ -1,10 +1,11 @@
 import { ArrowLeftOutlined, PrinterOutlined } from "@ant-design/icons";
 import { Show, DateField, RefreshButton } from "@refinedev/antd";
-import { useShow, useTranslation } from "@refinedev/core";
+import { CanAccess, useShow, useTranslation } from "@refinedev/core";
 import { Typography, Descriptions, Rate, Space, Button, Col, Row, Table, Divider } from "antd";
 import { useNavigate } from "react-router";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import { CustomErrorComponent } from "../../error";
 
 const { Title, Text } = Typography;
 
@@ -19,38 +20,42 @@ export const InvoiceShow = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
-const getPrintStyle = () => {
-  return `
-    @media print {
-      * {
-        color: black !important;
-      }
+  useEffect(() => {
+    document.title = `${translate("pages.invoices.show.title")} | NavetraERP`;
+  })
 
-      .ant-table,
-      .ant-table-container,
-      .ant-table-content {
-        background: white !important;
-      }
+  const getPrintStyle = () => {
+    return `
+      @media print {
+        * {
+          color: black !important;
+        }
 
-      .ant-table-tbody > tr > td {
-        background: white !important;
-        color: black !important;
-        border: none !important;
-        border-bottom: 1px solid black !important;
-      }
+        .ant-table,
+        .ant-table-container,
+        .ant-table-content {
+          background: white !important;
+        }
 
-      .ant-table-thead > tr > th {
-        background: #f0f0f0 !important;
-        color: black !important;
-        border: none !important;
-        border-bottom: 1px solid black !important;
-      }
+        .ant-table-tbody > tr > td {
+          background: white !important;
+          color: black !important;
+          border: none !important;
+          border-bottom: 1px solid black !important;
+        }
 
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-  `;
-};
+        .ant-table-thead > tr > th {
+          background: #f0f0f0 !important;
+          color: black !important;
+          border: none !important;
+          border-bottom: 1px solid black !important;
+        }
+
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    `;
+  };
 
 
   const columns = [
@@ -63,7 +68,7 @@ const getPrintStyle = () => {
       title: "Mennyiség",
       dataIndex: "quantity",
       key: "quantity",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {String(data?.quantity).replace(".", ",")} {data?.productUnit}
         </>
@@ -73,7 +78,7 @@ const getPrintStyle = () => {
       title: "Áfa(%)",
       dataIndex: "taxRate",
       key: "taxRate",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.taxRate} %
         </>
@@ -83,7 +88,7 @@ const getPrintStyle = () => {
       title: "Nettó",
       dataIndex: "netPrice",
       key: "netPrice",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.netPrice} Ft
         </>
@@ -93,7 +98,7 @@ const getPrintStyle = () => {
       title: "Áfa",
       dataIndex: "tax",
       key: "tax",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.tax} Ft
         </>
@@ -103,7 +108,7 @@ const getPrintStyle = () => {
       title: "Bruttó",
       dataIndex: "grossPrice",
       key: "grossPrice",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.grossPrice} Ft
         </>
@@ -113,6 +118,11 @@ const getPrintStyle = () => {
 
 
   return (
+    <CanAccess 
+      resource="invoices" 
+      action="show" 
+      fallback={<CustomErrorComponent status="403"/>}
+    >
       <Show
         goBack={null}
         title={translate("pages.invoices.show.title")}
@@ -139,7 +149,7 @@ const getPrintStyle = () => {
           <style>{getPrintStyle()}</style>
           <Col xs={24}>
             <Row gutter={16}>
-              <Text style={{margin: 20}}>Bizonylat száma: {record?.id}</Text>
+              <Text style={{margin: 20}}>Bizonylat száma: {record?.receiptNumber}</Text>
               <Col xs={24}>
                 <Title level={2} style={{textAlign: "center", padding: 50}}>Számla</Title>
               </Col>
@@ -157,6 +167,10 @@ const getPrintStyle = () => {
                       <Text>{record?.sellerAddress_2}</Text>
                       <br></br>
                       <Text><b>Adószám: </b>{record?.sellerTaxNumber}</Text>
+                      <br></br>
+                      <Text><b>Közösségi adószám: </b>{record?.sellerEuTaxNumber}</Text>
+                      <br></br>
+                      <Text><b>Bankszámlaszám: </b>{record?.sellerBankAccountNumber}</Text>
                     </Col>
                   </Row>
                 </div>
@@ -173,6 +187,10 @@ const getPrintStyle = () => {
                       <Text>{record?.customerAddress_2}</Text>
                       <br></br>
                       <Text><b>Adószám: </b>{record?.customerTaxNumber}</Text>
+                      <br></br>
+                      <Text><b>Közösségi adószám: </b>{record?.customerEuTaxNumber}</Text>
+                      <br></br>
+                      <Text><b>Bankszámlaszám: </b>{record?.customerBankAccountNumber}</Text>
                     </Col>
                   </Row>
                 </div>
@@ -214,5 +232,6 @@ const getPrintStyle = () => {
           </Col>
         </div>
       </Show>
+    </CanAccess>
   );
 };

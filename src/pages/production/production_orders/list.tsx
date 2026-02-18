@@ -1,13 +1,14 @@
 import { useTable, List, DeleteButton, EditButton, ShowButton } from "@refinedev/antd";
 import { IProductionOrderList, IPurchaseOrderList, ISupplierList } from "../../../interfaces";
 import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker, InputNumber, Select } from "antd";
-import { CalendarOutlined, PlusOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, CalendarOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
-import { useTranslation, usePermissions } from "@refinedev/core";
+import { useTranslation, usePermissions, CanAccess } from "@refinedev/core";
 import { useEffect } from "react";
 import dayjs from 'dayjs';
 import { usePurchaseOrderStatus } from "../../../constants/purchase_orders";
 import { ProductSelect } from "../../../components/ProductSelect";
+import { CustomErrorComponent } from "../../error";
 
 
 export const ProductionOrderList = () => {
@@ -69,118 +70,135 @@ export const ProductionOrderList = () => {
   const { data: permissions } = usePermissions<string[]>({});
 
   useEffect(() => {
-    document.title = translate("pages.production_orders.list.title");
-  }) 
+    document.title = `${translate("pages.production_orders.list.title")} | NavetraERP`;
+  })
 
   return (
-    <List
-      title={translate("pages.production_orders.list.title")}
-      headerButtons={
-          <Space>
-            <Button icon={<PlusOutlined/>} size="large" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:PURCHASE_ORDERS")}>
-                {translate("pages.production_orders.buttons.create")}
-            </Button>
-          </Space>
-      }
+    <CanAccess 
+      resource="production_orders" 
+      action="list" 
+      fallback={<CustomErrorComponent status="403"/>}
     >
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={8}>
-          <Card
-            title={translate("titles.search")}
-            type="inner"
-          >
-            <Form form={form} layout="vertical" onFinish={onSearch}>
+      <List
+        title={translate("pages.production_orders.list.title")}
+        headerButtons={
+            <Space>
+              <Button icon={<PlusOutlined/>} size="large" type="primary" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:PRODUCTION_ORDERS")}>
+                {translate("pages.production_orders.buttons.create")}
+              </Button>
+              <Button icon={<ArrowLeftOutlined/>} size="large" onClick={() => navigate("/production")}>
+                {translate("buttons.back_module")}
+              </Button>
+            </Space>
+        }
+      >
+        <Row gutter={[16, 16]}>
+          <Col xs={24} lg={8}>
+            <Card
+              title={translate("titles.search")}
+              type="inner"
+            >
+              <Form form={form} layout="vertical" onFinish={onSearch}>
+                <Row gutter={16}>
+                  <Col span={12}>
+                    <Form.Item
+                      name="receiptNumber"
+                      label={translate("pages.production_orders.titles.id")}
+                    >
+                      <Input placeholder={`${translate("pages.production_orders.titles.id")}...`}/>
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      name="product"
+                      label={translate("pages.production_orders.titles.product")}
+                    >
+                      <ProductSelect/>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={16}>
+                  <Col span={12}>
+                    <Form.Item
+                      name="startDate"
+                      label={translate("pages.production_orders.titles.start_date")}
+                    >
+                      <DatePicker 
+                        style={{ width: "100%" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      name="endDate"
+                      label={translate("pages.production_orders.titles.end_date")}
+                    >
+                      <DatePicker 
+                        style={{ width: "100%" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
 
-              <Form.Item
-                name="receiptNumber"
-                label={translate("pages.production_orders.titles.id")}
-              >
-                <Input/>
-              </Form.Item>
-
-              <Form.Item
-                name="product"
-                label={translate("pages.production_orders.titles.product")}
-              >
-                <ProductSelect/>
-              </Form.Item>
-
-              <Form.Item
-                name="startDate"
-                label={translate("pages.production_orders.titles.start_date")}
-              >
-                <DatePicker 
-                  style={{ width: "100%" }}
-                />
-              </Form.Item>
-
-              <Form.Item
-                name="endDate"
-                label={translate("pages.production_orders.titles.end_date")}
-              >
-                <DatePicker 
-                  style={{ width: "100%" }}
-                />
-              </Form.Item>
-
-              <Form.Item>
-                <Space>
-                  <Button 
-                    type="primary" 
-                    htmlType="submit"
-                  >
-                    {translate("buttons.search")}
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      form.resetFields();
-                      setFilters([], "replace");
-                    }}
-                  >
-                    {translate("buttons.clear")}
-                  </Button>
-                </Space>
-              </Form.Item>
-            </Form>
-          </Card>
-        </Col>
-        <Col xs={24} lg={16}>
-          <Table {...tableProps} rowKey="id">
-            <Table.Column dataIndex={"receiptNumber"} title={translate("pages.production_orders.titles.id")}/>
-            <Table.Column dataIndex={"productName"} title={translate("pages.production_orders.titles.product")}/>
-            <Table.Column dataIndex={"startDate"} title={translate("pages.production_orders.titles.start_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
-            <Table.Column dataIndex={"endDate"} title={translate("pages.production_orders.titles.end_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
-            <Table.Column dataIndex={"status"} title={translate("pages.production_orders.titles.status")}/>
-            <Table.Column
-              title={translate("pages.production_orders.titles.actions")}
-              dataIndex="actions"
-              key="actions"
-              render={(_, record) => (
-                <Space>
-                  <ShowButton
-                    size="small"
-                    recordItemId={record.id}
-                    resource="production_orders"
-                  />
-                  <EditButton
-                    size="small"
-                    recordItemId={record.id}
-                    resource="production_orders"
-                    disabled={!permissions?.includes("EDIT:PURCHASE_ORDERS")}
-                  />
-                  <DeleteButton
-                    size="small"
-                    recordItemId={record.id}
-                    resource="production_orders"
-                    confirmTitle={translate("notifications.deleteMessage")}
-                    disabled={!permissions?.includes("DELETE:PURCHASE_ORDERS")}
-                  />
-                </Space>
-              )}
-            />
-          </Table>
-        </Col>
-      </Row>
-    </List>
+                <Form.Item>
+                  <Space>
+                    <Button 
+                      type="primary" 
+                      htmlType="submit"
+                    >
+                      {translate("buttons.search")}
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        form.resetFields();
+                        setFilters([], "replace");
+                      }}
+                    >
+                      {translate("buttons.clear")}
+                    </Button>
+                  </Space>
+                </Form.Item>
+              </Form>
+            </Card>
+          </Col>
+          <Col xs={24} lg={16}>
+            <Table {...tableProps} rowKey="id">
+              <Table.Column dataIndex={"receiptNumber"} title={translate("pages.production_orders.titles.id")}/>
+              <Table.Column dataIndex={"productName"} title={translate("pages.production_orders.titles.product")}/>
+              <Table.Column dataIndex={"startDate"} title={translate("pages.production_orders.titles.start_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
+              <Table.Column dataIndex={"endDate"} title={translate("pages.production_orders.titles.end_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
+              <Table.Column dataIndex={"status"} title={translate("pages.production_orders.titles.status")}/>
+              <Table.Column
+                title={translate("pages.production_orders.titles.actions")}
+                dataIndex="actions"
+                key="actions"
+                render={(_, record) => (
+                  <Space>
+                    <ShowButton
+                      size="small"
+                      recordItemId={record.id}
+                      resource="production_orders"
+                    />
+                    <EditButton
+                      size="small"
+                      recordItemId={record.id}
+                      resource="production_orders"
+                      disabled={!permissions?.includes("EDIT:PRODUCTION_ORDERS")}
+                    />
+                    <DeleteButton
+                      size="small"
+                      recordItemId={record.id}
+                      resource="production_orders"
+                      confirmTitle={translate("notifications.deleteMessage")}
+                      disabled={!permissions?.includes("DELETE:PRODUCTION_ORDERS")}
+                    />
+                  </Space>
+                )}
+              />
+            </Table>
+          </Col>
+        </Row>
+      </List>
+    </CanAccess>
   )
 };

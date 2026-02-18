@@ -7,15 +7,15 @@ export const useInvoiceStatus = () => {
     const InvoiceStatus = [
         { 
             value: "draft", 
-            label: translate("selects.invoices.options.draft")
+            label: translate("selects.invoices.options_status.draft")
         },
         { 
             value: "issued", 
-            label: translate("selects.invoices.options.issued")
+            label: translate("selects.invoices.options_status.issued")
         },
         { 
             value: "paid", 
-            label: translate("selects.invoices.options.paid")
+            label: translate("selects.invoices.options_status.paid")
         }
     ];
 

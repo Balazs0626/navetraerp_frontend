@@ -2,14 +2,38 @@
   "pages": {
     "error": {
       "backHome": "Go back to homepage",
-      "404": "404 - Page not found"
+      "404": "Page not found",
+      "403": "Permission denied",
+      "500": "Server error"
     },
     "login": {
       "title": "Login",
       "titles": {
-        "login": "NavetraERP - Login",
         "username": "Username",
         "password": "Password"
+      },
+      "buttons": {
+        "forgot_password": "Forgot your password?"
+      }
+    },
+    "forgot_password": {
+      "title": "Forgot password",
+      "titles": {
+        "email": "E-mail address"
+      },
+      "buttons": {
+        "send_reset": "Send e-mail",
+        "back_login": "Back to login"
+      }
+    },
+    "reset_password": {
+      "title": "Create new password",
+      "titles": {
+        "password": "New password",
+        "confirm_password": "Confirm password"
+      },
+      "buttons": {
+        "save_password": "Save password"
       }
     },
     "sidebar": {
@@ -123,6 +147,32 @@
           "inventory_counts_description": "Create, list, edit and delete inventory counts"
         }
     },
+    "company_data": {
+      "titles": {
+        "data": "Data",
+        "name": "Company name",
+        "tax_number": "Tax number",
+        "eu_tax_number": "EU tax number",
+        "bank_account_number": "Bank account number",
+        "registration_number": "Corporate registration number",
+        "email": "E-mail address",
+        "phone_number": "Phone number",
+        "billing_address_data": "Billing address data",
+        "shipping_address_data":"Shipping address data",
+        "country": "Country",
+        "region": "Region",
+        "post_code": "Post code",
+        "city": "City",
+        "address_1": "Address first line",
+        "address_2": "Address second line"
+      },
+      "show": {
+        "title": "Company data"
+      },
+      "edit": {
+        "title": "Edit company data"
+      }
+    },
     "warehouses": {
       "titles": {
         "data": "Master data",
@@ -160,7 +210,10 @@
         "unit": "Unit",
         "price_per_unit": "Price per unit",
         "active": "Status",
-        "description": "Description"
+        "description": "Description",
+        "bom": "Bill of materials",
+        "component": "Component",
+        "quantity_per_unit": "Quantity per unit"
       },
       "buttons": {
         "back": "Back to products",
@@ -183,6 +236,8 @@
         "email": "E-mail address",
         "role": "Role",
         "password": "Passsword (Leave it blank if you don’t want to change it)",
+        "password_req": "Password",
+        "confirm_password": "Confirm password",
         "user_data": "User data"
       },
       "buttons": {
@@ -417,6 +472,8 @@
         "phone_number": "Phone number",
         "actions": "Actions",
         "tax_number": "Tax number",
+        "eu_tax_number": "EU tax number",
+        "bank_account_number": "Bank account number",
         "address_country": "Country",
         "address_region": "Region",
         "address_postcode": "Post code",
@@ -510,6 +567,8 @@
         "actions": "Actions",
         "data": "Master data",
         "tax_number": "Tax number",
+        "eu_tax_number": "EU tax number",
+        "bank_account_number": "Bank account number",
         "address_data": "Address data",
         "billing_address_data": "Billing address data",
         "shipping_address_data": "Shipping address data",
@@ -775,26 +834,124 @@
     "show": "Show",
     "refresh": "Refresh",
     "print": "Print",
-    "add_product": "Add product"
+    "add_product": "Add product",
+    "add_component": "Add component",
+    "back_module": "Back to module",
+    "back": "Back",
+    "dashboard": "Dashboard",
+    "company_data": "Company data"
   },
   "selects": {
     "products": {
+      "placeholder": "Select product",
+      "placeholder_status": "Select status",
       "options_active": {
         "active": "Active",
         "inactive": "Inactive"
       }
     },
+    "warehouses": {
+      "placeholder": "Select warehouse"
+    },
     "users": {
-      "placeholder": "Select an user"
+      "placeholder": "Select user"
     },
     "roles": {
-      "placeholder": "Select a role"
+      "placeholder": "Select role"
     },
     "permissions": {
-      "placeholder": "Select a permission"
+      "placeholder": "Select permission",
+      "options": {
+        "EDIT_COMPANY_DATA": "Edit company data",
+        "VIEW_COMPANY_DATA": "View company data",
+        "CREATE_USERS": "Create user",
+        "EDIT_USERS": "Edit user",
+        "DELETE_USERS": "Delete user",
+        "VIEW_USERS": "View user",
+        "CREATE_ROLES": "Create role",
+        "EDIT_ROLES": "Edit role",
+        "DELETE_ROLES": "Delete role",
+        "VIEW_ROLES": "View role",
+        "CREATE_PRODUCTS": "Create product",
+        "EDIT_PRODUCTS": "Edit product",
+        "DELETE_PRODUCTS": "Delete product",
+        "VIEW_PRODUCTS": "View product",
+        "CREATE_WAREHOUSES": "Create warehouse",
+        "EDIT_WAREHOUSES": "Edit warehouse",
+        "DELETE_WAREHOUSES": "Delete warehouse",
+        "VIEW_WAREHOUSES": "View warehouse",
+        "CREATE_EMPLOYEES": "Create employee",
+        "EDIT_EMPLOYEES": "Edit employee",
+        "DELETE_EMPLOYEES": "Delete employee",
+        "VIEW_EMPLOYEES": "View employee",
+        "CREATE_DEPARTMENTS": "Create department",
+        "EDIT_DEPARTMENTS": "Edit department",
+        "DELETE_DEPARTMENTS": "Delete department",
+        "VIEW_DEPARTMENTS": "View department",
+        "CREATE_POSITIONS": "Create position",
+        "EDIT_POSITIONS": "Edit position",
+        "DELETE_POSITIONS": "Delete position",
+        "VIEW_POSITIONS": "View position",
+        "CREATE_SHIFTS": "Create shift",
+        "EDIT_SHIFTS": "Edit shift",
+        "DELETE_SHIFTS": "Delete shift",
+        "VIEW_SHIFTS": "View shift",
+        "CREATE_WORK_SCHEDULES": "Create work schedule",
+        "DELETE_WORK_SCHEDULES": "Delete work schedule",
+        "VIEW_WORK_SCHEDULES": "View work schedule",
+        "CREATE_LEAVE_REQUESTS": "Create leave request",
+        "EDIT_LEAVE_REQUESTS": "Edit leave request",
+        "DELETE_LEAVE_REQUESTS": "Delete leave request",
+        "VIEW_LEAVE_REQUESTS": "View leave request",
+        "CREATE_PERFORMANCE_REVIEWS": "Create performance review",
+        "DELETE_PERFORMANCE_REVIEWS": "Delete performance review",
+        "VIEW_PERFORMANCE_REVIEWS": "View performance review",
+        "CREATE_SUPPLIERS": "Create supplier",
+        "EDIT_SUPPLIERS": "Edit supplier",
+        "DELETE_SUPPLIERS": "Delete supplier",
+        "VIEW_SUPPLIERS": "View supplier",
+        "CREATE_PURCHASE_ORDERS": "Create purchase order",
+        "EDIT_PURCHASE_ORDERS": "Edit purchase order",
+        "DELETE_PURCHASE_ORDERS": "Delete purchase order",
+        "VIEW_PURCHASE_ORDERS": "View purchase order",
+        "CREATE_GOODS_RECEIPTS": "Create goods receipt",
+        "DELETE_GOODS_RECEIPTS": "Delete goods receipt",
+        "VIEW_GOODS_RECEIPTS": "View goods receipt",
+        "CREATE_CUSTOMERS": "Create customer",
+        "EDIT_CUSTOMERS": "Edit customer",
+        "DELETE_CUSTOMERS": "Delete customer",
+        "VIEW_CUSTOMERS": "View customer",
+        "CREATE_SALES_ORDERS": "Create sales order",
+        "EDIT_SALES_ORDERS": "Edit sales order",
+        "DELETE_SALES_ORDERS": "Delete sales order",
+        "VIEW_SALES_ORDERS": "View sales order",
+        "CREATE_INVOICES": "Create invoice",
+        "EDIT_INVOICES": "Edit invoice",
+        "DELETE_INVOICES": "Delete invoice",
+        "VIEW_INVOICES": "View invoice",
+        "CREATE_PRODUCTION_ORDERS": "Create production order",
+        "EDIT_PRODUCTION_ORDERS": "Edit production order",
+        "DELETE_PRODUCTION_ORDERS": "Delete production order",
+        "VIEW_PRODUCTION_ORDERS": "View production order",
+        "CREATE_PRODUCTION_OUTPUTS": "Create production output",
+        "EDIT_PRODUCTION_OUTPUTS": "Edit production output",
+        "DELETE_PRODUCTION_OUTPUTS": "Delete production output",
+        "VIEW_PRODUCTION_OUTPUTS": "View production output",
+        "CREATE_INVENTORY_ITEMS": "Create inventory item",
+        "DELETE_INVENTORY_ITEMS": "Delete inventory item",
+        "VIEW_INVENTORY_ITEMS": "View inventory item",
+        "CREATE_STOCK_MOVEMENTS": "Create stock movement",
+        "EDIT_STOCK_MOVEMENTS": "Edit stock movement",
+        "DELETE_STOCK_MOVEMENTS": "Delete stock movement",
+        "VIEW_STOCK_MOVEMENTS": "View stock movement",
+        "CREATE_INVENTORY_COUNTS": "Create inventory count",
+        "DELETE_INVENTORY_COUNTS": "Delete inventory count",
+        "VIEW_INVENTORY_COUNTS": "View inventory count"
+      }
     },
     "employees": {
-      "placeholder": "Select an employee",
+      "placeholder": "Select employee",
+      "placeholder_status":"Select status",
       "options_status": {
         "active": "Active",
         "inactive": "Inactive",
@@ -802,17 +959,17 @@
       }
     },
     "departments": {
-      "placeholder": "Select a department"
+      "placeholder": "Select department"
     },
     "positions": {
-      "placeholder": "Select a position"
+      "placeholder": "Select position"
     },
     "shifts": {
-      "placeholder": "Select a shift"
+      "placeholder": "Select shift"
     },
     "leave_requests": {
-      "placeholder_type": "Select a type",
-      "placeholder_status": "Select a status",
+      "placeholder_type": "Select type",
+      "placeholder_status": "Select status",
       "options_type": {
         "paid_leave": "Paid leave",
         "sick_leave": "Sick leave",
@@ -826,6 +983,64 @@
         "rejected": "Rejected",
         "pending": "Pending"
       }
+    },
+    "suppliers": {
+      "placeholder": "Select supplier"
+    },
+    "purchase_orders": {
+      "placeholder": "Select purchase order",
+      "placeholder_status": "Select status",
+      "options_status": {
+        "pending": "Pending",
+        "received": "Received",
+        "delayed": "Delayed",
+        "cancelled": "Cancelled"
+      }
+    },
+    "customers": {
+      "placeholder": "Select customer"
+    },
+    "sales_orders": {
+      "placeholder": "Select sales order",
+      "placeholder_status": "Select status",
+      "options_status": {
+        "draft": "Draft",
+        "confirmed": "Confirmed",
+        "delivered": "Delivered",
+        "invoiced": "Invoiced",
+        "closed": "Closed"
+      }
+    },
+    "invoices": {
+      "placeholder_status": "Select status",
+      "options_status": {
+        "draft": "Draft",
+        "issued": "Issued",
+        "paid": "Paid"
+      }
+    },
+    "production_orders": {
+      "placeholder": "Select production order",
+      "placeholder_status": "Select status",
+      "options_status": {
+        "planned": "Planned",
+        "in_progress": "In progress",
+        "finished": "Finished"
+      }
+    },
+    "stock_movements": {
+      "placeholder_movement_type": "Select movement type",
+      "options_movement_type": {
+        "in": "In",
+        "out": "Out",
+        "transfer": "Transfer"
+      }
+    }
+  },
+  "messages": {
+    "errors": {
+      "required_item": "At least one item required!",
+      "required_field": "Required field!"
     }
   }
 }

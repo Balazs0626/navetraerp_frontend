@@ -1,8 +1,9 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Show, DateField, RefreshButton } from "@refinedev/antd";
-import { useShow, useTranslation } from "@refinedev/core";
+import { CanAccess, useShow, useTranslation } from "@refinedev/core";
 import { Typography, Descriptions, Rate, Space, Button } from "antd";
 import { useNavigate } from "react-router";
+import { CustomErrorComponent } from "../../error";
 
 const { Title, Text } = Typography;
 
@@ -15,6 +16,11 @@ export const StockMovementShow = () => {
   const record = data;
 
   return (
+    <CanAccess 
+      resource="stock_movements" 
+      action="show" 
+      fallback={<CustomErrorComponent status="403"/>}
+    >
       <Show
         goBack={null}
         title={translate("pages.stock_movements.show.title")}
@@ -72,5 +78,6 @@ export const StockMovementShow = () => {
           </Descriptions>
           
       </Show>
-  );
-};
+    </CanAccess>
+  )
+}

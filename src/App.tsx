@@ -1,9 +1,9 @@
-import { Refine, Authenticated, ErrorComponent } from "@refinedev/core";
+import { Refine, Authenticated, ErrorComponent, useGetIdentity } from "@refinedev/core";
 import { BrowserRouter, Routes, Route, Outlet, redirect } from "react-router-dom";
 import { LoginPage } from "./pages/login";
 import { CatchAllNavigate } from "@refinedev/react-router";
 import { DashboardPage } from "./pages/dashboard";
-import { RefineThemes, ThemedLayout, ThemedTitle, useNotificationProvider } from "@refinedev/antd";
+import { RefineThemes, ThemedLayout, ThemedSider, ThemedTitle, useNotificationProvider } from "@refinedev/antd";
 import { App as AntdApp, ConfigProvider, Select, Switch, theme, notification } from "antd";
 import { AppstoreAddOutlined, AppstoreOutlined, CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, DragOutlined, ExportOutlined, FileOutlined, FileProtectOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, OrderedListOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, SolutionOutlined, StockOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
 import { dataProvider } from "./providers/dataProvider";
@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { UserCreate } from "./pages/administrator/users/create";
 import { I18nProvider, NotificationProvider } from "@refinedev/core";
 import { useTranslation } from "react-i18next";
-import "./providers/i18nProvider";
+import "./i18n";
 import huLocale from "antd/es/locale/hu_HU";
 import enLocale from "antd/es/locale/en_US";
 import dayjs from "dayjs";
@@ -64,6 +64,16 @@ import { InventoryMainPage } from "./pages/inventory/main";
 import { StockMovementList } from "./pages/inventory/stock_movements/list";
 import { StockMovementCreate, StockMovementEdit, StockMovementShow } from "./pages/inventory/stock_movements";
 import { InventoryCountCreate, InventoryCountList, InventoryCountShow } from "./pages/inventory/inventory_counts";
+import { CompanyDataEdit, CompanyDataShow } from "./pages/company_data";
+import { ColorModeContextProvider } from "./contexts/color-mode";
+import { Header } from "./components";
+import { CustomSider} from "./components/sider";
+import { CustomLayout } from "./components/layout";
+import { i18nProvider } from "./providers/i18nProvider";
+import { accessControlProvider } from "./providers/accessControlProvider";
+import { CustomErrorComponent } from "./pages/error";
+import { ForgotPasswordPage } from "./pages/forgotPassword";
+import { ResetPasswordPage } from "./pages/resetPassword";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -105,6 +115,8 @@ export default function App() {
 
   const [locale, setLocale] = useState(i18n.language);
 
+  const [collapsed, setCollapsed] = useState(false);
+
   useEffect(() => {
     const savedLocale = localStorage.getItem("locale");
     if (savedLocale) {
@@ -125,19 +137,19 @@ export default function App() {
     }
   }, [i18n.language]);
 
-  const i18nProvider: I18nProvider = {
+/*   const i18nProvider: I18nProvider = {
       translate: (key: string, params: object) => {
           return t(key, params as any) as string;
       },
       changeLocale: (lang: string) => i18n.changeLanguage(lang),
       getLocale: () => i18n.language,
-  };
+  }; */
 
   const { token } = theme.useToken();
 
   return (
     <BrowserRouter>
-      <ConfigProvider
+{/*       <ConfigProvider
         locale={antdLocale}
         theme={{
           ...RefineThemes.Blue,
@@ -147,7 +159,8 @@ export default function App() {
             colorBgContainer: mode === "light" ? "#eeeeeeff" : "#1f1f1f",
           },
         }}
-      >
+      > */}
+      <ColorModeContextProvider>
         <AntdApp>
           <Refine
             authProvider={authProvider}
@@ -155,9 +168,12 @@ export default function App() {
             i18nProvider={i18nProvider}
             routerProvider={routerProvider}
             notificationProvider={useNotificationProvider}
-            accessControlProvider={{
+            accessControlProvider={accessControlProvider}
+            /* accessControlProvider={{
               can: async ({ resource, action }) => {
                 const permissions = (await authProvider.getPermissions?.()) as string[] | null;
+
+                console.log("asd");
 
                 if (!permissions) {
                   return { can: false };
@@ -238,17 +254,66 @@ export default function App() {
                   return { can: permissions.includes("VIEW:GOODS_RECEIPTS") };
                 }
 
+                if (resource === "sales" && action === "list") {
+                  return { can: (permissions.includes("VIEW:CUSTOMERS") || permissions.includes("VIEW:SALES_ORDERS") || permissions.includes("VIEW:INVOICES"))};
+                }
+
+                if (resource === "customers" && action === "list") {
+                  return { can: permissions.includes("VIEW:CUSTOMERS") };
+                }
+
+                if (resource === "sales_orders" && action === "list") {
+                  return { can: permissions.includes("VIEW:SALES_ORDERS") };
+                }
+
+                if (resource === "invoices" && action === "list") {
+                  return { can: permissions.includes("VIEW:INVOICES") };
+                }
+
+                if (resource === "production" && action === "list") {
+                  return { can: (permissions.includes("VIEW:PRODUCTION_ORDERS") || permissions.includes("VIEW:PRODUCTION_OUTPUTS"))};
+                }
+
+                if (resource === "production_orders" && action === "list") {
+                  return { can: permissions.includes("VIEW:PRODUCTION_ORDERS") };
+                }
+
+                if (resource === "production_outputs" && action === "list") {
+                  return { can: permissions.includes("VIEW:PRODUCTION_OUTPUTS") };
+                }
+
+                if (resource === "inventory" && action === "list") {
+                  return { can: (permissions.includes("VIEW:INVENTORY_ITEMS") || permissions.includes("VIEW:STOCK_MOVEMENTS") || permissions.includes("VIEW:INVENTORY_COUNTS"))};
+                }
+
+                if (resource === "inventory_items" && action === "list") {
+                  return { can: permissions.includes("VIEW:INVENTORY_ITEMS") };
+                }
+
+                if (resource === "stock_movements" && action === "list") {
+                  return { can: permissions.includes("VIEW:STOCK_MOVEMENTS") };
+                }
+
+                if (resource === "inventory_counts" && action === "list") {
+                  return { can: permissions.includes("VIEW:INVENTORY_COUNTS") };
+                }
+
                 return { can: true };
               },
-            }}
+            }} */
             resources={[
               { 
-                name: "dashboard" ,
+                name: "" ,
                 list: "/",
                 meta: {
                   label: t("pages.sidebar.dashboard"),
-                  icon: <HomeOutlined/>
+                  icon: <DashboardOutlined/>
                 }
+              },
+              {
+                name: "company_data",
+                edit: "company_data/edit",
+                show: "company_data"
               },
               {
                 name: "warehouses",
@@ -319,6 +384,8 @@ export default function App() {
               {
                 name: "departments",
                 list: "/hr/departments",
+                create: "/hr/departments/create",
+                edit: "/hr/departments/edit/:id",
                 meta: {
                   label: t("pages.sidebar.departments"),
                   icon: <GroupOutlined/>,
@@ -339,6 +406,8 @@ export default function App() {
               {
                 name: "shifts",
                 list: "/hr/shifts",
+                create: "/hr/shifts/create",
+                edit: "/hr/shifts/edit/:id",
                 meta: {
                   label: t("pages.sidebar.shifts"),
                   icon: <ClockCircleOutlined/>,
@@ -348,7 +417,7 @@ export default function App() {
               {
                 name: "work_schedules",
                 list: "/hr/work_schedules",
-                create: "hr/work_schedules/create",
+                create: "/hr/work_schedules/create",
                 meta: {
                   label: t("pages.sidebar.work_schedules"),
                   icon: <CalendarOutlined/>,
@@ -358,7 +427,7 @@ export default function App() {
               {
                 name: "leave_requests",
                 list: "/hr/leave_requests",
-                create: "hr/leave_requests/create",
+                create: "/hr/leave_requests/create",
                 meta: {
                   label: t("pages.sidebar.leave_requests"),
                   icon: <StopOutlined/>,
@@ -537,15 +606,11 @@ export default function App() {
                   <Authenticated                    
                     key="authenticated-routes"
                     fallback={<CatchAllNavigate to="/login" />}>
-                    <ThemedLayout
-                      Title={() => (
-                        <ThemedTitle
-                          collapsed={false}
-                          text="NavetraERP"
-                          icon={<img src="/src/icons/logo.png" style={{ height: 24 }} />}
-                        />
-                      )}
-                      Header={() => (
+                    <CustomLayout Header={Header}>
+                      <Outlet />
+                    </CustomLayout>
+                    {/* <ThemedLayout
+                       Header={() => (
                         <div style={{
                           display: "flex",
                           justifyContent: "flex-end",
@@ -575,9 +640,17 @@ export default function App() {
                           />
                         </div>
                       )}
+
+                      Title={() => (
+                        <ThemedTitle
+                          collapsed={false}
+                          text="NavetraERP"
+                          icon={<img src="/src/icons/logo.png" style={{ height: 24 }} />}
+                        />
+                      )}
                     >
                       <Outlet/>
-                    </ThemedLayout>
+                    </ThemedLayout> */}
                   </Authenticated>
                 }
               >
@@ -729,6 +802,12 @@ export default function App() {
                 </Route>
 
                 {/* <Route path="main"> */}
+
+                <Route path="company_data">
+                  <Route index element={<CompanyDataShow/>}/>
+                  <Route path="edit" element={<CompanyDataEdit/>}/>
+                </Route>
+
                 <Route path="warehouses">
                   <Route index element={<WarehouseList/>}/>
                   <Route path="create" element={<WarehouseCreate/>}/>
@@ -743,9 +822,11 @@ export default function App() {
                   <Route path="bom/:id" element={<ProductBomShow/>}/>
                 </Route>
                 {/* </Route> */}
-
+                <Route path="*" element={<CustomErrorComponent status="404"/>} />
               </Route>
-              <Route
+              <Route path="forgot_password" element={<ForgotPasswordPage/>}/>
+              <Route path="reset_password" element={<ResetPasswordPage/>}/>
+{/*               <Route
                   element={
                     <Authenticated key="catch-all">
                       <ThemedLayout>
@@ -755,11 +836,12 @@ export default function App() {
                   }
                 >
                   <Route path="*" element={<ErrorComponent />} />
-                </Route>
+                </Route> */}
             </Routes>
           </Refine>
         </AntdApp>
-      </ConfigProvider>
+      {/* </ConfigProvider> */}
+      </ColorModeContextProvider>
     </BrowserRouter>
   );
 }

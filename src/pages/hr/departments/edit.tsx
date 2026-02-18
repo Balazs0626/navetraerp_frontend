@@ -1,10 +1,11 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Edit, useForm } from "@refinedev/antd";
-import { useNotification, useTranslation } from "@refinedev/core";
+import { CanAccess, useNotification, useTranslation } from "@refinedev/core";
 import { Button, Card, Col, Form, Input, Row, Space } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
+import { CustomErrorComponent } from "../../error";
 
 export const DepartmentEdit = () => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ export const DepartmentEdit = () => {
   });
 
   useEffect(() => {
-    document.title = translate("pages.departments.edit.title");
+    document.title = `${translate("pages.departments.edit.title")} | NavetraERP`;
   })
 
   useEffect(() => {
@@ -32,46 +33,55 @@ export const DepartmentEdit = () => {
   }, [formProps.initialValues])
 
   return (
-    <Edit
-      title={translate("pages.departments.edit.title")}
-      saveButtonProps={saveButtonProps}
-      headerButtons={
-        <Space>
-          <Button
-            onClick={() => navigate("/hr/departments")}
-            size="large"
-          ><ArrowLeftOutlined/>{translate("pages.departments.buttons.back")}</Button>
-        </Space>
-      }
+    <CanAccess 
+      resource="departments" 
+      action="edit" 
+      fallback={<CustomErrorComponent status="403"/>}
     >
-      <Form
-        {...formProps}
-        form={form}
-        layout="vertical"
+      <Edit
+        title={translate("pages.departments.edit.title")}
+        goBack={null}
+        saveButtonProps={saveButtonProps}
+        headerButtons={
+          <Space>
+            <Button
+              onClick={() => navigate("/hr/departments")}
+              size="large"
+            >
+              <ArrowLeftOutlined/>{translate("pages.departments.buttons.back")}
+            </Button>
+          </Space>
+        }
       >
-        <Card title={translate("pages.departments.titles.data")}>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label={translate("pages.departments.titles.name")}
-                name="departmentName"
-                rules={[{ required: true }]}
-              >
-                <Input/>
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label={translate("pages.departments.titles.description")}
-                name="description"
-              >
-                <TextArea/>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Card>
-      </Form>
+        <Form
+          {...formProps}
+          form={form}
+          layout="vertical"
+        >
+          <Card title={translate("pages.departments.titles.data")} type="inner">
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item
+                  label={translate("pages.departments.titles.name")}
+                  name="departmentName"
+                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                >
+                  <Input placeholder={`${translate("pages.departments.titles.name")}...`}/>
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  label={translate("pages.departments.titles.description")}
+                  name="description"
+                >
+                  <Input.TextArea placeholder={`${translate("pages.departments.titles.description")}...`}/>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Card>
+        </Form>
 
-    </Edit>
+      </Edit>
+    </CanAccess>
   )
 };

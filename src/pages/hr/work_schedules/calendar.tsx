@@ -1,9 +1,10 @@
-import { useRef } from "react";
-import { useList, usePermissions, useTranslation } from "@refinedev/core";
-import { Calendar, Badge, Spin, Typography, Card, Button, Tooltip } from "antd";
+import { useEffect, useRef } from "react";
+import { CanAccess, useList, usePermissions, useTranslation } from "@refinedev/core";
+import { Calendar, Badge, Spin, Typography, Card, Button, Tooltip, Alert, Divider } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { InfoCircleOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, InfoCircleOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { CustomErrorComponent } from "../../error";
 
 const { Text } = Typography;
 
@@ -18,6 +19,10 @@ export const WorkSchedulesCalendar = () => {
   const navigate = useNavigate();
 
   const { data: permissions } = usePermissions<string[]>({});
+
+  useEffect(() => {
+    document.title = `${translate("pages.work_schedules.list.title")} | NavetraERP`;
+  })
 
   const lastClickRef = useRef<{ time: number; date: string } | null>(null);
 
@@ -83,31 +88,43 @@ export const WorkSchedulesCalendar = () => {
   };
 
   return (
-    <Card
-      type="inner"
-      title={translate("pages.work_schedules.titles.calendar")}
-      extra={
-        <div
-          style={{
-            display: "flex",
-            gap: 8
-          }}
-        >
-          <Button icon={<UnorderedListOutlined/>} size="large" onClick={() => navigate("/hr/work_schedules")}>
-            {translate("pages.work_schedules.buttons.list")}
-          </Button>
-          <Tooltip title={translate("pages.work_schedules.titles.info")}>
-            <Button icon={<InfoCircleOutlined />} size="large" />
-          </Tooltip>
-        </div>
-      }
-    > 
-      <Calendar
-          fullscreen
-          dateCellRender={dateCellRender}
-          defaultValue={dayjs()}
-          onSelect={onSelect}
+    <CanAccess 
+      resource="work_schedules" 
+      action="list" 
+      fallback={<CustomErrorComponent status="403"/>}
+    >
+      <Alert
+        type="info"
+        description={translate("pages.work_schedules.titles.info")}
+        showIcon
       />
-    </Card>
+      <Divider/>
+      <Card
+        type="inner"
+        title={translate("pages.work_schedules.titles.calendar")}
+        extra={
+          <div
+            style={{
+              display: "flex",
+              gap: 8
+            }}
+          >
+            <Button icon={<UnorderedListOutlined/>} size="large" onClick={() => navigate("/hr/work_schedules")}>
+              {translate("pages.work_schedules.buttons.list")}
+            </Button>
+            <Button icon={<ArrowLeftOutlined/>} size="large" onClick={() => navigate("/hr")}>
+              {translate("buttons.back_module")}
+            </Button>
+          </div>
+        }
+      > 
+        <Calendar
+            fullscreen
+            dateCellRender={dateCellRender}
+            defaultValue={dayjs()}
+            onSelect={onSelect}
+        />
+      </Card>
+    </CanAccess>
   );
 };

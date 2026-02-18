@@ -2,10 +2,11 @@ import { Edit, useForm } from "@refinedev/antd";
 import { Button, Card, Col, Form, Input, Row, Space } from "antd";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useNotification, useTranslate } from "@refinedev/core";
+import { CanAccess, useNotification, useTranslate } from "@refinedev/core";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { RoleSelect } from "../../../components/RoleSelect";
 import { getDefaultAutoSelectFamilyAttemptTimeout } from "net";
+import { CustomErrorComponent } from "../../error";
 
 export const UserEdit = () => {
 
@@ -32,7 +33,7 @@ export const UserEdit = () => {
   } */
 
   useEffect(() => {
-    document.title = `NavetraERP - ${translate("pages.users.edit.title")}`;
+    document.title = `${translate("pages.users.edit.title")} | NavetraERP`;
   })
 
   useEffect(() => {
@@ -45,81 +46,100 @@ export const UserEdit = () => {
   }, [formProps.initialValues])
 
   return (
-    <Edit
-        title={translate("pages.users.edit.title")}
-        saveButtonProps={saveButtonProps}
-        headerButtons={
-          <Space>
-            <Button
-              onClick={() => navigate("/administrator/users")}
-              size="large"
-            ><ArrowLeftOutlined/>{translate("pages.users.buttons.back")}</Button>
-          </Space>
-        }
+    <CanAccess 
+      resource="users" 
+      action="edit" 
+      fallback={<CustomErrorComponent status="403"/>}
     >
-      <Form
-          {...formProps}
-          form={form}
-          layout="vertical"
-/*           onFinish={(values) => {
-
-              handleNotification();
-
-              return formProps.onFinish?.(values);
-          }} */
+      <Edit
+          title={translate("pages.users.edit.title")}
+          goBack={null}
+          saveButtonProps={saveButtonProps}
+          headerButtons={
+            <Space>
+              <Button
+                onClick={() => navigate("/administrator/users")}
+                size="large"
+              ><ArrowLeftOutlined/>{translate("pages.users.buttons.back")}</Button>
+            </Space>
+          }
       >
-        <Card title={translate("pages.users.titles.user_data")}>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label={translate("pages.users.titles.username")}
-                name="username"
-                rules={[{
-                  required: true,
-                }]}
-              >
-                <Input style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
+        <Form
+            {...formProps}
+            form={form}
+            layout="vertical"
+  /*           onFinish={(values) => {
 
-            <Col span={12}>
-              <Form.Item
-                label={translate("pages.users.titles.email")}
-                name="email"
-              >
-                <Input type="email" style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
-          </Row>
+                handleNotification();
 
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label={translate("pages.users.titles.password")}
-                name="passwordHash"
-                rules={[{
-                  //required: true,
-                  
-                }]}
-              >
-                <Input style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
+                return formProps.onFinish?.(values);
+            }} */
+        >
+          <Card title={translate("pages.users.titles.user_data")} type="inner">
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item
+                  label={translate("pages.users.titles.username")}
+                  name="username"
+                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                >
+                  <Input style={{ width: "100%" }} placeholder={`${translate("pages.users.titles.username")}...`}/>
+                </Form.Item>
+              </Col>
 
-            <Col span={12}>
-              <Form.Item
-                label={translate("pages.users.titles.role")}
-                name="roleId"
-                rules={[{
-                  required: true,
-                }]}
-              >
-                <RoleSelect/>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Card>
-      </Form>
-    </Edit>
+              <Col span={12}>
+                <Form.Item
+                  label={translate("pages.users.titles.email")}
+                  name="email"
+                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                >
+                  <Input type="email" style={{ width: "100%" }} placeholder={`${translate("pages.users.titles.email")}...`}/>
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item
+                  label={translate("pages.users.titles.password")}
+                  name="passwordHash"
+                >
+                  <Input type="password" style={{ width: "100%" }} placeholder={`${translate("pages.users.titles.password")}...`}/>
+                </Form.Item>
+              </Col>
+
+              <Col span={12}>
+                <Form.Item
+                  label={translate("pages.users.titles.confirm_password")}
+                  name="confirm_password"
+                  rules={[
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue('passwordHash') === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject();
+                      },
+                    }),
+                  ]}
+                >
+                  <Input type="password" style={{ width: "100%" }} placeholder={`${translate("pages.users.titles.confirm_password")}...`} />
+                </Form.Item>
+              </Col>
+
+              <Col span={12}>
+                <Form.Item
+                  label={translate("pages.users.titles.role")}
+                  name="roleId"
+                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                >
+                  <RoleSelect/>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Card>
+        </Form>
+      </Edit>
+    </CanAccess>
   )
 }

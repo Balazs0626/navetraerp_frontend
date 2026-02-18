@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../constants/url";
 import { useTranslation } from "@refinedev/core";
+import dayjs from "dayjs";
 
 interface SalesOrder {
   id: number;
   orderDate: string;
+  receiptNumber: string;
 }
 
 interface SalesOrderSelectProps {
@@ -39,13 +41,13 @@ export const SalesOrderSelect: React.FC<SalesOrderSelectProps> = ({ value, disab
       disabled={disabled}
       showSearch
       optionFilterProp="label"
-      placeholder={translate("selects.sales_order.placeholder")}
+      placeholder={translate("selects.sales_orders.placeholder")}
       loading={loading}
       value={value}
       onChange={onChange}
       style={{ width: "100%" }}
       options={salesOrders.map((so) => ({
-        label: `${so.id} | ${so.orderDate}`,
+        label: `${so.receiptNumber} | ${dayjs(so.orderDate).format("YYYY. MM. DD.")}`,
         value: so.id,
       }))}
     />

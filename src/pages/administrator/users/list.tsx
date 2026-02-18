@@ -2,9 +2,10 @@ import { DeleteButton, EditButton, List, useTable } from "@refinedev/antd";
 import { Space, Table, Input, Form, Row, Col, Button } from "antd";
 import { IUserList } from "../../../interfaces";
 import { useEffect } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import { usePermissions, useTranslation } from "@refinedev/core";
+import { ArrowLeftOutlined, PlusOutlined } from "@ant-design/icons";
+import { CanAccess, usePermissions, useTranslation } from "@refinedev/core";
 import { useNavigate } from "react-router-dom";
+import { CustomErrorComponent } from "../../error";
 
 const { Search } = Input;
 
@@ -19,59 +20,66 @@ export const UserList = () => {
     const { translate } = useTranslation();
 
     useEffect(() => {
-        document.title = translate("pages.users.list.title");
+        document.title = `${translate("pages.users.list.title")} | NavetraERP`;
     })
 
     const { data: permissions } = usePermissions<string[]>({});
 
     return (
-        <Row gutter={[16, 16]}>
-            <Col lg={24} xs={24}>
-                <List
-                    title={translate("pages.users.list.title")}
-                    headerButtons={
-                        <Button icon={<PlusOutlined />} size="large" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:USERS")}>
-                            {translate("pages.users.buttons.create")}
-                        </Button>
-                    }
-                >
-                  <Table {...tableProps} rowKey="id">
-                      <Table.Column dataIndex={"username"} title={translate("pages.users.titles.username")}/>
-                      <Table.Column dataIndex={"email"} title={translate("pages.users.titles.email")}/>
-                      <Table.Column 
-                          dataIndex={"role"} 
-                          title={translate("pages.users.titles.role")}
+      <CanAccess 
+        resource="users" 
+        action="list" 
+        fallback={<CustomErrorComponent status="403"/>}
+      >
+        <List
+            title={translate("pages.users.list.title")}
+            headerButtons={
+              <Space>
+                <Button icon={<PlusOutlined />} size="large" type="primary" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:USERS")}>
+                  {translate("pages.users.buttons.create")}
+                </Button>
+                <Button icon={<ArrowLeftOutlined />} size="large" onClick={() => navigate("/administrator")}>
+                  {translate("buttons.back_module")}
+                </Button>
+              </Space>
+            }
+        >
+          <Table {...tableProps} rowKey="id">
+              <Table.Column dataIndex={"username"} title={translate("pages.users.titles.username")}/>
+              <Table.Column dataIndex={"email"} title={translate("pages.users.titles.email")}/>
+              <Table.Column 
+                  dataIndex={"role"} 
+                  title={translate("pages.users.titles.role")}
+              />
+              <Table.Column<IUserList>
+                title={translate("pages.users.list.actions")}
+                dataIndex="actions"
+                key="actions"
+                render={(_, record) => (
+                  <Space>
+                    {/* {permissions?.includes("EDIT:USERS") && */}
+                      <EditButton
+                        size="small"
+                        recordItemId={record.id}
+                        resource="users"
+                        //onClick={() => navigate(`/users/edit/${record.id}`)}
+                        disabled={!permissions?.includes("EDIT:USERS")}
                       />
-                      <Table.Column<IUserList>
-                        title={translate("pages.users.list.actions")}
-                        dataIndex="actions"
-                        key="actions"
-                        render={(_, record) => (
-                          <Space>
-                            {/* {permissions?.includes("EDIT:USERS") && */}
-                              <EditButton
-                                size="small"
-                                recordItemId={record.id}
-                                resource="users"
-                                //onClick={() => navigate(`/users/edit/${record.id}`)}
-                                disabled={!permissions?.includes("EDIT:USERS")}
-                              />
-                            {/* } */}
-                            {/* {permissions?.includes("DELETE:USERS") && */}
-                              <DeleteButton
-                                size="small"
-                                recordItemId={record.id}
-                                resource="users"
-                                confirmTitle={translate("notifications.deleteMessage")}
-                                disabled={!permissions?.includes("DELETE:USERS")}
-                              />
-                            {/* } */}
-                          </Space>
-                        )}
+                    {/* } */}
+                    {/* {permissions?.includes("DELETE:USERS") && */}
+                      <DeleteButton
+                        size="small"
+                        recordItemId={record.id}
+                        resource="users"
+                        confirmTitle={translate("notifications.deleteMessage")}
+                        disabled={!permissions?.includes("DELETE:USERS")}
                       />
-                  </Table>
-                </List>
-            </Col>
-        </Row>
+                    {/* } */}
+                  </Space>
+                )}
+              />
+          </Table>
+        </List>
+      </CanAccess>
     )
 };

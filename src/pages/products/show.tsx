@@ -1,9 +1,11 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Show, DateField, RefreshButton } from "@refinedev/antd";
-import { useShow, useTranslation } from "@refinedev/core";
+import { CanAccess, useEditButton, useShow, useTranslation } from "@refinedev/core";
 import { Typography, Descriptions, Rate, Space, Button } from "antd";
 import { useNavigate } from "react-router";
 import { useProductActiveStatus } from "../../constants/products";
+import { useEffect } from "react";
+import { CustomErrorComponent } from "../error";
 
 const { Title, Text } = Typography;
 
@@ -15,9 +17,18 @@ export const ProductShow = () => {
   const { result: data } = useShow();
   const record = data;
 
-  const productStatus = useProductActiveStatus().find(status => status.value === record?.active)?.label || "Ismeretlen";
+  const productStatus = useProductActiveStatus().find(status => status.value === record?.active)?.label;
+
+  useEffect(() => {
+    document.title = `${translate("pages.products.show.title")} | NavetraERP`;
+  })
 
   return (
+    <CanAccess 
+      resource="products" 
+      action="show" 
+      fallback={<CustomErrorComponent status="403"/>}
+    >
       <Show
         goBack={null}
         title={translate("pages.products.show.title")}
@@ -61,7 +72,7 @@ export const ProductShow = () => {
               </Descriptions.Item>
               
           </Descriptions>
-          
       </Show>
+    </CanAccess>
   );
 };

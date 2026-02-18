@@ -1,8 +1,9 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Show, DateField, RefreshButton } from "@refinedev/antd";
-import { useShow, useTranslation } from "@refinedev/core";
+import { CanAccess, useShow, useTranslation } from "@refinedev/core";
 import { Typography, Descriptions, Rate, Space, Button, Table } from "antd";
 import { useNavigate } from "react-router";
+import { CustomErrorComponent } from "../../error";
 
 const { Title, Text } = Typography;
 
@@ -38,6 +39,11 @@ export const InventoryCountShow = () => {
   ];
 
   return (
+    <CanAccess 
+      resource="inventory_counts" 
+      action="show" 
+      fallback={<CustomErrorComponent status="403"/>}
+    >
       <Show
         goBack={null}
         title={translate("pages.inventory_counts.show.title")}
@@ -85,5 +91,6 @@ export const InventoryCountShow = () => {
             style={{paddingTop: 12}}
           />
       </Show>
-  );
-};
+    </CanAccess>
+  )
+}

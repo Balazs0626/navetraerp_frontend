@@ -1,11 +1,12 @@
 import { ArrowLeftOutlined, PrinterOutlined } from "@ant-design/icons";
 import { Show, DateField, RefreshButton } from "@refinedev/antd";
-import { useShow, useTranslation } from "@refinedev/core";
+import { CanAccess, useShow, useTranslation } from "@refinedev/core";
 import { Typography, Descriptions, Rate, Space, Button, Col, Row, Table } from "antd";
 import { useNavigate } from "react-router";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import dayjs from "dayjs";
+import { CustomErrorComponent } from "../../error";
 
 const { Title, Text } = Typography;
 
@@ -20,38 +21,42 @@ export const SalesOrderShow = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
-const getPrintStyle = () => {
-  return `
-    @media print {
-      * {
-        color: black !important;
-      }
+  useEffect(() => {
+    document.title = `${translate("pages.sales_orders.show.title")} | NavetraERP`;
+  })
 
-      .ant-table,
-      .ant-table-container,
-      .ant-table-content {
-        background: white !important;
-      }
+  const getPrintStyle = () => {
+    return `
+      @media print {
+        * {
+          color: black !important;
+        }
 
-      .ant-table-tbody > tr > td {
-        background: white !important;
-        color: black !important;
-        border: none !important;
-        border-bottom: 1px solid black !important;
-      }
+        .ant-table,
+        .ant-table-container,
+        .ant-table-content {
+          background: white !important;
+        }
 
-      .ant-table-thead > tr > th {
-        background: #f0f0f0 !important;
-        color: black !important;
-        border: none !important;
-        border-bottom: 1px solid black !important;
-      }
+        .ant-table-tbody > tr > td {
+          background: white !important;
+          color: black !important;
+          border: none !important;
+          border-bottom: 1px solid black !important;
+        }
 
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-  `;
-};
+        .ant-table-thead > tr > th {
+          background: #f0f0f0 !important;
+          color: black !important;
+          border: none !important;
+          border-bottom: 1px solid black !important;
+        }
+
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    `;
+  };
 
 
   const columns = [
@@ -69,7 +74,7 @@ const getPrintStyle = () => {
       title: "Rendelt mennyiség",
       dataIndex: "quantityOrdered",
       key: "quantityOrdered",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.quantityOrdered} {data?.productUnit}
         </>
@@ -79,7 +84,7 @@ const getPrintStyle = () => {
       title: "Szállított mennyiség",
       dataIndex: "quantityShipped",
       key: "quantityShipped",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.quantityShipped} {data?.productUnit}
         </>
@@ -89,7 +94,7 @@ const getPrintStyle = () => {
       title: "Egységár",
       dataIndex: "pricePerUnit",
       key: "pricePerUnit",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.pricePerUnit} Ft
         </>
@@ -99,7 +104,7 @@ const getPrintStyle = () => {
       title: "Kedvezmény",
       dataIndex: "discount",
       key: "discount",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.discount} %
         </>
@@ -109,7 +114,7 @@ const getPrintStyle = () => {
       title: "Összesen",
       dataIndex: "totalPrice",
       key: "totalPrice",
-      render: (text: any, data: any) => (
+      render: (data: any) => (
         <>
           {data?.totalPrice} Ft
         </>
@@ -118,6 +123,11 @@ const getPrintStyle = () => {
   ];
 
   return (
+    <CanAccess 
+      resource="sales_orders" 
+      action="show" 
+      fallback={<CustomErrorComponent status="403"/>}
+    >
       <Show
         goBack={null}
         title={translate("pages.sales_orders.show.title")}
@@ -150,7 +160,7 @@ const getPrintStyle = () => {
             </Row>
             <Row gutter={16}>
 
-              <Col xs={14} style={{paddingLeft: 24}}>
+              <Col span={14} style={{paddingLeft: 24}}>
                 
                 <div style={{border: "1px solid black", padding: 10}}>
                   <Title level={4} style={{textAlign: "left"}}>Vevő:</Title>
@@ -158,22 +168,25 @@ const getPrintStyle = () => {
                     <Col xs={12} style={{textAlign: "left"}}>
                       <Title level={3}>{record?.customerName}</Title>
                       <Text><b>Adószám: </b>{record?.customerTaxNumber}</Text>
-                      <br/><br/>
+                      <br/>
+                      <Text><b>Közösségi adószám: </b>{record?.customerEuTaxNumber}</Text>
+                      <br/>
+                      <br/>
                       <Text><b>Számlázási cím:</b></Text>
                       <br/>
                       <Text>{record?.customerBillingAddress_1}</Text>
-                      <br></br>
+                      <br/>
                       <Text>{record?.customerBillingAddress_2}</Text>
-                      <br></br>
+                      <br/>
                       
                     </Col>
-                    <Col xs={12} style={{textAlign: "left"}}>
+                    <Col span={10} style={{textAlign: "left"}}>
                       <Text><b>Szállítási cím:</b></Text>
                       <br/>
                       <Text>{record?.customerShippingAddress_1}</Text>
-                      <br></br>
+                      <br/>
                       <Text>{record?.customerShippingAddress_2}</Text>
-                      <br></br>
+                      <br/>
                     </Col>
                   </Row>
                 </div>
@@ -205,5 +218,6 @@ const getPrintStyle = () => {
           </Col>
         </div>
       </Show>
+    </CanAccess>
   );
 };

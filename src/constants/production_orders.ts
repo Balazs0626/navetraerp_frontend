@@ -7,15 +7,15 @@ export const useProductionOrderStatus = () => {
     const ProductionOrderStatus = [
         { 
             value: "planned", 
-            label: translate("selects.production_orders.options.planned")
+            label: translate("selects.production_orders.options_status.planned")
         },
         { 
             value: "in_progress", 
-            label: translate("selects.production_orders.options.in_progress")
+            label: translate("selects.production_orders.options_status.in_progress")
         },
         { 
             value: "finished", 
-            label: translate("selects.production_orders.options.finished")
+            label: translate("selects.production_orders.options_status.finished")
         }
     ];
 
