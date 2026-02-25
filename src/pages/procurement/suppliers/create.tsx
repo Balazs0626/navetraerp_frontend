@@ -136,7 +136,6 @@ export const SupplierCreate = () => {
                 <Form.Item
                   label={translate("pages.suppliers.titles.address_region")}
                   name="addressRegion"
-                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                 >
                   <Input placeholder={`${translate("pages.suppliers.titles.address_region")}...`}/> 
                 </Form.Item>

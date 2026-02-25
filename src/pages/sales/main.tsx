@@ -1,9 +1,10 @@
 import { useTranslation, usePermissions } from "@refinedev/core";
 import { useNavigate } from "react-router";
-import { Row, Col, Card, Typography, Space, Collapse, Tabs, TabsProps } from "antd";
-import { UserOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, BankOutlined, ProductOutlined, ShopOutlined, TruckOutlined, ShoppingCartOutlined, FileOutlined, SolutionOutlined, FileTextOutlined, FileProtectOutlined, LockOutlined } from "@ant-design/icons";
-import { useEffect } from "react";
+import { Row, Col, Card, Typography, Space, Collapse, Tabs, TabsProps, FloatButton } from "antd";
+import { UserOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, BankOutlined, ProductOutlined, ShopOutlined, TruckOutlined, ShoppingCartOutlined, FileOutlined, SolutionOutlined, FileTextOutlined, FileProtectOutlined, LockOutlined, RobotOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
 import { SalesOrderTrendArea } from "../../components/diagrams/SalesOrderTrendArea";
+import { AiAssistantDrawer } from "../../components/ai";
 
 const { Text } = Typography;
 
@@ -15,6 +16,8 @@ export const SalesMainPage = () => {
       document.title = translate("pages.dashboard.sales_module.title");
   })
   const { data: permissions } = usePermissions<string[]>({});
+
+  const [isAiOpen, setIsAiOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -139,6 +142,21 @@ export const SalesMainPage = () => {
   ];
 
   return (
-    <Tabs defaultActiveKey="1" items={items} type="card"/>
+    <>
+      <Tabs defaultActiveKey="1" items={items} type="card"/>
+      <FloatButton
+          icon={<RobotOutlined />}
+          type="primary"
+          style={{ right: 24, bottom: 24, width: 64, height: 64 }}
+          onClick={() => setIsAiOpen(true)}
+          tooltip={<div>{translate("ai.assistant")}</div>}
+      />
+
+      <AiAssistantDrawer 
+          open={isAiOpen} 
+          onClose={() => setIsAiOpen(false)}
+          module="sales" 
+      />
+    </>
   );
 };

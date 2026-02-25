@@ -53,13 +53,14 @@
       "performance_reviews":"Teljesítmény értékelések",
       "procurement": "Beszerzés",
       "suppliers": "Beszállítók",
-      "purchase_orders": "Rendelési bizonylatok",
+      "purchase_orders": "Beszerzési rendelések",
       "goods_receipts": "Átvételi bizonylatok",
       "sales": "Értékesítés",
       "customers": "Vevők",
       "sales_orders": "Értékesítési rendelések",
       "invoices": "Számlák",
       "production": "Termelés",
+      "machines": "Gépek",
       "production_orders": "Termelési rendelések",
       "production_outputs": "Termelési kibocsátás",
       "inventory": "Raktárkezelés",
@@ -110,11 +111,11 @@
         },
         "procurement_module": {
           "title": "Beszerzés modul",
-          "description": "Beszállítók, rendelési bizonylatok és átvételi bitonylatok kezelése",
+          "description": "Beszállítók, beszerzési rendelések és átvételi bitonylatok kezelése",
           "suppliers": "Beszállítók",
           "suppliers_description": "Beszállítók létrehozása, listázása, szerkesztése és törlése",
-          "purchase_orders": "Rendelési bizonylatok",
-          "purchase_orders_description": "Rendelési bizonylatok létrehozása, listázása, törlése és nyomtatása",
+          "purchase_orders": "Beszerzési rendelések",
+          "purchase_orders_description": "Beszerzési rendelések létrehozása, listázása, törlése és nyomtatása",
           "goods_receipts": "Átvételi bizonylatok",
           "goods_receipts_description": "Átvételi bizonylatok létrehozása, listázása, törlése és nyomtatása"
         },
@@ -131,6 +132,8 @@
         "production_module": {
           "title": "Termelés modul",
           "description": "Termelési rendelések és termelési kibocsátások kezelése",
+          "machines": "Gépek",
+          "machines_description": "Gépek létrehozása, listázása, szerkesztése, törlése és megtekintése",
           "production_orders": "Termelési rendelések",
           "production_orders_description": "Termelési rendelések létrehozása, listázása, szerkesztése, törlése és nyomtatása",
           "production_outputs": "Termelési kibocsátások",
@@ -424,7 +427,8 @@
         "leave_type": "Típus",
         "start_date": "Kezdő dátum",
         "end_date": "Vég dátum",
-        "status": "Státusz"
+        "status": "Státusz",
+        "data": "Törzsadatok"
       },
       "buttons": {
         "back": "Vissza a távollétekhez",
@@ -516,27 +520,31 @@
         "tax_rate": "Adó"
       },
       "buttons": {
-        "back": "Vissza a rendelési bizonylatokhoz",
-        "create": "Új rendelési bizonylat"
+        "back": "Vissza a beszerzési rendelésekhez",
+        "create": "Új beszerzési rendelés"
       },
       "list": {
-        "title": "Rendelési bizonylatok"
+        "title": "Beszerzési rendelések"
       },
       "create": {
-        "title": "Rendelési bizonylat létrehozása"
+        "title": "Beszerzési rendelés létrehozása"
+      },
+      "edit": {
+        "title": "Bezserzési rendelés szerkesztése"
       },
       "show": {
-        "title": "Rendelési bizonylat"
+        "title": "Beszerzési rendelés"
       }
     },
     "goods_receipts": {
       "titles": {
-        "purchase_order_id": "Rendelési bizonylat száma",
+        "id": "Bizonylatszám",
+        "purchase_order_id": "Beszerzési rendelés száma",
         "warehouse": "Raktár",
         "receipt_date": "Átvétel dátuma",
         "status": "Státusz",
         "actions": "Műveletek",
-        "purchase_order": "Rendelési bizonylat",
+        "purchase_order": "Beszerzési rendelés",
         "employee": "Átvevő",
         "data": "Alapadatok",
         "products": "Termékek",
@@ -600,7 +608,8 @@
         "required_delivery_date": "Szállítási határidő dátuma",
         "status": "Státusz",
         "actions": "Műveletek",
-        "data": "Alapadatok",
+        "data": "Törzsadatok",
+        "from_warehouse":"Raktár (kimenő)",
         "customer": "Vevő",
         "total_amount": "Összesített ár",
         "products": "Termékek",
@@ -663,6 +672,32 @@
         "title": "Számla"
       }
     },
+    "machines": {
+      "titles": {
+        "name": "Megnevezés",
+        "code": "Kód",
+        "active": "Aktív",
+        "description": "Leírás",
+        "data": "Törzsadatok",
+        "details": "Részletek"
+      },
+      "buttons": {
+        "back": "Vissza a gépekhez",
+        "create": "Új gép"
+      },
+      "list": {
+        "title": "Gépek"
+      },
+      "create": {
+        "title": "Gép létrehozása"
+      },
+      "edit": {
+        "title": "Gép szerkesztése"
+      },
+      "show": {
+        "title": "Gép"
+      }
+    },
     "production_orders": {
       "titles": {
         "id": "Bizonylatszám",
@@ -678,7 +713,9 @@
         "component_product": "Alkatrész",
         "quantity_used": "Felhasznált mennyiség",
         "warehouse": "Raktár",
-        "date_used": "Felhasználás dátuma"
+        "date_used": "Felhasználás dátuma",
+        "machine": "Gép",
+        "machines": "Gépek"
       },
       "buttons": {
         "back": "Vissza a termelési rendelésekhez",
@@ -836,6 +873,7 @@
     "print": "Nyomtatás",
     "add_product": "Termék hozzáadása",
     "add_component": "Komponens hozzáadása",
+    "add_machine": "Gép hozzáadása",
     "back_module": "Vissza a modulhoz",
     "back": "Vissza",
     "dashboard": "Irányítópult",
@@ -910,10 +948,10 @@
         "EDIT_SUPPLIERS": "Beszállító szerkesztése",
         "DELETE_SUPPLIERS": "Beszállító törlése",
         "VIEW_SUPPLIERS": "Beszállító megtekintése",
-        "CREATE_PURCHASE_ORDERS": "Rendelési bizonylat létrehozása",
-        "EDIT_PURCHASE_ORDERS": "Rendelési bizonylat szerkesztése",
-        "DELETE_PURCHASE_ORDERS": "Rendelési bizonylat törlése",
-        "VIEW_PURCHASE_ORDERS": "Rendelési bizonylat megtekintése",
+        "CREATE_PURCHASE_ORDERS": "Beszerzési rendelés létrehozása",
+        "EDIT_PURCHASE_ORDERS": "Beszerzési rendelés szerkesztése",
+        "DELETE_PURCHASE_ORDERS": "Beszerzési rendelés törlése",
+        "VIEW_PURCHASE_ORDERS": "Beszerzési rendelés megtekintése",
         "CREATE_GOODS_RECEIPTS": "Átvételi bizonylat létrehozása",
         "DELETE_GOODS_RECEIPTS": "Átvételi bizonylat törlése",
         "VIEW_GOODS_RECEIPTS": "Átvételi bizonylat megtekintése",
@@ -929,6 +967,10 @@
         "EDIT_INVOICES": "Számla szerkesztése",
         "DELETE_INVOICES": "Számla törlése",
         "VIEW_INVOICES": "Számla megtekintése",
+        "CREATE_MACHINES": "Gép létrehozása",
+        "EDIT_MACHINES": "Gép szerkesztése",
+        "DELETE_MACHINES": "Gép törlése",
+        "VIEW_MACHINES": "Gép megtekintése",
         "CREATE_PRODUCTION_ORDERS": "Termelési rendelés létrehozása",
         "EDIT_PRODUCTION_ORDERS": "Termelési rendelés szerkesztése",
         "DELETE_PRODUCTION_ORDERS": "Termelési rendelés törlése",
@@ -988,7 +1030,7 @@
       "placeholder": "Válasszon beszállítót"
     },
     "purchase_orders": {
-      "placeholder": "Válasszon rendelési bizonylatot",
+      "placeholder": "Válasszon beszerzési rendelést",
       "placeholder_status": "Válasszon státuszt",
       "options_status": {
         "pending": "Függőben",
@@ -1019,6 +1061,14 @@
         "paid": "Fizetett"
       }
     },
+    "machines": {
+      "placeholder": "Válasszon gépet",
+      "placeholder_status": "Válasszon státuszt",
+      "options_active": {
+        "active": "Aktív",
+        "inactive": "Inaktív"
+      }
+    },
     "production_orders": {
       "placeholder": "Válasszon termelési rendelést",
       "placeholder_status": "Válasszon státuszt",
@@ -1042,5 +1092,16 @@
       "required_item": "Legalább egy tétel hozzáadása kötelező!",
       "required_field": "Kötelező mező!"
     }
+  },
+  "ai": {
+    "error": "Hiba történt a lekérdezés során. Kérem próbálja újra!",
+    "assistant": "Navetra AI Asszisztens",
+    "sql": "SQL GENERÁLVA",
+    "you": "Ön",
+    "hr_empty": "Kérdezzen bármit a HR-rel kapcsolatos adatokról!",
+    "procurement_empty": "Kérdezzen bármit a beszerzéssel kapcsolatos adatokról!",
+    "sales_empty": "Kérdezzen bármit az értékesítéssel kapcsolatos adatokról!",
+    "production_empty": "Kérdezzen bármit a termeléssel kapcsolatos adatokról!",
+    "inventory_empty": "Kérdezzen bármit a raktárkezeléssel kapcsolatos adatokról!"
   }
 }

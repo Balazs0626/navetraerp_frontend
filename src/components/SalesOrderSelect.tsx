@@ -9,6 +9,7 @@ interface SalesOrder {
   id: number;
   orderDate: string;
   receiptNumber: string;
+  status: string;
 }
 
 interface SalesOrderSelectProps {
@@ -46,10 +47,13 @@ export const SalesOrderSelect: React.FC<SalesOrderSelectProps> = ({ value, disab
       value={value}
       onChange={onChange}
       style={{ width: "100%" }}
-      options={salesOrders.map((so) => ({
-        label: `${so.receiptNumber} | ${dayjs(so.orderDate).format("YYYY. MM. DD.")}`,
-        value: so.id,
-      }))}
+      options={salesOrders
+        .filter((so: any) => so.status !== "closed" && so.status !== "invoiced")
+        .map((so) => ({
+          label: `${so.receiptNumber} | ${dayjs(so.orderDate).format("YYYY. MM. DD.")}`,
+          value: so.id,
+        }))
+      }
     />
   );
 };

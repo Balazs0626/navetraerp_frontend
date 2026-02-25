@@ -12,6 +12,7 @@ import { WarehouseSelect } from "../../../components/WarehouseSelect";
 import { useProductionOrderStatus } from "../../../constants/production_orders";
 import { IProductList } from "../../../interfaces";
 import { CustomErrorComponent } from "../../error";
+import { MachineSelect } from "../../../components/MachineSelect";
 
 export const ProductionOrderCreate = () => {
 
@@ -75,6 +76,11 @@ export const ProductionOrderCreate = () => {
         components: values.components?.map((item: any) => ({
           ...item,
           dateUsed: item.dateUsed.format("YYYY-MM-DD")
+        })),
+        machines: values.machines?.map((item: any) => ({
+          ...item,
+          startDate: values.startDate?.format("YYYY-MM-DD"),
+          endDate: values.endDate?.format("YYYY-MM-DD"),
         }))
     };
 
@@ -335,7 +341,95 @@ export const ProductionOrderCreate = () => {
                 </>
               )}
             </Form.List>
-
+          </Card>
+          <Divider/>
+          <Card 
+            title={translate("pages.production_orders.titles.machines")}
+            type="inner"
+            style={{marginTop: 12}}
+          >
+            <Form.List 
+              name="machines"
+              rules={[
+                {
+                  validator: async (_, names) => {
+                    if (!names || names.length < 1) {
+                      return Promise.reject(new Error(translate("messages.errors.required_item")));
+                    }
+                  },
+                }
+              ]}
+            >
+              {(fields, { add, remove }, { errors }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <>
+                      <Row gutter={16}>
+                        <Col span={8}>
+                          <Form.Item
+                            {...restField}
+                            label={translate("pages.production_orders.titles.machine")}
+                            name={[name, "machineId"]}
+                            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                          >
+                            <MachineSelect />
+                          </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                          <Form.Item
+                            label={translate("pages.production_orders.titles.start_date")}
+                            name={[name, "startDate"]}
+                            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                          >
+                            <DatePicker
+                              style={{width: '100%'}}
+                              format="YYYY-MM-DD"
+                            />
+                          </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                          <Form.Item
+                            label={translate("pages.production_orders.titles.end_date")}
+                            name={[name, "endDate"]}
+                            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                          >
+                            <DatePicker
+                              style={{width: '100%'}}
+                              format="YYYY-MM-DD"
+                            />
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                      <Row gutter={16}>
+                        <Col span={24}>
+                          <Button 
+                            block 
+                            icon={<DeleteOutlined/>} 
+                            onClick={() => remove(name)} 
+                            danger
+                          >
+                            {translate("buttons.delete")}
+                          </Button>
+                        </Col>
+                        <Divider/>
+                      </Row>
+                    </>
+                  ))}
+                  
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                    >
+                      {translate("buttons.add_machine")}
+                    </Button>
+                    <Form.ErrorList errors={errors} />
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
           </Card>
         </Form>
       </Create>

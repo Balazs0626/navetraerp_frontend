@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, DeleteOutlined, ImportOutlined, MailOutlined, PlusOutlined } from "@ant-design/icons";
 import { Create, NumberField, useForm } from "@refinedev/antd";
-import { CanAccess, useNotification, useOne, useTranslation } from "@refinedev/core";
+import { CanAccess, useList, useNotification, useOne, useTranslation } from "@refinedev/core";
 import { Button, Space, Form, Card, Col, Row, Input, DatePicker, InputNumber, Divider, Typography, Select } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -11,6 +11,7 @@ import { EmployeeOneSelect } from "../../../components/EmployeeOneSelect";
 import { PurchaseOrderSelect } from "../../../components/PurchaseOrderSelect";
 import { WarehouseSelect } from "../../../components/WarehouseSelect";
 import { CustomErrorComponent } from "../../error";
+import { IProductList } from "../../../interfaces";
 
 export const GoodsReceiptCreate = () => {
 
@@ -51,6 +52,17 @@ export const GoodsReceiptCreate = () => {
         items: calculatedItems
       });
     }
+  };
+
+  const { result: productsData } = useList<IProductList>({
+    resource: "products",
+    pagination: { mode: "off" },
+  });
+  
+  const products = productsData?.data ?? [];
+
+  const getUnitByProductId = (productId?: number) => {
+    return products.find(p => p.id === productId)?.unit ?? "";
   };
 
   const handleFinish = (values: any) => {
@@ -185,7 +197,7 @@ export const GoodsReceiptCreate = () => {
                             <ProductSelect />
                           </Form.Item>
                         </Col>
-                        <Col span={4}>
+{/*                         <Col span={4}>
                           <Form.Item
                             {...restField}
                             label={translate("pages.goods_receipts.titles.quantity_received")}
@@ -193,6 +205,36 @@ export const GoodsReceiptCreate = () => {
                             rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                           >
                             <InputNumber placeholder={`${translate("pages.goods_receipts.titles.quantity_received")}...`} min={0.01} step={0.01} style={{width: "100%"}} />
+                          </Form.Item>
+                        </Col> */}
+                        <Col span={4}>
+                          <Form.Item
+                            shouldUpdate={(prev, curr) =>
+                              prev?.items?.[name]?.productId !== curr?.bomComponents?.[name]?.productId
+                            }
+                            noStyle
+                          >
+                            {() => {
+                              const productId = form.getFieldValue(["items", name, "productId"]);
+                              const unit = getUnitByProductId(productId) || "";
+
+                              return (
+                                <Form.Item
+                                  {...restField}
+                                  label={translate("pages.goods_receipts.titles.quantity_received")}
+                                  name={[name, "quantityReceived"]}
+                                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                                >
+                                  <InputNumber
+                                    placeholder={`${translate("pages.goods_receipts.titles.quantity_received")}...`}
+                                    min={0.01}
+                                    step={0.01}
+                                    style={{ width: "100%" }}
+                                    addonAfter={unit}
+                                  />
+                                </Form.Item>
+                              );
+                            }}
                           </Form.Item>
                         </Col>
                         <Col span={4}>

@@ -133,6 +133,7 @@ export interface IProductList {
     sku: string;
     name: string;
     unit: string;
+    pricePerUnit: number;
     componentCount: number;
     active: boolean;
 }
@@ -199,6 +200,13 @@ export interface IInvoiceList {
 }
 
   // Termelés \\
+
+export interface IMachineList {
+    id: number;
+    name: string;
+    code: string;
+    active: bool;
+}
 
 export interface IProductionOrderList {
     id: number;

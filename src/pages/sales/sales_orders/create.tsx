@@ -40,6 +40,10 @@ export const SalesOrderCreate = () => {
     return products.find(p => p.id === productId)?.unit ?? "";
   };
 
+  const getProductDetailsById = (productId?: number) => {
+    return products.find(p => p.id === productId);
+  };
+
   const handleFinish = (values: any) => {
     const formattedValues = {
         ...values,
@@ -75,7 +79,24 @@ export const SalesOrderCreate = () => {
           {...formProps}
           form={form}
           layout="vertical"
-          onValuesChange={() => {
+          onValuesChange={(changedValues) => {
+
+            if (changedValues.items) {
+              changedValues.items.forEach((item: any, index: number) => {
+                if (item && item.productId) {
+                  const productDetails = getProductDetailsById(item.productId);
+                  
+                  if (productDetails) {
+                    const currentItems = [...form.getFieldValue("items")];
+                    
+                    currentItems[index].pricePerUnit = productDetails.pricePerUnit;
+
+                    form.setFieldsValue({ items: currentItems });
+                  }
+                }
+              });
+            }
+
             const items = form.getFieldValue("items") || [];
 
             const total = items.reduce((sum: any, item: any) => {

@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { Edit, useForm } from "@refinedev/antd";
-import { CanAccess, useNotification, useTranslation } from "@refinedev/core";
+import { CanAccess, useList, useNotification, useTranslation } from "@refinedev/core";
 import { Button, Card, Col, DatePicker, Divider, Form, Input, InputNumber, Row, Select, Space } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useEffect } from "react";
@@ -9,6 +9,7 @@ import { useProductActiveStatus } from "../../constants/products";
 import dayjs from "dayjs";
 import { ProductSelect } from "../../components/ProductSelect";
 import { CustomErrorComponent } from "../error";
+import { IProductList } from "../../interfaces";
 
 export const ProductEdit = () => {
   const { id } = useParams();
@@ -25,6 +26,17 @@ export const ProductEdit = () => {
   useEffect(() => {
     document.title = `${translate("pages.products.edit.title")} | NavetraERP`;
   })
+
+  const { result: productsData } = useList<IProductList>({
+    resource: "products",
+    pagination: { mode: "off" },
+  });
+  
+  const products = productsData?.data ?? [];
+
+  const getUnitByProductId = (productId?: number) => {
+    return products.find(p => p.id === productId)?.unit ?? "";
+  };
 
   useEffect(() => {
       if (!form) return;
@@ -110,7 +122,7 @@ export const ProductEdit = () => {
                   name="pricePerUnit"
                   rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                 >
-                  <InputNumber placeholder={`${translate("pages.products.titles.price_per_unit")}...`} step={0.01} min={0} style={{width: "100%"}}/>
+                  <InputNumber placeholder={`${translate("pages.products.titles.price_per_unit")}...`} step={0.01} min={0} style={{width: "100%"}} addonAfter="HUF"/>
                 </Form.Item>
               </Col>
             </Row>
@@ -156,7 +168,7 @@ export const ProductEdit = () => {
                             <ProductSelect />
                           </Form.Item>
                         </Col>
-                        <Col span={4}>
+{/*                         <Col span={4}>
                           <Form.Item
                             {...restField}
                             label={translate("pages.products.titles.quantity_per_unit")}
@@ -164,6 +176,36 @@ export const ProductEdit = () => {
                             rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                           >
                             <InputNumber placeholder={`${translate("pages.products.titles.quantity_per_unit")}...`} min={0.01} step={0.01} style={{width: "100%"}} />
+                          </Form.Item>
+                        </Col> */}
+                        <Col span={4}>
+                          <Form.Item
+                            shouldUpdate={(prev, curr) =>
+                              prev?.bomComponents?.[name]?.componentProductId !== curr?.bomComponents?.[name]?.componentProductId
+                            }
+                            noStyle
+                          >
+                            {() => {
+                              const productId = form.getFieldValue(["bomComponents", name, "componentProductId"]);
+                              const unit = getUnitByProductId(productId) || "";
+
+                              return (
+                                <Form.Item
+                                  {...restField}
+                                  label={translate("pages.products.titles.quantity_per_unit")}
+                                  name={[name, "quantityPerUnit"]}
+                                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                                >
+                                  <InputNumber
+                                    placeholder={`${translate("pages.products.titles.quantity_per_unit")}...`}
+                                    min={0.01}
+                                    step={0.01}
+                                    style={{ width: "100%" }}
+                                    addonAfter={unit}
+                                  />
+                                </Form.Item>
+                              );
+                            }}
                           </Form.Item>
                         </Col>
                       </Row>

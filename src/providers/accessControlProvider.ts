@@ -1,7 +1,6 @@
 import { AccessControlProvider } from "@refinedev/core";
 import { authProvider } from "./authProvider";
 
-// 1. Konkrét erőforrások és a hozzájuk szükséges jogok
 const resourcePermissions: Record<string, string[]> = {
   company_data: ["VIEW:COMPANY_DATA"], 
   warehouses: ["VIEW:WAREHOUSES"],
@@ -28,8 +27,6 @@ const resourcePermissions: Record<string, string[]> = {
   inventory_counts: ["VIEW:INVENTORY_COUNTS"],
 };
 
-// 2. Szülő menüpontok (csoportok)
-// Ezeknél elég, ha BÁRMELYIK gyerekhez van joga a usernek
 const parentModules: Record<string, string[]> = {
   administrator: ["VIEW:USERS", "VIEW:ROLES"],
   hr: ["VIEW:EMPLOYEES", "VIEW:DEPARTMENTS", "VIEW:POSITIONS", "VIEW:SHIFTS", "VIEW:WORK_SCHEDULES", "VIEW:LEAVE_REQUESTS", "VIEW:PERFORMANCE_REVIEWS"],
@@ -43,12 +40,9 @@ export const accessControlProvider: AccessControlProvider = {
   can: async ({ resource, action }) => {
     const permissions = (await authProvider.getPermissions?.()) as string[] | null;
 
-    // Alap ellenőrzések
     if (!permissions) return { can: false, reason: "Nincs bejelentkezve" };
     if (!resource) return { can: true };
 
-    // 1. Átalakítjuk a Refine action-t a te jog-formátumodra
-    // create -> CREATE, edit -> EDIT, show -> VIEW, list -> VIEW, delete -> DELETE
     let requiredPrefix = "";
     
     switch (action) {
@@ -68,20 +62,24 @@ export const accessControlProvider: AccessControlProvider = {
             requiredPrefix = "DELETE";
             break;
         default:
-            // Ha valami más action jön, alapból tiltjuk vagy engedjük (igény szerint)
             return { can: false };
     }
 
-    // 2. Összerakjuk az elvárt jog nevét. Pl: "CREATE:WAREHOUSES"
-    // Feltételezzük, hogy a resource neve (pl. "warehouses") egyezik a jogban lévővel
     let requiredPermission = `${requiredPrefix}:${resource.toUpperCase()}`;
 
     if (resource == "employee") {
         requiredPermission = `${requiredPrefix}:EMPLOYEES`;
     }
 
-    // 3. Megnézzük, hogy a usernek megvan-e ez a jog
+
+    //idg
+    if (resource == "machines") {
+        requiredPermission = `${requiredPrefix}:EMPLOYEES`;
+    }
+
     const hasPermission = permissions.includes(requiredPermission);
+
+    
 
     if (hasPermission) {
         return { can: true };

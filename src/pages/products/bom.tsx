@@ -90,7 +90,7 @@ export const ProductBomShow = () => {
       key: "componentProductPricePerUnit",
       render: (text: any, data: any) => (
         <>
-          {data.componentProductPricePerUnit} Ft
+          {data.componentProductPricePerUnit} HUF
         </>
       ),
     },
@@ -100,7 +100,7 @@ export const ProductBomShow = () => {
       key: "componentProductAllPrice",
       render: (text: any, data: any) => (
         <>
-          {data.componentProductAllPrice} Ft
+          {data.componentProductAllPrice} HUF
         </>
       ),
     },

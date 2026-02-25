@@ -60,6 +60,7 @@
       "sales_orders": "Sales orders",
       "invoices": "Invoices",
       "production": "Production",
+      "machines": "Machines",
       "production_orders": "Production orders",
       "production_outputs": "Production outputs",
       "inventory": "Inventory",
@@ -131,6 +132,8 @@
         "production_module": {
           "title": "Production module",
           "description": "Manage production orders and production outputs",
+          "machines": "Machines",
+          "machines_description": "Create, list, edit, delete and show machines",
           "production_orders": "Production orders",
           "production_orders_description": "Create, list, edit, delete and print production orders",
           "production_outputs": "Production outputs",
@@ -424,7 +427,8 @@
         "leave_type": "Type",
         "start_date": "Start date",
         "end_date": "End date",
-        "status": "Status"
+        "status": "Status",
+        "data": "Master data"
       },
       "buttons": {
         "back": "Go back to leave requests",
@@ -525,12 +529,16 @@
       "create": {
         "title": "Creating a purchase order"
       },
+      "edit": {
+        "title": "Editing a purchase order"
+      },
       "show": {
         "title": "Purchase order"
       }
     },
     "goods_receipts": {
       "titles": {
+        "id": "Receipt number",
         "purchase_order_id": "Purchase order number",
         "warehouse": "Warehouse",
         "receipt_date": "Date of receipt",
@@ -602,6 +610,7 @@
         "actions": "Actions",
         "data": "Master data",
         "customer": "Customer",
+        "from_warehouse":"Warehouse (from)",
         "total_amount": "Total amount",
         "products": "Products",
         "product": "Product",
@@ -663,6 +672,32 @@
         "title": "Invoice"
       }
     },
+    "machines": {
+      "titles": {
+        "name": "Name",
+        "code": "Code",
+        "active": "Active",
+        "description": "Description",
+        "data": "Master data",
+        "details": "Details"
+      },
+      "buttons": {
+        "back": "Back to machines",
+        "create": "New machine"
+      },
+      "list": {
+        "title": "Machines"
+      },
+      "create": {
+        "title": "Creating a machine"
+      },
+      "edit": {
+        "title": "Editing a machine"
+      },
+      "show": {
+        "title": "Machine"
+      }
+    },
     "production_orders": {
       "titles": {
         "id": "Receipt number",
@@ -678,7 +713,9 @@
         "component_product": "Component",
         "quantity_used": "Quantity used",
         "warehouse": "Warehouse",
-        "date_used": "Date used"
+        "date_used": "Date used",
+        "machine": "Machine",
+        "machines": "Machines"
       },
       "buttons": {
         "back": "Go back to production orders",
@@ -836,6 +873,7 @@
     "print": "Print",
     "add_product": "Add product",
     "add_component": "Add component",
+    "add_machine": "Add machine",
     "back_module": "Back to module",
     "back": "Back",
     "dashboard": "Dashboard",
@@ -929,6 +967,10 @@
         "EDIT_INVOICES": "Edit invoice",
         "DELETE_INVOICES": "Delete invoice",
         "VIEW_INVOICES": "View invoice",
+        "CREATE_MACHINES": "Create machine",
+        "EDIT_MACHINES": "Edit machine",
+        "DELETE_MACHINES": "Delete machine",
+        "VIEW_MACHINES": "View machine",
         "CREATE_PRODUCTION_ORDERS": "Create production order",
         "EDIT_PRODUCTION_ORDERS": "Edit production order",
         "DELETE_PRODUCTION_ORDERS": "Delete production order",
@@ -1019,6 +1061,14 @@
         "paid": "Paid"
       }
     },
+    "machines": {
+      "placeholder": "Select machine",
+      "placeholder_status": "Select status",
+      "options_active": {
+        "active": "Active",
+        "inactive": "Inactive"
+      }
+    },
     "production_orders": {
       "placeholder": "Select production order",
       "placeholder_status": "Select status",
@@ -1042,5 +1092,16 @@
       "required_item": "At least one item required!",
       "required_field": "Required field!"
     }
+  },
+  "ai": {
+    "error": "An error occurred during the query. Please try again!",
+    "assistant": "Navetra AI Assistant",
+    "sql": "SQL GENERATED",
+    "you": "You",
+    "hr_empty": "Ask anything about HR-related data!",
+    "procurement_empty": "Ask anything about procurement-related data!",
+    "sales_empty": "Ask anything about sales-related data!",
+    "production_empty": "Ask anything about production-related data!",
+    "inventory_empty": "Ask anything about inventory-related data!"
   }
 }

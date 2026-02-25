@@ -1,6 +1,6 @@
 import { useTable, List, DeleteButton, EditButton, ShowButton } from "@refinedev/antd";
 import { IProductionOrderList, IPurchaseOrderList, ISupplierList } from "../../../interfaces";
-import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker, InputNumber, Select } from "antd";
+import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker, InputNumber, Select, Tag } from "antd";
 import { ArrowLeftOutlined, CalendarOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
 import { useTranslation, usePermissions, CanAccess } from "@refinedev/core";
@@ -49,7 +49,7 @@ export const ProductionOrderList = () => {
       filters.push({
         field: "startDate",
         operator: "eq" as const,
-        value: dayjs(values.endDate).format("YYYY-MM-DD"),
+        value: dayjs(values.startDate).format("YYYY-MM-DD"),
       });
     }
 
@@ -167,7 +167,32 @@ export const ProductionOrderList = () => {
               <Table.Column dataIndex={"productName"} title={translate("pages.production_orders.titles.product")}/>
               <Table.Column dataIndex={"startDate"} title={translate("pages.production_orders.titles.start_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
               <Table.Column dataIndex={"endDate"} title={translate("pages.production_orders.titles.end_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
-              <Table.Column dataIndex={"status"} title={translate("pages.production_orders.titles.status")}/>
+              <Table.Column 
+                dataIndex={"status"} 
+                title={translate("pages.production_orders.titles.status")}
+                render={(value) => {
+                let color = "default";
+                switch (value) {
+                  case "planned":
+                    color = "default";
+                    break;
+                  case "in_progress":
+                    color = "blue";
+                    break;
+                  case "finished":
+                    color = "green";
+                    break;
+                  default:
+                    color = "default";
+                }
+
+                return (
+                  <Tag color={color}>
+                    {translate(`selects.production_orders.options_status.${value}`).toUpperCase()}
+                  </Tag>
+                );
+              }}
+              />
               <Table.Column
                 title={translate("pages.production_orders.titles.actions")}
                 dataIndex="actions"
@@ -183,14 +208,14 @@ export const ProductionOrderList = () => {
                       size="small"
                       recordItemId={record.id}
                       resource="production_orders"
-                      disabled={!permissions?.includes("EDIT:PRODUCTION_ORDERS")}
+                      disabled={!permissions?.includes("EDIT:PRODUCTION_ORDERS") || record.status == "finished"}
                     />
                     <DeleteButton
                       size="small"
                       recordItemId={record.id}
                       resource="production_orders"
                       confirmTitle={translate("notifications.deleteMessage")}
-                      disabled={!permissions?.includes("DELETE:PRODUCTION_ORDERS")}
+                      disabled={!permissions?.includes("DELETE:PRODUCTION_ORDERS") || record.status == "finished"}
                     />
                   </Space>
                 )}

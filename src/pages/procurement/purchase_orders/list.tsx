@@ -1,6 +1,6 @@
 import { useTable, List, DeleteButton, EditButton, ShowButton } from "@refinedev/antd";
 import { IPurchaseOrderList, ISupplierList } from "../../../interfaces";
-import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker, InputNumber, Select } from "antd";
+import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker, InputNumber, Select, Tag } from "antd";
 import { ArrowLeftOutlined, CalendarOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
 import { useTranslation, usePermissions, CanAccess } from "@refinedev/core";
@@ -146,7 +146,35 @@ export const PurchaseOrderList = () => {
               <Table.Column dataIndex={"receiptNumber"} title={translate("pages.purchase_orders.titles.id")}/>
               <Table.Column dataIndex={"orderDate"} title={translate("pages.purchase_orders.titles.order_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
               <Table.Column dataIndex={"expectedDeliveryDate"} title={translate("pages.purchase_orders.titles.expected_delivery_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
-              <Table.Column dataIndex={"status"} title={translate("pages.purchase_orders.titles.status")}/>
+              <Table.Column 
+                dataIndex={"status"} 
+                title={translate("pages.purchase_orders.titles.status")}
+                render={(value) => {
+                let color = "default";
+                switch (value) {
+                  case "pending":
+                    color = "gold";
+                    break;
+                  case "received":
+                    color = "green";
+                    break;
+                  case "delayed":
+                    color = "volcano";
+                    break;
+                  case "cancelled":
+                    color = "red";
+                    break;
+                  default:
+                    color = "default";
+                }
+
+                return (
+                  <Tag color={color}>
+                    {translate(`selects.purchase_orders.options_status.${value}`).toUpperCase()}
+                  </Tag>
+                );
+              }}
+              />
               <Table.Column
                 title={translate("pages.purchase_orders.titles.actions")}
                 dataIndex="actions"
@@ -162,14 +190,14 @@ export const PurchaseOrderList = () => {
                       size="small"
                       recordItemId={record.id}
                       resource="purchase_orders"
-                      disabled={!permissions?.includes("EDIT:PURCHASE_ORDERS")}
+                      disabled={!permissions?.includes("EDIT:PURCHASE_ORDERS") || record.status == "received" || record.status == "cancelled"}
                     />
                     <DeleteButton
                       size="small"
                       recordItemId={record.id}
                       resource="purchase_orders"
                       confirmTitle={translate("notifications.deleteMessage")}
-                      disabled={!permissions?.includes("DELETE:PURCHASE_ORDERS")}
+                      disabled={!permissions?.includes("DELETE:PURCHASE_ORDERS") || record.status == "received" || record.status == "cancelled"}
                     />
                   </Space>
                 )}

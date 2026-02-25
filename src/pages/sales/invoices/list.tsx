@@ -1,6 +1,6 @@
 import { useTable, List, DeleteButton, EditButton, ShowButton } from "@refinedev/antd";
 import { IInvoiceList, ISalesOrderList } from "../../../interfaces";
-import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker, InputNumber, Select } from "antd";
+import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker, InputNumber, Select, Tag } from "antd";
 import { ArrowLeftOutlined, CalendarOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
 import { useTranslation, usePermissions, CanAccess } from "@refinedev/core";
@@ -148,7 +148,32 @@ export const InvoiceList = () => {
               <Table.Column dataIndex={"receiptNumber"} title={translate("pages.invoices.titles.id")}/>
               <Table.Column dataIndex={"invoiceDate"} title={translate("pages.invoices.titles.invoice_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
               <Table.Column dataIndex={"dueDate"} title={translate("pages.invoices.titles.due_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
-              <Table.Column dataIndex={"status"} title={translate("pages.invoices.titles.status")}/>
+              <Table.Column 
+                dataIndex={"status"} 
+                title={translate("pages.invoices.titles.status")}
+                render={(value) => {
+                let color = "default";
+                switch (value) {
+                  case "draft":
+                    color = "default";
+                    break;
+                  case "issued":
+                    color = "blue";
+                    break;
+                  case "paid":
+                    color = "green";
+                    break;
+                  default:
+                    color = "default";
+                }
+
+                return (
+                  <Tag color={color}>
+                    {translate(`selects.invoices.options_status.${value}`).toUpperCase()}
+                  </Tag>
+                );
+              }}
+              />
               <Table.Column
                 title={translate("pages.invoices.titles.actions")}
                 dataIndex="actions"
@@ -164,14 +189,14 @@ export const InvoiceList = () => {
                       size="small"
                       recordItemId={record.id}
                       resource="invoices"
-                      disabled={!permissions?.includes("EDIT:PURCHASE_ORDERS")}
+                      disabled={!permissions?.includes("EDIT:PURCHASE_ORDERS") || record.status == "paid"}
                     />
                     <DeleteButton
                       size="small"
                       recordItemId={record.id}
                       resource="invoices"
                       confirmTitle={translate("notifications.deleteMessage")}
-                      disabled={!permissions?.includes("DELETE:PURCHASE_ORDERS")}
+                      disabled={!permissions?.includes("DELETE:PURCHASE_ORDERS") || record.status == "paid"}
                     />
                   </Space>
                 )}

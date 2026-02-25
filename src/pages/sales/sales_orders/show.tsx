@@ -74,21 +74,16 @@ export const SalesOrderShow = () => {
       title: "Rendelt mennyiség",
       dataIndex: "quantityOrdered",
       key: "quantityOrdered",
-      render: (data: any) => (
-        <>
-          {data?.quantityOrdered} {data?.productUnit}
-        </>
-      ),
     },
     {
       title: "Szállított mennyiség",
       dataIndex: "quantityShipped",
       key: "quantityShipped",
-      render: (data: any) => (
-        <>
-          {data?.quantityShipped} {data?.productUnit}
-        </>
-      ),
+    },
+    {
+      title: "Egység",
+      dataIndex: "productUnit",
+      key: "productUnit",
     },
     {
       title: "Egységár",
@@ -96,7 +91,7 @@ export const SalesOrderShow = () => {
       key: "pricePerUnit",
       render: (data: any) => (
         <>
-          {data?.pricePerUnit} Ft
+          {data} HUF
         </>
       ),
     },
@@ -106,7 +101,7 @@ export const SalesOrderShow = () => {
       key: "discount",
       render: (data: any) => (
         <>
-          {data?.discount} %
+          {data} %
         </>
       ),
     },
@@ -116,7 +111,7 @@ export const SalesOrderShow = () => {
       key: "totalPrice",
       render: (data: any) => (
         <>
-          {data?.totalPrice} Ft
+          {data} HUF
         </>
       ),
     },
@@ -169,7 +164,9 @@ export const SalesOrderShow = () => {
                       <Title level={3}>{record?.customerName}</Title>
                       <Text><b>Adószám: </b>{record?.customerTaxNumber}</Text>
                       <br/>
-                      <Text><b>Közösségi adószám: </b>{record?.customerEuTaxNumber}</Text>
+                      <Text><b>EU adószám: </b>{record?.customerEuTaxNumber}</Text>
+                      <br/>
+                      <Text><b>Bankszámlaszám: </b>{record?.customerBankAccountNumber}</Text>
                       <br/>
                       <br/>
                       <Text><b>Számlázási cím:</b></Text>

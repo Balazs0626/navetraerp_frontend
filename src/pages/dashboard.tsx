@@ -1,13 +1,14 @@
 import { useCustom, useGetIdentity, usePermissions, useNavigation } from "@refinedev/core";
 import { useNavigate } from "react-router";
 import { Row, Col, Card, Avatar, Typography, Space, Button, Divider, Select, Statistic, FloatButton, theme } from "antd";
-import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined, SettingOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, SafetyOutlined, TeamOutlined, ShoppingCartOutlined, ShopOutlined, ProductOutlined, DollarOutlined, AppstoreAddOutlined, DatabaseOutlined } from "@ant-design/icons";
+import { HomeOutlined, FileTextOutlined, TruckOutlined, UserOutlined, SettingOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, SafetyOutlined, TeamOutlined, ShoppingCartOutlined, ShopOutlined, ProductOutlined, DollarOutlined, AppstoreAddOutlined, DatabaseOutlined, RobotOutlined } from "@ant-design/icons";
 import "antd/dist/reset.css";
 import { Column } from "@ant-design/plots";
 import { act, useEffect, useState } from "react";
 import { useTranslation } from "@refinedev/core";
 import {API_URL} from "../constants/url";
 import axios from "axios";
+import { AiAssistantDrawer } from "../components/ai";
 
 const { Text, Title } = Typography;
 
@@ -39,6 +40,8 @@ export const DashboardPage = () => {
   const navigate = useNavigate();
 
   const { show } = useNavigation();
+
+  const [isAiOpen, setIsAiOpen] = useState(false);
 
   return (
     <div style={{ padding: 24, height: "100%" }}>

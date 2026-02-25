@@ -3,21 +3,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../constants/url";
 import { useTranslation } from "@refinedev/core";
-import dayjs from "dayjs"
+import dayjs from "dayjs";
+import { IMachineList } from "../interfaces";
 
-interface PurchaseOrder {
-  id: number;
-  receiptNumber: string;
-  orderDate: string;
-}
-
-interface PurchaseOrderSelectProps {
+interface MachineSelectProps {
   value?: number;
   onChange?: (value: number) => void;
+  disabled?: boolean;
 }
 
-export const PurchaseOrderSelect: React.FC<PurchaseOrderSelectProps> = ({ value, onChange }) => {
-  const [purchaseOrders, setPurchaseOrder] = useState<PurchaseOrder[]>([]);
+export const MachineSelect: React.FC<MachineSelectProps> = ({ value, disabled, onChange }) => {
+  const [machines, setMachines] = useState<IMachineList[]>([]);
   const [loading, setLoading] = useState(false);
 
   const { translate } = useTranslation();
@@ -25,29 +21,33 @@ export const PurchaseOrderSelect: React.FC<PurchaseOrderSelectProps> = ({ value,
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${API_URL}/purchase_orders`, {
+      .get(`${API_URL}/machines`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       })
-      .then((res) => setPurchaseOrder(res.data))
-      .catch((err) => console.error("Purchase order fetch error:", err))
+      .then((res) => setMachines(res.data))
+      .catch((err) => console.error("Machine fetch error:", err))
       .finally(() => setLoading(false));
   }, []);
 
   return (
     <Select
+      disabled={disabled}
       showSearch
       optionFilterProp="label"
-      placeholder={translate("selects.purchase_orders.placeholder")}
+      placeholder={translate("selects.machines.placeholder")}
       loading={loading}
       value={value}
       onChange={onChange}
       style={{ width: "100%" }}
-      options={purchaseOrders.map((r) => ({
-        label: `${r.receiptNumber} | ${dayjs(r.orderDate).format("YYYY. MM. DD.")}`,
-        value: r.id,
-      }))}
+      options={machines
+        .filter((m: any) => m.active === true)
+        .map((m) => ({
+          label: `${m.name} | ${m.code}`,
+          value: m.id,
+        }))
+      }
     />
   );
 };

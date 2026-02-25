@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 import "dayjs/locale/hu";
 import "dayjs/locale/en";
+import { GlobalOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 const { useToken } = theme;

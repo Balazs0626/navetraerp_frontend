@@ -50,6 +50,10 @@ export const PurchaseOrderEdit = () => {
     return products.find(p => p.id === productId)?.unit ?? "";
   };
 
+  const getProductDetailsById = (productId?: number) => {
+    return products.find(p => p.id === productId);
+  };
+
   const handleFinish = (values: any) => {
     const formattedValues = {
         ...values,
@@ -85,7 +89,24 @@ export const PurchaseOrderEdit = () => {
           {...formProps}
           form={form}
           layout="vertical"
-          onValuesChange={() => {
+          onValuesChange={(changedValues) => {
+
+            if (changedValues.items) {
+              changedValues.items.forEach((item: any, index: number) => {
+                if (item && item.productId) {
+                  const productDetails = getProductDetailsById(item.productId);
+                  
+                  if (productDetails) {
+                    const currentItems = [...form.getFieldValue("items")];
+                    
+                    currentItems[index].pricePerUnit = productDetails.pricePerUnit;
+
+                    form.setFieldsValue({ items: currentItems });
+                  }
+                }
+              });
+            }
+
             const items = form.getFieldValue("items") || [];
 
             const total = items.reduce((sum: any, item: any) => {
@@ -158,16 +179,7 @@ export const PurchaseOrderEdit = () => {
                   name="totalAmount"
                   rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                 >
-                  <InputNumber placeholder={`${translate("pages.purchase_orders.titles.amount")}...`} disabled style={{width: "100%"}}/>
-                </Form.Item>
-              </Col>
-              <Col span={6}>
-                <Form.Item
-                  label={translate("pages.purchase_orders.titles.currency")}
-                  name="currency"
-                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
-                >
-                  <Input placeholder={`${translate("pages.purchase_orders.titles.currency")}...`}/>
+                  <InputNumber placeholder={`${translate("pages.purchase_orders.titles.amount")}...`} disabled style={{width: "100%"}} addonAfter="HUF"/>
                 </Form.Item>
               </Col>
             </Row>
@@ -205,7 +217,7 @@ export const PurchaseOrderEdit = () => {
                             <ProductSelect />
                           </Form.Item>
                         </Col>
-                        <Col span={4}>
+{/*                         <Col span={4}>
                           <Form.Item
                             {...restField}
                             label={translate("pages.purchase_orders.titles.amount")}
@@ -213,6 +225,36 @@ export const PurchaseOrderEdit = () => {
                             rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                           >
                             <InputNumber placeholder={`${translate("pages.purchase_orders.titles.amount")}...`} min={1} step={0.01} style={{width: "100%"}} />
+                          </Form.Item>
+                        </Col> */}
+                        <Col span={4}>
+                          <Form.Item
+                            shouldUpdate={(prev, curr) =>
+                              prev?.items?.[name]?.productId !== curr?.bomComponents?.[name]?.productId
+                            }
+                            noStyle
+                          >
+                            {() => {
+                              const productId = form.getFieldValue(["items", name, "productId"]);
+                              const unit = getUnitByProductId(productId) || "";
+
+                              return (
+                                <Form.Item
+                                  {...restField}
+                                  label={translate("pages.purchase_orders.titles.amount")}
+                                  name={[name, "quantityOrdered"]}
+                                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                                >
+                                  <InputNumber
+                                    placeholder={`${translate("pages.purchase_orders.titles.amount")}...`}
+                                    min={0.01}
+                                    step={0.01}
+                                    style={{ width: "100%" }}
+                                    addonAfter={unit}
+                                  />
+                                </Form.Item>
+                              );
+                            }}
                           </Form.Item>
                         </Col>
                         <Col span={4}>
@@ -222,7 +264,7 @@ export const PurchaseOrderEdit = () => {
                             name={[name, "pricePerUnit"]}
                             rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                           >
-                            <InputNumber placeholder={`${translate("pages.purchase_orders.titles.price_per_unit")}...`} min={1} step={0.01} style={{width: "100%"}} />
+                            <InputNumber placeholder={`${translate("pages.purchase_orders.titles.price_per_unit")}...`} min={1} step={0.01} style={{width: "100%"}} addonAfter="HUF"/>
                           </Form.Item>
                         </Col>
                         <Col span={4}>
@@ -232,7 +274,7 @@ export const PurchaseOrderEdit = () => {
                             name={[name, "discount"]}
                             rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                           >
-                            <InputNumber placeholder={`${translate("pages.purchase_orders.titles.discount")}...`} min={0} max={100} step={0.01} style={{width: "100%"}}/>
+                            <InputNumber placeholder={`${translate("pages.purchase_orders.titles.discount")}...`} min={0} max={100} step={0.01} style={{width: "100%"}} addonAfter="%"/>
                           </Form.Item>
                         </Col>
                         <Col span={4}>
@@ -242,7 +284,7 @@ export const PurchaseOrderEdit = () => {
                             name={[name, "taxRate"]}
                             rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                           >
-                            <InputNumber placeholder={`${translate("pages.purchase_orders.titles.tax_rate")}...`} min={0} max={100} step={0.01} style={{width: "100%"}}/>
+                            <InputNumber placeholder={`${translate("pages.purchase_orders.titles.tax_rate")}...`} min={0} max={100} step={0.01} style={{width: "100%"}} addonAfter="%"/>
                           </Form.Item>
                         </Col>
                       </Row>

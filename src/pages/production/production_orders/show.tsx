@@ -92,6 +92,39 @@ export const ProductionOrderShow = () => {
     }
   ];
 
+  const machineColumns = [
+    {
+      title: "Gép neve",
+      dataIndex: "machineName",
+      key: "machineName"
+    },
+    {
+      title: "Gép kódja",
+      dataIndex: "machineCode",
+      key: "machineCode"
+    },
+    {
+      title: "Kezdés dátuma",
+      dataIndex: "startDate",
+      key: "startDate",
+      render: (text: any) => (
+        <>
+          {dayjs(text).format("YYYY. MM. DD.")}
+        </>
+      ),
+    },
+    {
+      title: "Befejezés dátuma",
+      dataIndex: "endDate",
+      key: "endDate",
+      render: (text: any) => (
+        <>
+          {dayjs(text).format("YYYY. MM. DD.")}
+        </>
+      ),
+    }
+  ];
+
   return (
     <CanAccess 
       resource="production_orders" 
@@ -132,7 +165,9 @@ export const ProductionOrderShow = () => {
               <Col xs={24} style={{paddingLeft: 24}}>
                 <Text style={{fontSize: "1.3em"}}><b>Bizonylatszám:</b> {record?.receiptNumber}</Text>
                 <br/>
-                <Text style={{fontSize: "1.3em"}}><b>Kezdő és végdátum:</b> {dayjs(record?.startDate).format("YYYY. MM. DD.")} - {dayjs(record?.endDate).format("YYYY. MM. DD.")}</Text>
+                <Text style={{fontSize: "1.3em"}}><b>Kezdés dátuma:</b> {dayjs(record?.startDate).format("YYYY. MM. DD.")}</Text>
+                <br/>
+                <Text style={{fontSize: "1.3em"}}><b>Befejezés dátuma:</b> {dayjs(record?.endDate).format("YYYY. MM. DD.")}</Text>
                 <br/>
                 <Text style={{fontSize: "1.3em"}}><b>Termék:</b> {record?.productName}</Text>
               </Col>
@@ -147,6 +182,18 @@ export const ProductionOrderShow = () => {
               title={() => (
                 <div style={{ fontSize: '18px', fontWeight: 'bold' }}>
                   Komponensek:
+                </div>
+              )}
+            />
+            <Table
+              pagination={false}
+              columns={machineColumns}
+              rowKey="id"
+              dataSource={record?.machines}
+              style={{margin: 24, paddingTop: 24}}
+              title={() => (
+                <div style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                  Gépek:
                 </div>
               )}
             />

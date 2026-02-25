@@ -238,16 +238,6 @@ export const InvoiceCreate = () => {
                             <ProductSelect />
                           </Form.Item>
                         </Col>
-                        {/* <Col span={4}>
-                          <Form.Item
-                            {...restField}
-                            label={translate("pages.invoices.titles.quantity")}
-                            name={[name, "quantity"]}
-                            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
-                          >
-                            <InputNumber min={1} step={0.01} style={{width: "100%"}} addonAfter="HUF"/>
-                          </Form.Item>
-                        </Col> */}
                         <Col span={4}>
                           <Form.Item
                             shouldUpdate={(prev, curr) =>
@@ -321,6 +311,7 @@ export const InvoiceCreate = () => {
                       onClick={() => add()}
                       block
                       icon={<PlusOutlined />}
+                      disabled
                     >
                       {translate("buttons.add_product")}
                     </Button>

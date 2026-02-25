@@ -73,11 +73,11 @@ export const PurchaseOrderShow = () => {
       title: "Mennyiség",
       dataIndex: "quantityOrdered",
       key: "quantityOrdered",
-      render: (data: any) => (
-        <>
-          {data?.quantityOrdered} db
-        </>
-      ),
+    },
+    {
+      title: "Egység",
+      dataIndex: "productUnit",
+      key: "productUnit",
     },
     {
       title: "Nettó",
@@ -85,7 +85,7 @@ export const PurchaseOrderShow = () => {
       key: "nettoPrice",
       render: (data: any) => (
         <>
-          {data?.nettoPrice} HUF
+          {data} HUF
         </>
       ),
     },
@@ -95,7 +95,7 @@ export const PurchaseOrderShow = () => {
       key: "taxRate",
       render: (data: any) => (
         <>
-          {data?.taxRate} %
+          {data} %
         </>
       ),
     },
@@ -105,7 +105,7 @@ export const PurchaseOrderShow = () => {
       key: "bruttoPrice",
       render: (data: any) => (
         <>
-          {data?.bruttoPrice} HUF
+          {data} HUF
         </>
       ),
     },
@@ -115,7 +115,7 @@ export const PurchaseOrderShow = () => {
       key: "discount",
       render: (data: any) => (
         <>
-          {data?.discount} %
+          {data} %
         </>
       ),
     },
@@ -155,7 +155,7 @@ export const PurchaseOrderShow = () => {
             <Row gutter={16}>
               <Text style={{margin: 20}}>Bizonylat száma: {record?.receiptNumber}</Text>
               <Col xs={24}>
-                <Title level={2} style={{textAlign: "center", padding: 50}}>Rendelési bizonylat</Title>
+                <Title level={2} style={{textAlign: "center", padding: 50}}>Beszerzési rendelés</Title>
               </Col>
             </Row>
             <Row gutter={16}>
@@ -171,7 +171,9 @@ export const PurchaseOrderShow = () => {
                     <br></br>
                     <Text><b>Adószám: </b>{record?.supplierTaxNumber}</Text>
                     <br></br>
-                    <Text><b>Közösségi adószám: </b>{record?.supplierEuTaxNumber}</Text>
+                    <Text><b>EU adószám: </b>{record?.supplierEuTaxNumber}</Text>
+                    <br></br>
+                    <Text><b>Bankszámlaszám: </b>{record?.supplierBankAccountNumber}</Text>
                   </Col>
                 </Row>
               </Col>
@@ -187,7 +189,9 @@ export const PurchaseOrderShow = () => {
                     <br></br>
                     <Text><b>Adószám: </b>{record?.companyTaxNumber}</Text>
                     <br></br>
-                    <Text><b>Közösségi adószám: </b>{record?.companyEuTaxNumber}</Text>
+                    <Text><b>EU adószám: </b>{record?.companyEuTaxNumber}</Text>
+                    <br></br>
+                    <Text><b>Bankszámlaszám: </b>{record?.companyBankAccountNumber}</Text>
                   </Col>
                 </Row>
               </Col>

@@ -19,3 +19,22 @@ axiosInstance.interceptors.request.use(
     },
     (error) => Promise.reject(error)
 );
+
+axiosInstance.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        const status = error.response ? error.response.status : null;
+
+        if (status === 401) {
+            sessionStorage.removeItem("token");
+
+            message.error("A munkamenet lejárt, kérjük jelentkezzen be újra!");
+
+            window.location.href = "/login";
+        }
+
+        return Promise.reject(error);
+    }
+);

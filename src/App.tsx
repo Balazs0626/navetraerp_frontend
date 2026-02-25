@@ -5,7 +5,7 @@ import { CatchAllNavigate } from "@refinedev/react-router";
 import { DashboardPage } from "./pages/dashboard";
 import { RefineThemes, ThemedLayout, ThemedSider, ThemedTitle, useNotificationProvider } from "@refinedev/antd";
 import { App as AntdApp, ConfigProvider, Select, Switch, theme, notification } from "antd";
-import { AppstoreAddOutlined, AppstoreOutlined, CalendarOutlined, ClockCircleOutlined, ClusterOutlined, DashboardOutlined, DashOutlined, DragOutlined, ExportOutlined, FileOutlined, FileProtectOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, OrderedListOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, SolutionOutlined, StockOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
+import { AppstoreAddOutlined, AppstoreOutlined, CalendarOutlined, ClockCircleOutlined, ClusterOutlined, ContainerOutlined, DashboardOutlined, DashOutlined, DragOutlined, ExportOutlined, FileOutlined, FileProtectOutlined, FileTextFilled, FileTextOutlined, GroupOutlined, HomeFilled, HomeOutlined, OrderedListOutlined, ProductFilled, ProductOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, SolutionOutlined, StockOutlined, StopOutlined, TruckOutlined, UserOutlined } from "@ant-design/icons";
 import { dataProvider } from "./providers/dataProvider";
 import { authProvider } from "./providers/authProvider";
 import { UserList } from "./pages/administrator/users/list";
@@ -74,6 +74,9 @@ import { accessControlProvider } from "./providers/accessControlProvider";
 import { CustomErrorComponent } from "./pages/error";
 import { ForgotPasswordPage } from "./pages/forgotPassword";
 import { ResetPasswordPage } from "./pages/resetPassword";
+import { AiAssistantDrawer } from "./components/ai";
+import { MachineCreate, MachineEdit, MachineList } from "./pages/production/machines";
+import { MachineShow } from "./pages/production/machines/show";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -533,6 +536,18 @@ export default function App() {
                 }
               },
               {
+                name: "machines",
+                list: "/production/machines",
+                create: "/production/machines/create",
+                edit: "/production/machines/edit/:id",
+                show: "/production/machines/show/:id",
+                meta: {
+                  label: t("pages.sidebar.machines"),
+                  icon: <ContainerOutlined/>,
+                  parent: "production"
+                }
+              },
+              {
                 name: "production_orders",
                 list: "/production/production_orders",
                 create: "/production/production_orders/create",
@@ -766,6 +781,14 @@ export default function App() {
 
                 <Route path="production">
                   <Route index element={<ProductionMainPage/>}/>
+
+                  <Route path="machines">
+                    <Route index element={<MachineList/>}/>
+                    <Route path="create" element={<MachineCreate/>}/>
+                    <Route path="edit/:id" element={<MachineEdit/>}/>
+                    <Route path="show/:id" element={<MachineShow/>}/>
+                  </Route>
+
                   <Route path="production_orders">
                     <Route index element={<ProductionOrderList/>}/>
                     <Route path="create" element={<ProductionOrderCreate/>}/>

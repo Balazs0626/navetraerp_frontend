@@ -20,6 +20,8 @@ export const InvoiceShow = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
+  console.log(record);
+
   useEffect(() => {
     document.title = `${translate("pages.invoices.show.title")} | NavetraERP`;
   })
@@ -68,9 +70,9 @@ export const InvoiceShow = () => {
       title: "Mennyiség",
       dataIndex: "quantity",
       key: "quantity",
-      render: (data: any) => (
+      render: (data: any, item: any) => (
         <>
-          {String(data?.quantity).replace(".", ",")} {data?.productUnit}
+          {String(data).replace(".", ",")} {item?.productUnit}
         </>
       ),
     },
@@ -80,7 +82,7 @@ export const InvoiceShow = () => {
       key: "taxRate",
       render: (data: any) => (
         <>
-          {data?.taxRate} %
+          {data} %
         </>
       ),
     },
@@ -90,7 +92,7 @@ export const InvoiceShow = () => {
       key: "netPrice",
       render: (data: any) => (
         <>
-          {data?.netPrice} Ft
+          {data} HUF
         </>
       ),
     },
@@ -100,7 +102,7 @@ export const InvoiceShow = () => {
       key: "tax",
       render: (data: any) => (
         <>
-          {data?.tax} Ft
+          {data} HUF
         </>
       ),
     },
@@ -110,7 +112,7 @@ export const InvoiceShow = () => {
       key: "grossPrice",
       render: (data: any) => (
         <>
-          {data?.grossPrice} Ft
+          {data} HUF
         </>
       ),
     },
@@ -168,7 +170,7 @@ export const InvoiceShow = () => {
                       <br></br>
                       <Text><b>Adószám: </b>{record?.sellerTaxNumber}</Text>
                       <br></br>
-                      <Text><b>Közösségi adószám: </b>{record?.sellerEuTaxNumber}</Text>
+                      <Text><b>EU adószám: </b>{record?.sellerEuTaxNumber}</Text>
                       <br></br>
                       <Text><b>Bankszámlaszám: </b>{record?.sellerBankAccountNumber}</Text>
                     </Col>
@@ -188,7 +190,7 @@ export const InvoiceShow = () => {
                       <br></br>
                       <Text><b>Adószám: </b>{record?.customerTaxNumber}</Text>
                       <br></br>
-                      <Text><b>Közösségi adószám: </b>{record?.customerEuTaxNumber}</Text>
+                      <Text><b>EU adószám: </b>{record?.customerEuTaxNumber}</Text>
                       <br></br>
                       <Text><b>Bankszámlaszám: </b>{record?.customerBankAccountNumber}</Text>
                     </Col>

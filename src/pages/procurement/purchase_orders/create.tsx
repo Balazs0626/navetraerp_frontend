@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, DeleteOutlined, MailOutlined, PlusOutlined } from "@ant-design/icons";
 import { Create, NumberField, useForm } from "@refinedev/antd";
-import { CanAccess, useNotification, useTranslation } from "@refinedev/core";
+import { CanAccess, useList, useNotification, useTranslation } from "@refinedev/core";
 import { Button, Space, Form, Card, Col, Row, Input, DatePicker, InputNumber, Divider, Typography, Select, Alert } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -8,6 +8,7 @@ import { SupplierSelect } from "../../../components/SupplierSelect";
 import { ProductSelect } from "../../../components/ProductSelect";
 import { usePurchaseOrderStatus } from "../../../constants/purchase_orders";
 import { CustomErrorComponent } from "../../error";
+import { IProductList } from "../../../interfaces";
 
 export const PurchaseOrderCreate = () => {
 
@@ -24,6 +25,21 @@ export const PurchaseOrderCreate = () => {
   useEffect(() => {
     document.title = `${translate("pages.purchase_orders.create.title")} | NavetraERP`;
   })
+
+  const { result: productsData } = useList<IProductList>({
+    resource: "products",
+    pagination: { mode: "off" },
+  });
+  
+  const products = productsData?.data ?? [];
+
+  const getUnitByProductId = (productId?: number) => {
+    return products.find(p => p.id === productId)?.unit ?? "";
+  };
+
+  const getProductDetailsById = (productId?: number) => {
+    return products.find(p => p.id === productId);
+  };
 
   const handleFinish = (values: any) => {
     const formattedValues = {
@@ -67,7 +83,24 @@ export const PurchaseOrderCreate = () => {
           {...formProps}
           form={form}
           layout="vertical"
-          onValuesChange={() => {
+          onValuesChange={(changedValues) => {
+
+            if (changedValues.items) {
+              changedValues.items.forEach((item: any, index: number) => {
+                if (item && item.productId) {
+                  const productDetails = getProductDetailsById(item.productId);
+                  
+                  if (productDetails) {
+                    const currentItems = [...form.getFieldValue("items")];
+                    
+                    currentItems[index].pricePerUnit = productDetails.pricePerUnit;
+
+                    form.setFieldsValue({ items: currentItems });
+                  }
+                }
+              });
+            }
+
             const items = form.getFieldValue("items") || [];
 
             const total = items.reduce((sum: any, item: any) => {
@@ -172,7 +205,7 @@ export const PurchaseOrderCreate = () => {
                             <ProductSelect />
                           </Form.Item>
                         </Col>
-                        <Col span={4}>
+{/*                         <Col span={4}>
                           <Form.Item
                             {...restField}
                             label={translate("pages.purchase_orders.titles.amount")}
@@ -180,6 +213,36 @@ export const PurchaseOrderCreate = () => {
                             rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                           >
                             <InputNumber placeholder={`${translate("pages.purchase_orders.titles.amount")}...`} min={1} step={0.01} style={{width: "100%"}} />
+                          </Form.Item>
+                        </Col> */}
+                        <Col span={4}>
+                          <Form.Item
+                            shouldUpdate={(prev, curr) =>
+                              prev?.items?.[name]?.productId !== curr?.bomComponents?.[name]?.productId
+                            }
+                            noStyle
+                          >
+                            {() => {
+                              const productId = form.getFieldValue(["items", name, "productId"]);
+                              const unit = getUnitByProductId(productId) || "";
+
+                              return (
+                                <Form.Item
+                                  {...restField}
+                                  label={translate("pages.purchase_orders.titles.amount")}
+                                  name={[name, "quantityOrdered"]}
+                                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                                >
+                                  <InputNumber
+                                    placeholder={`${translate("pages.purchase_orders.titles.amount")}...`}
+                                    min={0.01}
+                                    step={0.01}
+                                    style={{ width: "100%" }}
+                                    addonAfter={unit}
+                                  />
+                                </Form.Item>
+                              );
+                            }}
                           </Form.Item>
                         </Col>
                         <Col span={4}>

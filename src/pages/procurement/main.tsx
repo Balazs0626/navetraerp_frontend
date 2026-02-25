@@ -1,9 +1,10 @@
 import { useTranslation, usePermissions } from "@refinedev/core";
 import { useNavigate } from "react-router";
-import { Row, Col, Card, Typography, Space, TabsProps, Collapse, Tabs } from "antd";
-import { UserOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, BankOutlined, ProductOutlined, ShopOutlined, TruckOutlined, ShoppingCartOutlined, FileOutlined, LockOutlined } from "@ant-design/icons";
-import { useEffect } from "react";
+import { Row, Col, Card, Typography, Space, TabsProps, Collapse, Tabs, FloatButton } from "antd";
+import { UserOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, BankOutlined, ProductOutlined, ShopOutlined, TruckOutlined, ShoppingCartOutlined, FileOutlined, LockOutlined, RobotOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
 import { PurchaseLeadTimeColumn } from "../../components/diagrams/PurchaseLeadTimeColumn";
+import { AiAssistantDrawer } from "../../components/ai";
 
 const { Text } = Typography;
 
@@ -18,7 +19,9 @@ export const ProcurementMainPage = () => {
 
   const navigate = useNavigate();
 
-    const hasAccess = (requiredPerm: string) => {
+  const [isAiOpen, setIsAiOpen] = useState(false);
+
+  const hasAccess = (requiredPerm: string) => {
     if (!requiredPerm) return true; 
     return permissions?.includes(requiredPerm);
   };
@@ -139,7 +142,22 @@ export const ProcurementMainPage = () => {
   ];
 
   return (
-    <Tabs defaultActiveKey="1" items={items} type="card"/>
+    <>
+      <Tabs defaultActiveKey="1" items={items} type="card"/>
+      <FloatButton
+          icon={<RobotOutlined />}
+          type="primary"
+          style={{ right: 24, bottom: 24, width: 64, height: 64 }}
+          onClick={() => setIsAiOpen(true)}
+          tooltip={<div>{translate("ai.assistant")}</div>}
+      />
+
+      <AiAssistantDrawer 
+          open={isAiOpen} 
+          onClose={() => setIsAiOpen(false)}
+          module="procurement" 
+      />
+    </>
   );
 
 };

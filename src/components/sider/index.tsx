@@ -14,7 +14,6 @@ const { Sider } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
 
 export const CustomSider = ({ collapsed, setCollapsed }: { collapsed: boolean, setCollapsed: (val: boolean) => void }) => {
-    // A useMenu hívja meg a háttérben az accessControlProvider-t!
     const { menuItems, selectedKey } = useMenu();
     const { token } = theme.useToken();
     const { mutate: logout } = useLogout();
@@ -23,14 +22,6 @@ export const CustomSider = ({ collapsed, setCollapsed }: { collapsed: boolean, s
     const { data: permissionsData } = usePermissions<string[]>({});
 
     const [openKeys, setOpenKeys] = useState<string[]>([]);
-
-    // --- DEBUG: Nézzük meg, mit ad vissza a useMenu! ---
-    useEffect(() => {
-        if (menuItems.length > 0) {
-            console.log("CustomSider - Nyers menü elemek (Refine-tól):", menuItems);
-        }
-    }, [menuItems]);
-    // --------------------------------------------------
 
     const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
         const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -45,36 +36,26 @@ export const CustomSider = ({ collapsed, setCollapsed }: { collapsed: boolean, s
         }
     };
 
-const renderMenuItems = (items: any[]): MenuItem[] => {
+    const renderMenuItems = (items: any[]): MenuItem[] => {
         return items.map((item) => {
-            // --- KÉZI JOGOSULTSÁG ELLENŐRZÉS ---
-            // Itt manuálisan megnézzük, hogy a usernek van-e joga ehhez a menüponthoz.
-            // Ez feltételezi, hogy a route neve (pl. "users") és a jog (VIEW:USERS) összeköthető.
-            
-            // Ha nincs még betöltve a jog, ne mutassunk semmit
+
             if (!permissionsData) return null;
 
-            // 1. Megnézzük, mi ennek az elemnek a resource neve (pl. "warehouses")
             const resourceName = item.name || item.key; 
 
-            // 2. Keresünk hozzá illő jogot a listában
-            // Pl: Ha a resource "warehouses", akkor keresünk "VIEW:WAREHOUSES"-t
-            const neededPermission = resourceName.toString() === "employee" ? `VIEW:EMPLOYEES` : `VIEW:${resourceName.toString().toUpperCase()}`;
+            //idg a machine
+            const neededPermission = (resourceName.toString() === "employee" || resourceName.toString() === "machines") ? `VIEW:EMPLOYEES` : `VIEW:${resourceName.toString().toUpperCase()}`;
             
-            // 3. Van-e ilyen joga a usernek? (Kivéve a dashboardot, ami "/" vagy root)
             const hasPermission = 
                 resourceName === "dashboard" || 
                 resourceName === "/" ||
                 permissionsData.includes(neededPermission);
 
-            // Szülő elemek (pl. "hr", "administrator") kezelése:
-            // Ha ez egy csoport, akkor engedjük tovább, majd a gyerekeknél eldől, marad-e benne valami.
             const isParent = item.children && item.children.length > 0;
 
             if (!isParent && !hasPermission) {
-                return null; // TILTÁS: Ha nem szülő és nincs joga -> KUKA
+                return null;
             }
-            // -------------------------------------
 
             const { route, label, icon, children, key } = item;
             const displayIcon = icon || <UnorderedListOutlined />;
@@ -103,7 +84,6 @@ const renderMenuItems = (items: any[]): MenuItem[] => {
         .filter(Boolean) as MenuItem[];
     };
 
-    // A menüpontok összeállítása + a kijelentkezés "menüpont" hozzáadása
     const allMenuItems: MenuItem[] = [
         ...renderMenuItems(menuItems),
         {
@@ -134,13 +114,11 @@ const renderMenuItems = (items: any[]): MenuItem[] => {
                 borderRight: `1px solid ${token.colorBorderSecondary}`,
             }}
         >
-            {/* Logo rész */}
             <div style={{ height: "64px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <img src="/src/icons/logo.png" style={{ height: 24 }} alt="Logo" />
                 {!collapsed && <span style={{ marginLeft: 8, fontWeight: "bold", fontSize: 16 }}>NavetraERP</span>}
             </div>
 
-            {/* Görgethető Menü rész */}
             <div style={{ height: "calc(100vh - 128px)", overflowY: "auto", overflowX: "hidden" }}>
               <Menu
                   selectedKeys={[selectedKey]}
@@ -152,7 +130,6 @@ const renderMenuItems = (items: any[]): MenuItem[] => {
               />
             </div>
 
-            {/* Fix Összecsukó gomb az alján */}
             <Button
                 type="text"
                 icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
