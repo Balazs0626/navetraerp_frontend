@@ -106,7 +106,7 @@ export const InventoryItemCreate = () => {
                     return (
                       <Form.Item
                         label={translate("pages.inventory_items.titles.quantity_on_hand")}
-                        name="quantity_on_hand"
+                        name="quantityOnHand"
                         rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                       >
                         <InputNumber

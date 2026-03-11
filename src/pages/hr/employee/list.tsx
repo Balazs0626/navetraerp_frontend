@@ -1,4 +1,4 @@
-import { useTable, List, EditButton, DeleteButton, ExportButton, ImportButton } from "@refinedev/antd";
+import { useTable, List, EditButton, DeleteButton, ExportButton, ImportButton, ShowButton } from "@refinedev/antd";
 import { IDepartmentList, IEmployeeCreate, IEmployeeList } from "../../../interfaces";
 import { Form, Button, Card, Col, Row, Space, Table, Input } from "antd";
 import { ArrowLeftOutlined, CheckCircleOutlined, CloseCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -178,11 +178,15 @@ export const EmployeeList = () => {
                 key="actions"
                 render={(_, record) => (
                   <Space>
+                    <ShowButton
+                      size="small"
+                      recordItemId={record.id}
+                      resource="employee"
+                    />
                     <EditButton
                       size="small"
                       recordItemId={record.id}
                       resource="employee"
-                      onClick={() => navigate(`/hr/employee/edit/${record.id}`)}
                       disabled={!permissions?.includes("EDIT:EMPLOYEES")}
                     />
                     <DeleteButton

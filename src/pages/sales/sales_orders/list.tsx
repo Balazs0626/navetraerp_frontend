@@ -74,7 +74,7 @@ export const SalesOrderList = () => {
         title={translate("pages.sales_orders.list.title")}
         headerButtons={
             <Space>
-              <Button icon={<PlusOutlined/>} size="large" type="primary" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:PURCHASE_ORDERS")}>
+              <Button icon={<PlusOutlined/>} size="large" type="primary" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:SALES_ORDERS")}>
                 {translate("pages.sales_orders.buttons.create")}
               </Button>
               <Button icon={<ArrowLeftOutlined/>} size="large" onClick={() => navigate("/sales")}>
@@ -194,14 +194,14 @@ export const SalesOrderList = () => {
                       size="small"
                       recordItemId={record.id}
                       resource="sales_orders"
-                      disabled={!permissions?.includes("EDIT:PURCHASE_ORDERS") || record.status == "closed" || record.status == "invoiced"}
+                      disabled={!permissions?.includes("EDIT:SALES_ORDERS") || record.status == "closed" || record.status == "invoiced"}
                     />
                     <DeleteButton
                       size="small"
                       recordItemId={record.id}
                       resource="sales_orders"
                       confirmTitle={translate("notifications.deleteMessage")}
-                      disabled={!permissions?.includes("DELETE:PURCHASE_ORDERS") || record.status == "closed" || record.status == "invoiced"}
+                      disabled={!permissions?.includes("DELETE:SALES_ORDERS") || record.status == "closed" || record.status == "invoiced"}
                     />
                   </Space>
                 )}

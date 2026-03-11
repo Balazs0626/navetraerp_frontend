@@ -57,24 +57,19 @@ export const UserList = () => {
                 key="actions"
                 render={(_, record) => (
                   <Space>
-                    {/* {permissions?.includes("EDIT:USERS") && */}
-                      <EditButton
-                        size="small"
-                        recordItemId={record.id}
-                        resource="users"
-                        //onClick={() => navigate(`/users/edit/${record.id}`)}
-                        disabled={!permissions?.includes("EDIT:USERS")}
-                      />
-                    {/* } */}
-                    {/* {permissions?.includes("DELETE:USERS") && */}
-                      <DeleteButton
-                        size="small"
-                        recordItemId={record.id}
-                        resource="users"
-                        confirmTitle={translate("notifications.deleteMessage")}
-                        disabled={!permissions?.includes("DELETE:USERS")}
-                      />
-                    {/* } */}
+                    <EditButton
+                      size="small"
+                      recordItemId={record.id}
+                      resource="users"
+                      disabled={!permissions?.includes("EDIT:USERS")}
+                    />
+                    <DeleteButton
+                      size="small"
+                      recordItemId={record.id}
+                      resource="users"
+                      confirmTitle={translate("notifications.deleteMessage")}
+                      disabled={!permissions?.includes("DELETE:USERS")}
+                    />
                   </Space>
                 )}
               />

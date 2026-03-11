@@ -41,7 +41,7 @@ export const CustomerList = () => {
         title={translate("pages.customers.list.title")}
         headerButtons={
             <Space>
-              <Button icon={<PlusOutlined/>} size="large" type="primary" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:SUPPLIERS")}>
+              <Button icon={<PlusOutlined/>} size="large" type="primary" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:CUSTOMERS")}>
                 {translate("pages.customers.buttons.create")}
               </Button>
               <Button icon={<ArrowLeftOutlined/>} size="large" onClick={() => navigate("/sales")}>
@@ -64,14 +64,14 @@ export const CustomerList = () => {
                   size="small"
                   recordItemId={record.id}
                   resource="customers"
-                  disabled={!permissions?.includes("EDIT:SUPPLIERS")}
+                  disabled={!permissions?.includes("EDIT:CUSTOMERS")}
                 />
                 <DeleteButton
                   size="small"
                   recordItemId={record.id}
                   resource="customers"
                   confirmTitle={translate("notifications.deleteMessage")}
-                  disabled={!permissions?.includes("DELETE:SUPPLIERS")}
+                  disabled={!permissions?.includes("DELETE:CUSTOMERS")}
                 />
               </Space>
             )}

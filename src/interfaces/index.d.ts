@@ -229,6 +229,7 @@ export interface IProductionOutputList {
 export interface IInventoryItems {
     id: number;
     warehouseName: string;
+    productId: number;
     productName: string;
     productUnit: string;
     quantityOnHand: number;
@@ -250,4 +251,12 @@ export interface IInventoryCounts {
     countedByName: string;
     warehouseName: string;
     countDate: string;
+}
+
+export interface IDeliveryNotes {
+    id: number;
+    receiptNumber: string;
+    createDate: string;
+    shippingDate: string;
+    status: string;
 }

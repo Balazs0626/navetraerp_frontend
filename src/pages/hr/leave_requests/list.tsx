@@ -149,7 +149,7 @@ export const LeaveRequestList = () => {
               <>
                 <Button
                   type="primary"
-                  onClick={() => handleAction('approve')}
+                  onClick={() => handleAction("approve")}
                   size="large"
                   disabled={selectedRowKeys.length === 0}
                 >
@@ -157,7 +157,7 @@ export const LeaveRequestList = () => {
                 </Button>
                 <Button
                   danger
-                  onClick={() => handleAction('reject')}
+                  onClick={() => handleAction("reject")}
                   size="large"
                   disabled={selectedRowKeys.length === 0}
                 >
@@ -171,7 +171,6 @@ export const LeaveRequestList = () => {
             <Button icon={<ArrowLeftOutlined/>} size="large" onClick={() => navigate("/hr")}>
                 {translate("buttons.back_module")}
             </Button>
-  {/*           <ExportButton onClick={triggerExport} loading={exportLoading} size="large">Export</ExportButton> */}
           </Space>
         }
       >
@@ -255,15 +254,15 @@ export const LeaveRequestList = () => {
                     <Space>
                       {value === "pending" ? (
                         <ClockCircleOutlined
-                          style={{ color: '#FAAD14', fontSize: 18 }}
+                          style={{ color: "#FAAD14", fontSize: 18 }}
                         />
                       ) : value === "approved" ? (
                         <CheckCircleOutlined
-                          style={{ color: '#52C41A', fontSize: 18 }}
+                          style={{ color: "#52C41A", fontSize: 18 }}
                         />
                       ) : (
                         <CloseCircleOutlined
-                          style={{ color: '#FF4D4F', fontSize: 18 }}
+                          style={{ color: "#FF4D4F", fontSize: 18 }}
                         />
                       )}
                     </Space>

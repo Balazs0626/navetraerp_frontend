@@ -1,5 +1,5 @@
 import { useTable, List, DeleteButton, EditButton, ShowButton } from "@refinedev/antd";
-import { IInvoiceList, ISalesOrderList } from "../../../interfaces";
+import { IDeliveryNotes, IInvoiceList, ISalesOrderList } from "../../../interfaces";
 import { Form, Button, Card, Col, Row, Space, Table, Input, DatePicker, InputNumber, Select, Tag } from "antd";
 import { ArrowLeftOutlined, CalendarOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
@@ -9,12 +9,13 @@ import dayjs from 'dayjs';
 import { useSalesOrderStatus } from "../../../constants/sales_orders";
 import { useInvoiceStatus } from "../../../constants/invoices";
 import { CustomErrorComponent } from "../../error";
+import { useDeliveryNoteStatus } from "../../../constants/delivery_notes";
 
 
-export const InvoiceList = () => {
+export const DeliveryNoteList = () => {
 
-  const { tableProps, setFilters } = useTable<IInvoiceList>({
-    resource: "invoices",
+  const { tableProps, setFilters } = useTable<IDeliveryNotes>({
+    resource: "delivery_notes",
     pagination: {
       pageSize: 10,
     },
@@ -45,11 +46,19 @@ export const InvoiceList = () => {
       });
     }
 
-    if (values.invoiceDate) {
+    if (values.createDate) {
       filters.push({
-        field: "invoiceDate",
+        field: "createDate",
         operator: "eq" as const,
-        value: dayjs(values.invoiceDate).format("YYYY-MM-DD"),
+        value: dayjs(values.createDate).format("YYYY-MM-DD"),
+      });
+    }
+
+    if (values.shippingDate) {
+      filters.push({
+        field: "shippingDate",
+        operator: "eq" as const,
+        value: dayjs(values.shippingDate).format("YYYY-MM-DD"),
       });
     }
 
@@ -62,23 +71,23 @@ export const InvoiceList = () => {
   const { data: permissions } = usePermissions<string[]>({});
 
   useEffect(() => {
-    document.title = `${translate("pages.invoices.list.title")} | NavetraERP`;
+    document.title = `${translate("pages.delivery_notes.list.title")} | NavetraERP`;
   })
 
   return (
     <CanAccess 
-      resource="invoices" 
+      resource="delivery_notes" 
       action="list" 
       fallback={<CustomErrorComponent status="403"/>}
     >
       <List
-        title={translate("pages.invoices.list.title")}
+        title={translate("pages.delivery_notes.list.title")}
         headerButtons={
             <Space>
-              <Button icon={<PlusOutlined/>} size="large" type="primary" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:INVOICES")}>
-                {translate("pages.invoices.buttons.create")}
+              <Button icon={<PlusOutlined/>} size="large" type="primary" onClick={() => navigate("create")} disabled={!permissions?.includes("CREATE:DELIVERY_NOTES")}>
+                {translate("pages.delivery_notes.buttons.create")}
               </Button>
-              <Button icon={<ArrowLeftOutlined/>} size="large" onClick={() => navigate("/sales")}>
+              <Button icon={<ArrowLeftOutlined/>} size="large" onClick={() => navigate("/inventory")}>
                 {translate("buttons.back_module")}
               </Button>
             </Space>
@@ -95,26 +104,35 @@ export const InvoiceList = () => {
                   <Col span={12}>
                     <Form.Item
                       name="receiptNumber"
-                      label={translate("pages.invoices.titles.id")}
+                      label={translate("pages.delivery_notes.titles.id")}
                     >
-                      {/* <InputNumber placeholder="Bizonylatszám..." style={{width: "100%"}}/> */}
-                      <Input placeholder={`${translate("pages.invoices.titles.id")}...`}/>
+                      <Input placeholder={`${translate("pages.delivery_notes.titles.id")}...`}/>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item
                       name="status"
-                      label={translate("pages.invoices.titles.status")}
+                      label={translate("pages.delivery_notes.titles.status")}
                     >
-                      <Select placeholder={translate("selects.invoices.placeholder_status")} options={useInvoiceStatus()}/>
+                      <Select placeholder={translate("selects.delivery_notes.placeholder_status")} options={useDeliveryNoteStatus()}/>
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={16}>
-                  <Col span={24}>
+                  <Col span={12}>
                     <Form.Item
-                      name="invoiceDate"
-                      label={translate("pages.invoices.titles.invoice_date")}
+                      name="createDate"
+                      label={translate("pages.delivery_notes.titles.create_date")}
+                    >
+                      <DatePicker 
+                        style={{ width: "100%" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      name="shippingDate"
+                      label={translate("pages.delivery_notes.titles.shipping_date")}
                     >
                       <DatePicker 
                         style={{ width: "100%" }}
@@ -145,23 +163,26 @@ export const InvoiceList = () => {
           </Col>
           <Col xs={24} lg={16}>
             <Table {...tableProps} rowKey="id">
-              <Table.Column dataIndex={"receiptNumber"} title={translate("pages.invoices.titles.id")}/>
-              <Table.Column dataIndex={"invoiceDate"} title={translate("pages.invoices.titles.invoice_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
-              <Table.Column dataIndex={"dueDate"} title={translate("pages.invoices.titles.due_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
+              <Table.Column dataIndex={"receiptNumber"} title={translate("pages.delivery_notes.titles.id")}/>
+              <Table.Column dataIndex={"createDate"} title={translate("pages.delivery_notes.titles.create_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
+              <Table.Column dataIndex={"shippingDate"} title={translate("pages.delivery_notes.titles.shipping_date")} render={(value) => dayjs(value).format("YYYY. MM. DD.")}/>
               <Table.Column 
                 dataIndex={"status"} 
-                title={translate("pages.invoices.titles.status")}
+                title={translate("pages.delivery_notes.titles.status")}
                 render={(value) => {
                 let color = "default";
                 switch (value) {
                   case "draft":
                     color = "default";
                     break;
-                  case "issued":
+                  case "shipped":
                     color = "blue";
                     break;
-                  case "paid":
+                  case "delivered":
                     color = "green";
+                    break;
+                  case "cancelled":
+                    color = "volcano";
                     break;
                   default:
                     color = "default";
@@ -169,13 +190,13 @@ export const InvoiceList = () => {
 
                 return (
                   <Tag color={color}>
-                    {translate(`selects.invoices.options_status.${value}`).toUpperCase()}
+                    {translate(`selects.delivery_notes.options_status.${value}`).toUpperCase()}
                   </Tag>
                 );
               }}
               />
               <Table.Column
-                title={translate("pages.invoices.titles.actions")}
+                title={translate("pages.delivery_notes.titles.actions")}
                 dataIndex="actions"
                 key="actions"
                 render={(_, record) => (
@@ -183,20 +204,20 @@ export const InvoiceList = () => {
                     <ShowButton
                       size="small"
                       recordItemId={record.id}
-                      resource="invoices"
+                      resource="delivery_notes"
                     />
                     <EditButton
                       size="small"
                       recordItemId={record.id}
-                      resource="invoices"
-                      disabled={!permissions?.includes("EDIT:INVOICES") || record.status == "paid"}
+                      resource="delivery_notes"
+                      disabled={!permissions?.includes("EDIT:DELIVERY_NOTES")}
                     />
                     <DeleteButton
                       size="small"
                       recordItemId={record.id}
-                      resource="invoices"
+                      resource="delivery_notes"
                       confirmTitle={translate("notifications.deleteMessage")}
-                      disabled={!permissions?.includes("DELETE:INVOICES") || record.status == "paid"}
+                      disabled={!permissions?.includes("DELETE:DELIVERY_NOTES")}
                     />
                   </Space>
                 )}

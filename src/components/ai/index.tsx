@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Drawer, Input, Button, List, Typography, Space, Card, Table, Tag, Empty, Spin } from "antd";
 import { RobotOutlined, SendOutlined, DatabaseOutlined, MessageOutlined } from "@ant-design/icons";
-import axios from "axios";
+import { axiosInstance } from "../../axiosInstance";
 import { API_URL } from "../../constants/url";
 import { useTranslation } from "@refinedev/core";
 
@@ -37,7 +37,7 @@ export const AiAssistantDrawer = ({ open, onClose, module }: { open: boolean; on
         setPrompt("");
 
         try {
-            const { data } = await axios.post(`${API_URL}/ai/${module}`, { prompt: userMsg.content });
+            const { data } = await axiosInstance.post(`${API_URL}/ai/${module}`, { prompt: userMsg.content } );
             
             const aiMsg: Message = {
                 role: "ai",

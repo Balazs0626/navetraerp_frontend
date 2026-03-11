@@ -54,8 +54,8 @@ export const ProductionOrderEdit = () => {
         })),
         machines: values.machines?.map((item: any) => ({
           ...item,
-          startDate: values.startDate?.format("YYYY-MM-DD"),
-          endDate: values.endDate?.format("YYYY-MM-DD"),
+          startDate: item.startDate?.format ? item.startDate.format("YYYY-MM-DD") : item.startDate,
+          endDate: item.endDate?.format ? item.endDate.format("YYYY-MM-DD") : item.endDate,
         }))
     };
 
@@ -73,6 +73,17 @@ export const ProductionOrderEdit = () => {
 
   const getUnitByProductId = (productId?: number) => {
     return products.find(p => p.id === productId)?.unit ?? "";
+  };
+
+  const { result: stocksData } = useList({
+    resource: "inventory_items",
+    pagination: { mode: "off" },
+  });
+
+  const getStockQuantity = (productId: number, warehouseId: number) => {
+    return stocksData?.data?.find(
+      (s: any) => s.productId === productId && s.warehouseId === warehouseId
+    )?.quantityOnHand || 0;
   };
 
   return (
@@ -226,7 +237,7 @@ export const ProductionOrderEdit = () => {
                             <ProductSelect />
                           </Form.Item>
                         </Col>
-                        <Col span={6}>
+                        {/* <Col span={6}>
                           <Form.Item
                             shouldUpdate={(prev, curr) =>
                               prev?.components?.[name]?.componentProductId !== curr?.components?.[name]?.componentProductId
@@ -243,6 +254,61 @@ export const ProductionOrderEdit = () => {
                                   label={translate("pages.production_orders.titles.quantity_used")}
                                   name={[name, "quantityUsed"]}
                                   rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                                >
+                                  <InputNumber
+                                    placeholder={`${translate("pages.production_orders.titles.quantity_used")}...`}
+                                    min={0.01}
+                                    step={0.01}
+                                    style={{ width: "100%" }}
+                                    addonAfter={unit}
+                                  />
+                                </Form.Item>
+                              );
+                            }}
+                          </Form.Item>
+                        </Col> */}
+                        <Col span={6}>
+                          <Form.Item
+                            shouldUpdate={(prev, curr) =>
+                              prev?.components?.[name]?.componentProductId !== curr?.components?.[name]?.componentProductId ||
+                              prev?.components?.[name]?.warehouseId !== curr?.components?.[name]?.warehouseId
+                            }
+                            noStyle
+                          >
+                            {() => {
+                              const currentItem = form.getFieldValue(["components", name]);
+                              const productId = currentItem?.componentProductId;
+                              const warehouseId = currentItem?.warehouseId;
+                              const unit = getUnitByProductId(productId) || "";
+
+                              const originalQuantity = formProps.initialValues?.components?.[name]?.quantityUsed || 0;
+                              const originalWarehouseId = formProps.initialValues?.components?.[name]?.warehouseId;
+
+                              const currentStock = (productId && warehouseId) ? getStockQuantity(productId, warehouseId) : 0;
+                              
+                              const effectivelyAvailable = (productId && warehouseId === originalWarehouseId)
+                                ? currentStock + originalQuantity
+                                : currentStock;
+
+                              return (
+                                <Form.Item
+                                  {...restField}
+                                  label={translate("pages.production_orders.titles.quantity_used")}
+                                  name={[name, "quantityUsed"]}
+                                  rules={[
+                                    { required: true, message: translate("messages.errors.required_field") },
+                                    {
+                                      validator: async (_, value) => {
+                                        if (!productId || !warehouseId || !value) return Promise.resolve();
+                                        if (value > effectivelyAvailable) {
+                                          return Promise.reject(
+                                            new Error(`${translate("messages.errors.available")}: ${effectivelyAvailable} ${unit}`)
+                                          );
+                                        }
+                                        return Promise.resolve();
+                                      },
+                                    },
+                                  ]}
                                 >
                                   <InputNumber
                                     placeholder={`${translate("pages.production_orders.titles.quantity_used")}...`}

@@ -160,7 +160,7 @@ export const SalesOrderShow = () => {
                 <div style={{border: "1px solid black", padding: 10}}>
                   <Title level={4} style={{textAlign: "left"}}>Vevő:</Title>
                   <Row gutter={16} align="bottom">
-                    <Col xs={12} style={{textAlign: "left"}}>
+                    <Col span={12} style={{textAlign: "left"}}>
                       <Title level={3}>{record?.customerName}</Title>
                       <Text><b>Adószám: </b>{record?.customerTaxNumber}</Text>
                       <br/>
@@ -177,7 +177,7 @@ export const SalesOrderShow = () => {
                       <br/>
                       
                     </Col>
-                    <Col span={10} style={{textAlign: "left"}}>
+                    <Col span={12} style={{textAlign: "left"}}>
                       <Text><b>Szállítási cím:</b></Text>
                       <br/>
                       <Text>{record?.customerShippingAddress_1}</Text>
@@ -188,7 +188,7 @@ export const SalesOrderShow = () => {
                   </Row>
                 </div>
               </Col>
-              <Col xs={10} style={{paddingRight: 24}}>
+              <Col span={10} style={{paddingRight: 24}}>
                 <Text style={{fontSize: "1.3em"}}><b>Bizonylatszám:</b> {record?.receiptNumber}</Text>
                 <br/>
                 <Text style={{fontSize: "1.3em"}}><b>Rendelés dátuma:</b> {dayjs(record?.orderDate).format("YYYY. MM. DD.")}</Text>

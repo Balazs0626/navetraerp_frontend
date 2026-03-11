@@ -73,7 +73,7 @@ export const InventoryCountCreate = () => {
             const response = await fetch(`${apiUrl}/inventory_items?${query}`, {
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}` // Ha kell token
+                    "Authorization": `Bearer ${sessionStorage.getItem("token")}`
                 }
             });
             

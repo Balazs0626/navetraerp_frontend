@@ -95,7 +95,7 @@ export const StockMovementArea = () => {
   }
 
   return (
-    <Card title={translate("diagrams.sales_orders.title")} type="inner">
+    <Card title={translate("diagrams.stock_movements.title")} type="inner">
       <div style={{ height: 400 }}>
         {chartData.length > 0 ? (
           <Area {...config} />

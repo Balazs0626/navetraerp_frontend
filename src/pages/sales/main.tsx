@@ -56,7 +56,7 @@ export const SalesMainPage = () => {
   const items: TabsProps["items"] = [
     {
       key: "1",
-      label: "Modul",
+      label: translate("titles.sub_modules"),
       children: <Card
       style={{
         margin: 12
@@ -135,7 +135,7 @@ export const SalesMainPage = () => {
     },
     {
       key: "2",
-      label: "Diagramok",
+      label: translate("titles.diagrams"),
       children: <Collapse items={collapseItems as any} bordered={false} />,
     },
     
@@ -143,7 +143,7 @@ export const SalesMainPage = () => {
 
   return (
     <>
-      <Tabs defaultActiveKey="1" items={items} type="card"/>
+      <Tabs defaultActiveKey="1" items={items}/>
       <FloatButton
           icon={<RobotOutlined />}
           type="primary"

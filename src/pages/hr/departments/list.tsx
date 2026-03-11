@@ -25,20 +25,6 @@ export const DepartmentList = () => {
     document.title = `${translate("pages.departments.list.title")} | NavetraERP`;
   }) 
 
-/*    const { triggerExport, isLoading: exportLoading } = useExport<IDepartmentList>({resource: "departments"});
-  const { inputProps } = useImport<IDepartmentCreate>({
-    resource: "departments",
-    paparseOptions: {
-      header: false
-    },
-    mapData: (item) => {
-      return {
-        departmentName: item.departmentName,
-        description: item.description
-      }
-    }
-  }); */
-
   return (
     <CanAccess 
       resource="departments" 
@@ -55,12 +41,6 @@ export const DepartmentList = () => {
               <Button icon={<ArrowLeftOutlined/>} size="large" onClick={() => navigate("/hr")}>
                   {translate("buttons.back_module")}
               </Button>
-  {/*             <ExportButton onClick={triggerExport} loading={exportLoading} size="large">Export</ExportButton>
-              <Input 
-                {...inputProps}
-                prefix={<ImportOutlined/>}
-                size="large"
-              /> */}
             </Space>
         }
       >
@@ -73,23 +53,19 @@ export const DepartmentList = () => {
             key="actions"
             render={(_, record) => (
               <Space>
-                {/* {permissions?.includes("EDIT:DEPARTMENTS") && */}
-                  <EditButton
-                    size="small"
-                    recordItemId={record.id}
-                    resource="departments"
-                    disabled={!permissions?.includes("EDIT:DEPARTMENTS")}
-                  />
-                {/* } */}
-                {/* {permissions?.includes("DELETE:DEPARTMENTS") && */}
-                  <DeleteButton
-                    size="small"
-                    recordItemId={record.id}
-                    resource="departments"
-                    confirmTitle={translate("notifications.deleteMessage")}
-                    disabled={!permissions?.includes("DELETE:DEPARTMENTS")}
-                  />
-                {/* } */}
+                <EditButton
+                  size="small"
+                  recordItemId={record.id}
+                  resource="departments"
+                  disabled={!permissions?.includes("EDIT:DEPARTMENTS")}
+                />
+                <DeleteButton
+                  size="small"
+                  recordItemId={record.id}
+                  resource="departments"
+                  confirmTitle={translate("notifications.deleteMessage")}
+                  disabled={!permissions?.includes("DELETE:DEPARTMENTS")}
+                />
               </Space>
             )}
           />

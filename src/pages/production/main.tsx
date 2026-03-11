@@ -1,10 +1,11 @@
 import { useTranslation, usePermissions } from "@refinedev/core";
 import { useNavigate } from "react-router";
-import { Row, Col, Card, Typography, Space, Collapse, Tabs } from "antd";
-import { UserOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, BankOutlined, ProductOutlined, ShopOutlined, TruckOutlined, ShoppingCartOutlined, FileOutlined, OrderedListOutlined, ExportOutlined, AppstoreAddOutlined, LockOutlined } from "@ant-design/icons";
-import { useEffect } from "react";
+import { Row, Col, Card, Typography, Space, Collapse, Tabs, FloatButton } from "antd";
+import { UserOutlined, GroupOutlined, ClusterOutlined, ClockCircleOutlined, CalendarOutlined, StopOutlined, DashboardOutlined, BankOutlined, ProductOutlined, ShopOutlined, TruckOutlined, ShoppingCartOutlined, FileOutlined, OrderedListOutlined, ExportOutlined, AppstoreAddOutlined, LockOutlined, RobotOutlined, DatabaseOutlined, ContainerOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
 import { TabsProps } from "antd/lib";
 import { ProductionOrderBar } from "../../components/diagrams/ProductionOrderBar";
+import { AiAssistantDrawer } from "../../components/ai";
 
 const { Text } = Typography;
 
@@ -18,6 +19,8 @@ export const ProductionMainPage = () => {
   const { data: permissions } = usePermissions<string[]>({});
 
   const navigate = useNavigate();
+
+  const [isAiOpen, setIsAiOpen] = useState(false);
 
   const hasAccess = (requiredPerm: string) => {
     if (!requiredPerm) return true; 
@@ -54,7 +57,7 @@ export const ProductionMainPage = () => {
   const items: TabsProps["items"] = [
     {
       key: "1",
-      label: "Modul",
+      label: translate("titles.sub_modules"),
       children: <Card
       style={{
         margin: 12
@@ -63,6 +66,28 @@ export const ProductionMainPage = () => {
       type="inner"
     >
       <Row gutter={[24, 24]}>
+
+        <Col xs={24} lg={12}>
+          <Card 
+            hoverable={permissions?.includes("VIEW:MACHINES")}
+            style={{ 
+              borderRadius: 12,
+              cursor: permissions?.includes("VIEW:MACHINES") ? "pointer" : "not-allowed", 
+              filter: permissions?.includes("VIEW:MACHINES") ? "none" : "opacity(50%)"
+            }}
+            onClick={() => permissions?.includes("VIEW:MACHINES") ? navigate("/production/machines") : undefined}
+          >
+            <Space direction="horizontal">
+              <ContainerOutlined style={{ fontSize: 48 }} />
+              <Space direction="vertical" style={{gap: 1}}>
+                <Text strong>{translate("pages.dashboard.production_module.machines")}</Text>
+                <Text type="secondary" style={{ fontSize: 12, textAlign: "center" }}>
+                  {translate("pages.dashboard.production_module.machines_description")}
+                </Text>
+              </Space>
+            </Space>
+          </Card>
+        </Col>
 
         <Col xs={24} lg={12}>
           <Card 
@@ -113,13 +138,28 @@ export const ProductionMainPage = () => {
     },
     {
       key: "2",
-      label: "Diagramok",
+      label: translate("titles.diagrams"),
       children: <Collapse items={collapseItems as any} bordered={false} />,
     },
     
   ];
 
   return (
-    <Tabs defaultActiveKey="1" items={items} type="card"/>
+    <>
+      <Tabs defaultActiveKey="1" items={items}/>
+      <FloatButton
+          icon={<RobotOutlined />}
+          type="primary"
+          style={{ right: 24, bottom: 24, width: 64, height: 64 }}
+          onClick={() => setIsAiOpen(true)}
+          tooltip={<div>{translate("ai.assistant")}</div>}
+      />
+
+      <AiAssistantDrawer 
+          open={isAiOpen} 
+          onClose={() => setIsAiOpen(false)}
+          module="production" 
+      />
+    </>
   );
 };

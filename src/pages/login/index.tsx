@@ -57,7 +57,7 @@ export const LoginPage = () => {
           <Form.Item 
             label={translate("pages.login.titles.username")}
             name="username" 
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
           >
             <Input 
               prefix={<UserOutlined />} 
@@ -69,7 +69,7 @@ export const LoginPage = () => {
           <Form.Item 
             label={translate("pages.login.titles.password")}
             name="password" 
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
           >
             <Input.Password 
               prefix={<LockOutlined />}

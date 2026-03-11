@@ -66,7 +66,8 @@
       "inventory": "Inventory",
       "inventory_items": "Inventory items",
       "stock_movements": "Stock movements",
-      "inventory_counts": "Inventory counts"
+      "inventory_counts": "Inventory counts",
+      "delivery_notes": "Delivery notes"
     },
     "dashboard": {
         "title": "Dashboard",
@@ -147,7 +148,9 @@
           "stock_movements": "Stock movements",
           "stock_movements_description": "Create, list, edit and delete stock movements",
           "inventory_counts": "Inventory counts",
-          "inventory_counts_description": "Create, list, edit and delete inventory counts"
+          "inventory_counts_description": "Create, list, edit and delete inventory counts",
+          "delivery_notes": "Delivery notes",
+          "delivery_notes_description": "Create, list, edit, delete and print delivery notes"
         }
     },
     "company_data": {
@@ -298,6 +301,8 @@
         "tax_id_number": "Tax identity number",
         "phone_number": "Phone number",
         "email": "E-mail address",
+        "address": "Address",
+        "temp_address": "Temporary address",
         "address_data": "Address data",
         "address_country": "Country",
         "address_region": "Region",
@@ -326,6 +331,9 @@
       },
       "edit": {
         "title": "Editing an employee"
+      },
+      "show": {
+        "title": "Employee"
       }
     },
     "departments": {
@@ -845,6 +853,37 @@
       "show": {
         "title": "Inventory count"
       }
+    },
+    "delivery_notes": {
+      "titles": {
+        "id": "Receipt number",
+        "create_date": "Create date",
+        "shipping_date": "Shipping date",
+        "status": "Status",
+        "actions": "Actions",
+        "data": "Master data",
+        "customer": "Customer",
+        "license_plate": "License plate",
+        "products": "Products",
+        "product": "Product",
+        "quantity": "Quantity"
+      },
+      "buttons": {
+        "back": "Back to delivery notes",
+        "create": "New delivery note"
+      },
+      "list": {
+        "title": "Delivery notes"
+      },
+      "create": {
+        "title": "Creating a delivery note"
+      },
+      "edit": {
+        "title": "Editing a delivery note"
+      },
+      "show": {
+        "title": "Delivery note"
+      }
     }
   },
   "notifications": {
@@ -856,7 +895,9 @@
     "deleteMessage": "Are you sure you want to delete this item?"
   },
   "titles": {
-    "search": "Search"
+    "search": "Search",
+    "diagrams": "Diagrams",
+    "sub_modules": "Submodules"
   },
   "buttons": {
     "login": "Login",
@@ -988,7 +1029,11 @@
         "VIEW_STOCK_MOVEMENTS": "View stock movement",
         "CREATE_INVENTORY_COUNTS": "Create inventory count",
         "DELETE_INVENTORY_COUNTS": "Delete inventory count",
-        "VIEW_INVENTORY_COUNTS": "View inventory count"
+        "VIEW_INVENTORY_COUNTS": "View inventory count",
+        "CREATE_DELIVERY_NOTES": "Create delivery note",
+        "EDIT_DELIVERY_NOTES": "Edit delivery note",
+        "DELETE_DELIVERY_NOTES": "Delete delivery note",
+        "VIEW_DELIVERY_NOTES": "View delivery note"
       }
     },
     "employees": {
@@ -1085,12 +1130,49 @@
         "out": "Out",
         "transfer": "Transfer"
       }
+    },
+    "delivery_notes": {
+      "placeholder_status": "Select status",
+      "options_status": {
+        "draft": "Draft",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled"
+      }
     }
   },
   "messages": {
     "errors": {
       "required_item": "At least one item required!",
-      "required_field": "Required field!"
+      "required_field": "Required field!",
+      "available": "Available",
+      "required_warehouse": "No warehouse selected"
+    }
+  },
+  "diagrams": {
+    "production_orders": {
+      "title": "Distribution of Production Orders",
+      "tooltip": "Quantity",
+      "unit": "orders"
+    },
+    "inventory_items": {
+      "title": "Inventory Chart",
+      "tooltip": "Quantity"
+    },
+    "stock_movements": {
+      "title": "Stock Movement Chart",
+      "tooltip": "Quantity",
+      "unit": "movements"
+    },
+    "sales_orders": {
+      "title": "Sales Order Chart",
+      "tooltip": "Amount"
+    },
+    "purchase_orders": {
+      "title": "Lead Time Between Purchase Order and Goods Receipt",
+      "tooltip": "Number of days",
+      "label": "Average",
+      "unit": "days"
     }
   },
   "ai": {

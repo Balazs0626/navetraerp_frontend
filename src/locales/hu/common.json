@@ -66,7 +66,8 @@
       "inventory": "Raktárkezelés",
       "inventory_items": "Készlet",
       "stock_movements": "Készletmozgás",
-      "inventory_counts": "Leltár"
+      "inventory_counts": "Leltár",
+      "delivery_notes": "Szállítólevelek"
     },
     "dashboard": {
         "title": "Irányítópult",
@@ -147,7 +148,9 @@
           "stock_movements": "Készletmozgások",
           "stock_movements_description": "Készletmozgások létrehozása, listázása, megtekintése, szerkesztése és törlése",
           "inventory_counts": "Leltár",
-          "inventory_counts_description": "Leltár naplózás létrehozása, listázása, megtekintése, szerkesztése és törlése"
+          "inventory_counts_description": "Leltár naplózás létrehozása, listázása, megtekintése, szerkesztése és törlése",
+          "delivery_notes": "Szállítólevelek",
+          "delivery_notes_description": "Szállítólevelek létrehozása, listázása, megtekintése, szerkesztése és törlése"
         }
     },
     "company_data": {
@@ -298,6 +301,8 @@
         "tax_id_number": "Adóazonosító jel",
         "phone_number": "Telefonszám",
         "email": "E-mail cím",
+        "address": "Lakcím",
+        "temp_address": "Tartózkodási cím",
         "address_data": "Lakcím adatok",
         "address_country": "Ország",
         "address_region": "Régió",
@@ -326,6 +331,9 @@
       },
       "edit": {
         "title": "Alkalmazott szerkesztése"
+      },
+      "show": {
+        "title": "Alkalmazott"
       }
     },
     "departments": {
@@ -845,8 +853,40 @@
       "show": {
         "title": "Leltár"
       }
+    },
+    "delivery_notes": {
+      "titles": {
+        "id": "Bizonylatszám",
+        "create_date": "Létrehozás dátuma",
+        "shipping_date": "Szállítás dátuma",
+        "status": "Státusz",
+        "actions": "Műveletek",
+        "data": "Törzsadatok",
+        "customer": "Vevő",
+        "license_plate": "Rendszám",
+        "products": "Termékek",
+        "product": "Termék",
+        "quantity": "Mennyiség"
+      },
+      "buttons": {
+        "back": "Vissza a szállítólevelekhez",
+        "create": "Új szállítólevél"
+      },
+      "list": {
+        "title": "Szállítólevelek"
+      },
+      "create": {
+        "title": "Szállítólevél létrehozása"
+      },
+      "edit": {
+        "title": "Szállítólevél szerkesztése"
+      },
+      "show": {
+        "title": "Szállítólevél"
+      }
     }
   },
+  
   "notifications": {
     "success": "Sikeres művelet",
     "error": "Sikertelen művelet",
@@ -856,7 +896,9 @@
     "deleteMessage": "Biztosan törölni szeretné ezt az elemet?"
   },
   "titles": {
-    "search": "Keresés"
+    "search": "Keresés",
+    "diagrams": "Diagramok",
+    "sub_modules": "Almodulok"
   },
   "buttons": {
     "login": "Bejelentkezés",
@@ -988,7 +1030,11 @@
         "VIEW_STOCK_MOVEMENTS": "Készletmozgás megtekintése",
         "CREATE_INVENTORY_COUNTS": "Leltár létrehozása",
         "DELETE_INVENTORY_COUNTS": "Leltár törlése",
-        "VIEW_INVENTORY_COUNTS": "Leltár megtekintése"
+        "VIEW_INVENTORY_COUNTS": "Leltár megtekintése",
+        "CREATE_DELIVERY_NOTES": "Szállítólevél létrehozása",
+        "EDIT_DELIVERY_NOTES": "Szállítólevél szerkesztése",
+        "DELETE_DELIVERY_NOTES": "Szállítólevél törlése",
+        "VIEW_DELIVERY_NOTES": "Szállítólevél megtekintése"
       }
     },
     "employees": {
@@ -1085,12 +1131,49 @@
         "out": "Kimenő",
         "transfer": "Áthelyezett"
       }
+    },
+    "delivery_notes": {
+      "placeholder_status": "Válasszon státuszt",
+      "options_status": {
+        "draft": "Tervezett",
+        "shipped": "Elszállított",
+        "delivered": "Kézbesített",
+        "cancelled": "Lemondott"
+      }
     }
   },
   "messages": {
     "errors": {
       "required_item": "Legalább egy tétel hozzáadása kötelező!",
-      "required_field": "Kötelező mező!"
+      "required_field": "Kötelező mező!",
+      "available": "Elérhető",
+      "required_warehouse": "Nincs kiválasztva raktár"
+    }
+  },
+  "diagrams": {
+    "production_orders": {
+      "title": "Termelési rendelések eloszlása",
+      "tooltip": "Mennyiség",
+      "unit": "rendelés"
+    },
+    "inventory_items": {
+      "title": "Készlet diagram",
+      "tooltip": "Mennyiség"
+    },
+    "stock_movements": {
+      "title": "Készletmozgás diagram",
+      "tooltip": "Mennyiség",
+      "unit": "mozgás"
+    },
+    "sales_orders": {
+      "title": "Értékesítési rendelés diagram",
+      "tooltip": "Összeg"
+    },
+    "purchase_orders": {
+      "title": "Beszerzési rendelés és átvételi bizonylat közötti eltelt napok",
+      "tooltip": "Napok száma",
+      "label": "Átlag",
+      "unit": "nap"
     }
   },
   "ai": {

@@ -12,6 +12,7 @@ import { useSalesOrderStatus } from "../../../constants/sales_orders";
 import { IProductList } from "../../../interfaces";
 import { WarehouseSelect } from "../../../components/WarehouseSelect";
 import { CustomErrorComponent } from "../../error";
+import { ProductWithStockSelect } from "../../../components/ProductWithStockSelect";
 
 export const SalesOrderCreate = () => {
 
@@ -54,6 +55,30 @@ export const SalesOrderCreate = () => {
     if (formProps.onFinish) {
         formProps.onFinish(formattedValues);
     }
+  };
+
+  const selectedWarehouseId = Form.useWatch("warehouseId", form);
+
+  const { result: inventoryData } = useList({
+    resource: "inventory_items",
+    filters: [
+      {
+        field: "warehouseId",
+        operator: "eq",
+        value: selectedWarehouseId,
+      },
+    ],
+    queryOptions: {
+      enabled: !!selectedWarehouseId,
+    },
+    pagination: { mode: "off" }
+  });
+
+  const inventory = inventoryData?.data ?? [];
+
+  const getStockLevel = (productId: number) => {
+    const item = inventory.find((i: any) => i.productId === productId);
+    return item ? item.quantityOnHand : 0;
   };
   
   return (
@@ -163,7 +188,11 @@ export const SalesOrderCreate = () => {
                   name="warehouseId"
                   rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                 >
-                  <WarehouseSelect/>
+                  <WarehouseSelect
+                    onChange={() => {
+                      form.setFieldValue("items", []);
+                    }}
+                  />
                 </Form.Item>
               </Col>
               <Col span={6}>
@@ -252,6 +281,68 @@ export const SalesOrderCreate = () => {
                         </Col>
                         {/* <Col span={4}>
                           <Form.Item
+                            shouldUpdate={(prev, curr) =>
+                              prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId
+                            }
+                            noStyle
+                          >
+                            {() => {
+                              const productId = form.getFieldValue(["items", name, "productId"]);
+                              const unit = getUnitByProductId(productId) || "";
+
+                              return (
+                                <Form.Item
+                                  {...restField}
+                                  label={translate("pages.sales_orders.titles.quantity_ordered")}
+                                  name={[name, "quantityOrdered"]}
+                                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                                >
+                                  <InputNumber
+                                    placeholder={`${translate("pages.sales_orders.titles.quantity_ordered")}...`}
+                                    min={0.01}
+                                    step={0.01}
+                                    style={{ width: "100%" }}
+                                    addonAfter={unit}
+                                  />
+                                </Form.Item>
+                              );
+                            }}
+                          </Form.Item>
+                        </Col> */}
+                        {/* <Col span={4}>
+                          <Form.Item
+                            {...restField}
+                            label={translate("pages.sales_orders.titles.quantity_ordered")}
+                            name={[name, "quantityOrdered"]}
+                            rules={[
+                              { required: true, message: translate("messages.errors.required_field") },
+                              // EGYEDI VALIDÁCIÓ ITT:
+                              ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                  const productId = getFieldValue(["items", name, "productId"]);
+                                  if (!selectedWarehouseId) {
+                                    return Promise.reject(new Error("Válasszon raktárat előbb!"));
+                                  }
+                                  if (!productId) {
+                                    return Promise.resolve();
+                                  }
+                                  
+                                  const availableStock = getStockLevel(productId);
+                                  if (value > availableStock) {
+                                    return Promise.reject(
+                                      new Error(`Nincs elég készlet! Elérhető: ${availableStock}`)
+                                    );
+                                  }
+                                  return Promise.resolve();
+                                },
+                              }),
+                            ]}
+                          >
+                            <InputNumber style={{ width: "100%" }} />
+                          </Form.Item>
+                        </Col> */}
+                        {/* <Col span={4}>
+                          <Form.Item
                             {...restField}
                             label={translate("pages.sales_orders.titles.quantity_shipped")}
                             name={[name, "quantityShipped"]}
@@ -276,7 +367,28 @@ export const SalesOrderCreate = () => {
                                   {...restField}
                                   label={translate("pages.sales_orders.titles.quantity_shipped")}
                                   name={[name, "quantityShipped"]}
-                                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                                  rules={[
+                                    { required: true, message: translate("messages.errors.required_field") },
+                                    ({ getFieldValue }) => ({
+                                      validator(_, value) {
+                                        const productId = getFieldValue(["items", name, "productId"]);
+                                        if (!selectedWarehouseId) {
+                                          return Promise.reject(new Error(translate("messages.errors.required_warehouse")));
+                                        }
+                                        if (!productId) {
+                                          return Promise.resolve();
+                                        }
+                                        
+                                        const availableStock = getStockLevel(productId);
+                                        if (value > availableStock) {
+                                          return Promise.reject(
+                                            new Error(`${translate("messages.errors.available")}: ${availableStock} ${unit}`)
+                                          );
+                                        }
+                                        return Promise.resolve();
+                                      },
+                                    }),
+                                  ]}
                                 >
                                   <InputNumber
                                     placeholder={`${translate("pages.sales_orders.titles.quantity_shipped")}...`}

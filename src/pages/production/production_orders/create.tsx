@@ -89,6 +89,17 @@ export const ProductionOrderCreate = () => {
     }
   };
 
+  const { result: stocksData } = useList({
+    resource: "inventory_items",
+    pagination: { mode: "off" },
+  });
+
+  const getStockQuantity = (productId: number, warehouseId: number) => {
+    return stocksData?.data?.find(
+        (s: any) => s.productId === productId && s.warehouseId === warehouseId
+    )?.quantityOnHand || 0;
+  };
+
   return (
     <CanAccess 
       resource="production_orders" 
@@ -258,7 +269,7 @@ export const ProductionOrderCreate = () => {
                             <InputNumber min={1} step={0.01} style={{width: "100%"}} />
                           </Form.Item>
                         </Col> */}
-                        <Col span={6}>
+                        {/* <Col span={6}>
                           <Form.Item
                             shouldUpdate={(prev, curr) =>
                               prev?.components?.[name]?.componentProductId !== curr?.components?.[name]?.componentProductId
@@ -275,6 +286,55 @@ export const ProductionOrderCreate = () => {
                                   label={translate("pages.production_orders.titles.quantity_used")}
                                   name={[name, "quantityUsed"]}
                                   rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                                >
+                                  <InputNumber
+                                    placeholder={`${translate("pages.production_orders.titles.quantity_used")}...`}
+                                    min={0.01}
+                                    step={0.01}
+                                    style={{ width: "100%" }}
+                                    addonAfter={unit}
+                                  />
+                                </Form.Item>
+                              );
+                            }}
+                          </Form.Item>
+                        </Col> */}
+                        <Col span={6}>
+                          <Form.Item
+                            shouldUpdate={(prev, curr) =>
+                              prev?.components?.[name]?.componentProductId !== curr?.components?.[name]?.componentProductId ||
+                              prev?.components?.[name]?.warehouseId !== curr?.components?.[name]?.warehouseId
+                            }
+                            noStyle
+                          >
+                            {() => {
+                              const currentComponent = form.getFieldValue(["components", name]);
+                              const productId = currentComponent?.componentProductId;
+                              const warehouseId = currentComponent?.warehouseId;
+                              const unit = getUnitByProductId(productId) || "";
+                              
+                              // Itt lekérjük az aktuális készletet a választott raktárban
+                              const availableStock = (productId && warehouseId) ? getStockQuantity(productId, warehouseId) : 0;
+
+                              return (
+                                <Form.Item
+                                  {...restField}
+                                  label={translate("pages.production_orders.titles.quantity_used")}
+                                  name={[name, "quantityUsed"]}
+                                  rules={[
+                                    { required: true, message: translate("messages.errors.required_field") },
+                                    {
+                                      validator: async (_, value) => {
+                                        if (!productId || !warehouseId) return Promise.resolve();
+                                        if (value > availableStock) {
+                                          return Promise.reject(
+                                            new Error(`${translate("messages.errors.available")}: ${availableStock} ${unit}`)
+                                          );
+                                        }
+                                        return Promise.resolve();
+                                      },
+                                    },
+                                  ]}
                                 >
                                   <InputNumber
                                     placeholder={`${translate("pages.production_orders.titles.quantity_used")}...`}

@@ -66,6 +66,32 @@ export const SalesOrderEdit = () => {
     }
   };
 
+  const selectedWarehouseId = Form.useWatch("warehouseId", form);
+
+  const { result: inventoryData } = useList({
+    resource: "inventory_items",
+    filters: [
+      {
+        field: "warehouseId",
+        operator: "eq",
+        value: selectedWarehouseId,
+      },
+    ],
+    queryOptions: {
+      enabled: !!selectedWarehouseId,
+    },
+    pagination: { mode: "off" }
+  });
+
+  const inventory = inventoryData?.data ?? [];
+
+  const getStockLevel = (productId: number, originalItemQuantity: number = 0) => {
+    const item = inventory.find((i: any) => i.productId === productId);
+    const currentInStock = item ? item.quantityOnHand : 0;
+    
+    return currentInStock + originalItemQuantity;
+  };
+
   return (
     <CanAccess 
       resource="sales_orders" 
@@ -179,7 +205,11 @@ export const SalesOrderEdit = () => {
                   name="warehouseId"
                   rules={[{ required: true, message: translate("messages.errors.required_field") }]}
                 >
-                  <WarehouseSelect/>
+                  <WarehouseSelect
+                    onChange={() => {
+                      form.setFieldValue("items", []);
+                    }}
+                  />
                 </Form.Item>
               </Col>
               <Col span={6}>
@@ -199,7 +229,7 @@ export const SalesOrderEdit = () => {
             type="inner"
             style={{marginTop: 12}}
           >
-            <Form.List 
+            {/* <Form.List 
               name="items"
               rules={[
                 {
@@ -214,145 +244,378 @@ export const SalesOrderEdit = () => {
               {(fields, { add, remove }, { errors }) => (
                 <>
                   {fields.map(({ key, name, ...restField }) => (
-                    <>
-                      <Row gutter={16}>
-                        <Col span={4}>
-                          <Form.Item
-                            {...restField}
-                            label={translate("pages.sales_orders.titles.product")}
-                            name={[name, "productId"]}
-                            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
-                          >
-                            <ProductSelect />
-                          </Form.Item>
-                        </Col>
-                        {/* <Col span={4}>
-                          <Form.Item
-                            {...restField}
-                            label={translate("pages.sales_orders.titles.quantity_ordered")}
-                            name={[name, "quantityOrdered"]}
-                            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
-                          >
-                            <InputNumber min={1} step={0.01} style={{width: "100%"}} />
-                          </Form.Item>
-                        </Col> */}
-                        <Col span={4}>
-                          <Form.Item
-                            shouldUpdate={(prev, curr) =>
-                              prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId
-                            }
-                            noStyle
-                          >
-                            {() => {
-                              const productId = form.getFieldValue(["items", name, "productId"]);
-                              const unit = getUnitByProductId(productId) || "";
+                      <>
+                        <Row gutter={16}>
+                          <Col span={4}>
+                            <Form.Item
+                              {...restField}
+                              label={translate("pages.sales_orders.titles.product")}
+                              name={[name, "productId"]}
+                              rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                            >
+                              <ProductSelect />
+                            </Form.Item>
+                          </Col>
+                          <Col span={4}>
+                            <Form.Item
+                              shouldUpdate={(prev, curr) =>
+                                prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId
+                              }
+                              noStyle
+                            >
+                              {() => {
+                                const productId = form.getFieldValue(["items", name, "productId"]);
+                                const unit = getUnitByProductId(productId) || "";
 
-                              return (
-                                <Form.Item
-                                  {...restField}
-                                  label={translate("pages.sales_orders.titles.quantity_ordered")}
-                                  name={[name, "quantityOrdered"]}
-                                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
-                                >
-                                  <InputNumber
-                                    placeholder={`${translate("pages.sales_orders.titles.quantity_ordered")}...`}
-                                    min={0.01}
-                                    step={0.01}
-                                    style={{ width: "100%" }}
-                                    addonAfter={unit}
-                                  />
-                                </Form.Item>
-                              );
-                            }}
-                          </Form.Item>
-                        </Col>
-                        {/* <Col span={4}>
-                          <Form.Item
-                            {...restField}
-                            label={translate("pages.sales_orders.titles.quantity_shipped")}
-                            name={[name, "quantityShipped"]}
-                            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
-                          >
-                            <InputNumber min={1} step={0.01} style={{width: "100%"}} />
-                          </Form.Item>
-                        </Col> */}
-                        <Col span={4}>
-                          <Form.Item
-                            shouldUpdate={(prev, curr) =>
-                              prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId
-                            }
-                            noStyle
-                          >
-                            {() => {
-                              const productId = form.getFieldValue(["items", name, "productId"]);
-                              const unit = getUnitByProductId(productId) || "";
+                                return (
+                                  <Form.Item
+                                    {...restField}
+                                    label={translate("pages.sales_orders.titles.quantity_ordered")}
+                                    name={[name, "quantityOrdered"]}
+                                    rules={[
+                                      { required: true, message: translate("messages.errors.required_field") },
+                                      ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                          const productId = getFieldValue(["items", name, "productId"]);
+                                          if (!selectedWarehouseId) {
+                                            return Promise.reject(new Error(translate("messages.errors.required_warehouse")));
+                                          }
+                                          if (!productId) {
+                                            return Promise.resolve();
+                                          }
+                                          
+                                          const availableStock = getStockLevel(productId);
+                                          if (value > availableStock) {
+                                            return Promise.reject(
+                                              new Error(`${translate("messages.errors.available")}: ${availableStock} ${unit}`)
+                                            );
+                                          }
+                                          return Promise.resolve();
+                                        },
+                                      }),
+                                    ]}
+                                  >
+                                    <InputNumber
+                                      placeholder={`${translate("pages.sales_orders.titles.quantity_ordered")}...`}
+                                      min={0.01}
+                                      step={0.01}
+                                      style={{ width: "100%" }}
+                                      addonAfter={unit}
+                                    />
+                                  </Form.Item>
+                                );
+                              }}
+                            </Form.Item>
+                          </Col>
+                          <Col span={4}>
+                            <Form.Item
+                              shouldUpdate={(prev, curr) =>
+                                prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId
+                              }
+                              noStyle
+                            >
+                              {() => {
+                                const productId = form.getFieldValue(["items", name, "productId"]);
+                                const unit = getUnitByProductId(productId) || "";
 
-                              return (
-                                <Form.Item
-                                  {...restField}
-                                  label={translate("pages.sales_orders.titles.quantity_shipped")}
-                                  name={[name, "quantityShipped"]}
-                                  rules={[{ required: true, message: translate("messages.errors.required_field") }]}
-                                >
-                                  <InputNumber
-                                    placeholder={`${translate("pages.sales_orders.titles.quantity_shipped")}...`}
-                                    min={0.01}
-                                    step={0.01}
-                                    style={{ width: "100%" }}
-                                    addonAfter={unit}
-                                  />
-                                </Form.Item>
-                              );
-                            }}
-                          </Form.Item>
-                        </Col>
-                        <Col span={4}>
-                          <Form.Item
-                            {...restField}
-                            label={translate("pages.sales_orders.titles.price_per_unit")}
-                            name={[name, "pricePerUnit"]}
-                            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
-                          >
-                            <InputNumber placeholder={`${translate("pages.sales_orders.titles.price_per_unit")}...`} min={0} step={0.01} style={{width: "100%"}} addonAfter="HUF"/>
-                          </Form.Item>
-                        </Col>
-                        <Col span={4}>
-                          <Form.Item
-                            {...restField}
-                            label={translate("pages.sales_orders.titles.discount")}
-                            name={[name, "discount"]}
-                            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
-                          >
-                            <InputNumber placeholder={`${translate("pages.sales_orders.titles.discount")}...`} min={0} max={100} step={0.01} style={{width: "100%"}} addonAfter="%"/>
-                          </Form.Item>
-                        </Col>
-                        <Col span={4}>
-                          <Form.Item
-                            {...restField}
-                            label={translate("pages.sales_orders.titles.tax_rate")}
-                            name={[name, "taxRate"]}
-                            rules={[{ required: true, message: translate("messages.errors.required_field") }]}
-                          >
-                            <InputNumber placeholder={`${translate("pages.sales_orders.titles.tax_rate")}...`} min={0} max={100} step={0.01} style={{width: "100%"}} addonAfter="%"/>
-                          </Form.Item>
-                        </Col>
-                      </Row>
-                      <Row gutter={16}>
-                        <Col span={24}>
-                          <Button 
-                            block 
-                            icon={<DeleteOutlined/>} 
-                            onClick={() => remove(name)} 
-                            danger
-                          >
-                            {translate("buttons.delete")}
-                          </Button>
-                        </Col>
-                        <Divider/>
-                      </Row>
+                                return (
+                                  <Form.Item
+                                    {...restField}
+                                    label={translate("pages.sales_orders.titles.quantity_shipped")}
+                                    name={[name, "quantityShipped"]}
+                                    rules={[
+                                      { required: true, message: translate("messages.errors.required_field") },
+                                      ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                          const productId = getFieldValue(["items", name, "productId"]);
+                                          if (!selectedWarehouseId) {
+                                            return Promise.reject(new Error(translate("messages.errors.required_warehouse")));
+                                          }
+                                          if (!productId) {
+                                            return Promise.resolve();
+                                          }
+                                          
+                                          const availableStock = getStockLevel(productId);
+                                          if (value > availableStock) {
+                                            return Promise.reject(
+                                              new Error(`${translate("messages.errors.available")}: ${availableStock} ${unit}`)
+                                            );
+                                          }
+                                          return Promise.resolve();
+                                        },
+                                      }),
+                                    ]}
+                                  >
+                                    <InputNumber
+                                      placeholder={`${translate("pages.sales_orders.titles.quantity_shipped")}...`}
+                                      min={0.01}
+                                      step={0.01}
+                                      style={{ width: "100%" }}
+                                      addonAfter={unit}
+                                    />
+                                  </Form.Item>
+                                );
+                              }}
+                            </Form.Item>
+                          </Col>
+                          <Col span={4}>
+                            <Form.Item
+                              {...restField}
+                              label={translate("pages.sales_orders.titles.price_per_unit")}
+                              name={[name, "pricePerUnit"]}
+                              rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                            >
+                              <InputNumber placeholder={`${translate("pages.sales_orders.titles.price_per_unit")}...`} min={0} step={0.01} style={{width: "100%"}} addonAfter="HUF"/>
+                            </Form.Item>
+                          </Col>
+                          <Col span={4}>
+                            <Form.Item
+                              {...restField}
+                              label={translate("pages.sales_orders.titles.discount")}
+                              name={[name, "discount"]}
+                              rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                            >
+                              <InputNumber placeholder={`${translate("pages.sales_orders.titles.discount")}...`} min={0} max={100} step={0.01} style={{width: "100%"}} addonAfter="%"/>
+                            </Form.Item>
+                          </Col>
+                          <Col span={4}>
+                            <Form.Item
+                              {...restField}
+                              label={translate("pages.sales_orders.titles.tax_rate")}
+                              name={[name, "taxRate"]}
+                              rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                            >
+                              <InputNumber placeholder={`${translate("pages.sales_orders.titles.tax_rate")}...`} min={0} max={100} step={0.01} style={{width: "100%"}} addonAfter="%"/>
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                        <Row gutter={16}>
+                          <Col span={24}>
+                            <Button 
+                              block 
+                              icon={<DeleteOutlined/>} 
+                              onClick={() => remove(name)} 
+                              danger
+                            >
+                              {translate("buttons.delete")}
+                            </Button>
+                          </Col>
+                          <Divider/>
+                        </Row>
+                      </>
+                    ))}
+                    
+                    <Form.Item>
+                      <Button
+                        type="dashed"
+                        onClick={() => add()}
+                        block
+                        icon={<PlusOutlined />}
+                      >
+                        {translate("buttons.add_product")}
+                      </Button>
+                      <Form.ErrorList errors={errors} />
+                    </Form.Item>
                     </>
-                  ))}
-                  
+              )}
+            </Form.List> */}
+            <Form.List
+              name="items"
+              rules={[
+                {
+                  validator: async (_, names) => {
+                    if (!names || names.length < 1) {
+                      return Promise.reject(new Error(translate("messages.errors.required_item")));
+                    }
+                  },
+                },
+              ]}
+            >
+              {(fields, { add, remove }, { errors }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => {
+                    // Kiszámoljuk az eredeti értéket a szerkesztéshez
+                    const initialItems = formProps.initialValues?.items || [];
+                    const originalQuantity = initialItems[name]?.quantityShipped || 0;
+
+                    return (
+                      <div key={key}>
+                        <Row gutter={16}>
+                          {/* TERMÉK VÁLASZTÓ */}
+                          <Col span={4}>
+                            <Form.Item
+                              {...restField}
+                              label={translate("pages.sales_orders.titles.product")}
+                              name={[name, "productId"]}
+                              rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                            >
+                              <ProductSelect />
+                            </Form.Item>
+                          </Col>
+
+                          {/* RENDELT MENNYISÉG */}
+                          <Col span={4}>
+                            <Form.Item
+                              shouldUpdate={(prev, curr) =>
+                                prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId
+                              }
+                              noStyle
+                            >
+                              {() => {
+                                const productId = form.getFieldValue(["items", name, "productId"]);
+                                const unit = getUnitByProductId(productId) || "";
+                                return (
+                                  <Form.Item
+                                    {...restField}
+                                    label={translate("pages.sales_orders.titles.quantity_ordered")}
+                                    name={[name, "quantityOrdered"]}
+                                    rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                                  >
+                                    <InputNumber
+                                      placeholder={`${translate("pages.sales_orders.titles.quantity_ordered")}...`}
+                                      min={0.01}
+                                      step={0.01}
+                                      style={{ width: "100%" }}
+                                      addonAfter={unit}
+                                    />
+                                  </Form.Item>
+                                );
+                              }}
+                            </Form.Item>
+                          </Col>
+
+                          {/* KISZÁLLÍTOTT MENNYISÉG + KÉSZLET VALIDÁCIÓ */}
+                          <Col span={4}>
+                            <Form.Item
+                              shouldUpdate={(prev, curr) =>
+                                prev?.items?.[name]?.productId !== curr?.items?.[name]?.productId ||
+                                prev?.warehouseId !== curr?.warehouseId
+                              }
+                              noStyle
+                            >
+                              {() => {
+                                const productId = form.getFieldValue(["items", name, "productId"]);
+                                const unit = getUnitByProductId(productId) || "";
+
+                                return (
+                                  <Form.Item
+                                    {...restField}
+                                    label={translate("pages.sales_orders.titles.quantity_shipped")}
+                                    name={[name, "quantityShipped"]}
+                                    rules={[
+                                      { required: true, message: translate("messages.errors.required_field") },
+                                      ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                          if (!selectedWarehouseId) {
+                                            return Promise.reject(new Error(translate("messages.errors.required_warehouse")));
+                                          }
+                                          if (!productId || value === undefined || value === null) {
+                                            return Promise.resolve();
+                                          }
+
+                                          // Készlet + amit már ebben a sorban lefoglaltunk korábban
+                                          const availableStock = getStockLevel(productId, originalQuantity);
+
+                                          if (value > availableStock) {
+                                            return Promise.reject(
+                                              new Error(`${translate("messages.errors.available")}: ${availableStock} ${unit}`)
+                                            );
+                                          }
+                                          return Promise.resolve();
+                                        },
+                                      }),
+                                    ]}
+                                  >
+                                    <InputNumber
+                                      placeholder={`${translate("pages.sales_orders.titles.quantity_shipped")}...`}
+                                      min={0}
+                                      step={0.01}
+                                      style={{ width: "100%" }}
+                                      addonAfter={unit}
+                                    />
+                                  </Form.Item>
+                                );
+                              }}
+                            </Form.Item>
+                          </Col>
+
+                          {/* EGYSÉGÁR */}
+                          <Col span={4}>
+                            <Form.Item
+                              {...restField}
+                              label={translate("pages.sales_orders.titles.price_per_unit")}
+                              name={[name, "pricePerUnit"]}
+                              rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                            >
+                              <InputNumber
+                                placeholder={`${translate("pages.sales_orders.titles.price_per_unit")}...`}
+                                min={0}
+                                step={0.01}
+                                style={{ width: "100%" }}
+                                addonAfter="HUF"
+                              />
+                            </Form.Item>
+                          </Col>
+
+                          {/* KEDVEZMÉNY */}
+                          <Col span={4}>
+                            <Form.Item
+                              {...restField}
+                              label={translate("pages.sales_orders.titles.discount")}
+                              name={[name, "discount"]}
+                              rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                            >
+                              <InputNumber
+                                placeholder={`${translate("pages.sales_orders.titles.discount")}...`}
+                                min={0}
+                                max={100}
+                                step={0.01}
+                                style={{ width: "100%" }}
+                                addonAfter="%"
+                              />
+                            </Form.Item>
+                          </Col>
+
+                          {/* ADÓKULCS */}
+                          <Col span={4}>
+                            <Form.Item
+                              {...restField}
+                              label={translate("pages.sales_orders.titles.tax_rate")}
+                              name={[name, "taxRate"]}
+                              rules={[{ required: true, message: translate("messages.errors.required_field") }]}
+                            >
+                              <InputNumber
+                                placeholder={`${translate("pages.sales_orders.titles.tax_rate")}...`}
+                                min={0}
+                                max={100}
+                                step={0.01}
+                                style={{ width: "100%" }}
+                                addonAfter="%"
+                              />
+                            </Form.Item>
+                          </Col>
+                        </Row>
+
+                        {/* TÖRLÉS GOMB */}
+                        <Row gutter={16}>
+                          <Col span={24}>
+                            <Button
+                              block
+                              icon={<DeleteOutlined />}
+                              onClick={() => remove(name)}
+                              danger
+                              style={{ marginBottom: 8 }}
+                            >
+                              {translate("buttons.delete")}
+                            </Button>
+                          </Col>
+                        </Row>
+                        <Divider />
+                      </div>
+                    );
+                  })}
+
+                  {/* HOZZÁADÁS GOMB ÉS HIBALISTA */}
                   <Form.Item>
                     <Button
                       type="dashed"
@@ -364,7 +627,7 @@ export const SalesOrderEdit = () => {
                     </Button>
                     <Form.ErrorList errors={errors} />
                   </Form.Item>
-                  </>
+                </>
               )}
             </Form.List>
           </Card>

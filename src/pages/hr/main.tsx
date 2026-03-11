@@ -188,7 +188,6 @@ export const HRMainPage = () => {
           tooltip={<div>{translate("ai.assistant")}</div>}
       />
 
-      {/* Az AI Oldalsáv */}
       <AiAssistantDrawer 
           open={isAiOpen} 
           onClose={() => setIsAiOpen(false)}

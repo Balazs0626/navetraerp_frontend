@@ -77,6 +77,9 @@ import { ResetPasswordPage } from "./pages/resetPassword";
 import { AiAssistantDrawer } from "./components/ai";
 import { MachineCreate, MachineEdit, MachineList } from "./pages/production/machines";
 import { MachineShow } from "./pages/production/machines/show";
+import { DeliveryNoteCreate, DeliveryNoteList, DeliveryNoteShow } from "./pages/inventory/delivery_notes";
+import { DeliveryNoteEdit } from "./pages/inventory/delivery_notes/edit";
+import { EmployeeShow } from "./pages/hr/employee/show";
 
 export const notificationProvider: NotificationProvider = {
     open: ({ type, message, description, key }) => {
@@ -316,7 +319,7 @@ export default function App() {
               {
                 name: "company_data",
                 edit: "company_data/edit",
-                show: "company_data"
+                show: "company_data/show"
               },
               {
                 name: "warehouses",
@@ -378,6 +381,7 @@ export default function App() {
                 list: "/hr/employee",
                 create: "/hr/employee/create",
                 edit: "/hr/employee/edit/:id",
+                show: "/hr/employee/show/:id",
                 meta: {
                   label: t("pages.sidebar.employee"),
                   icon: <UserOutlined/>,
@@ -609,6 +613,18 @@ export default function App() {
                   parent: "inventory"
                 }
               },
+              {
+                name: "delivery_notes",
+                list: "/inventory/delivery_notes",
+                create: "/inventory/delivery_notes/create",
+                edit: "/inventory/delivery_notes/edit/:id",
+                show: "/inventory/delivery_notes/show/:id",
+                meta: {
+                  label: t("pages.sidebar.delivery_notes"),
+                  icon: <TruckOutlined/>,
+                  parent: "inventory"
+                }
+              },
             ]}
             options={{ syncWithLocation: true }}
           >
@@ -696,6 +712,7 @@ export default function App() {
                     <Route index element={<EmployeeList/>}/>
                     <Route path="create" element={<EmployeeCreate/>}/>
                     <Route path="edit/:id" element={<EmployeeEdit/>}/>
+                    <Route path="show/:id" element={<EmployeeShow/>}/>
                   </Route>
                 
                   <Route path="departments">
@@ -821,6 +838,13 @@ export default function App() {
                     <Route index element={<InventoryCountList/>}/>
                     <Route path="create" element={<InventoryCountCreate/>}/>
                     <Route path="show/:id" element={<InventoryCountShow/>}/>
+                  </Route>
+
+                  <Route path="delivery_notes">
+                    <Route index element={<DeliveryNoteList/>}/>
+                    <Route path="create" element={<DeliveryNoteCreate/>}/>
+                    <Route path="edit/:id" element={<DeliveryNoteEdit/>}/>
+                    <Route path="show/:id" element={<DeliveryNoteShow/>}/>
                   </Route>
                 </Route>
 

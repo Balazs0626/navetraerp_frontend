@@ -174,7 +174,7 @@ export const EmployeeCreate = () => {
             type="inner"
           >
             <Card
-              title="Lakcím"
+              title={translate("pages.employee.titles.address")}
               type="inner"
             >
               <Row gutter={16}>
@@ -237,7 +237,7 @@ export const EmployeeCreate = () => {
             </Card>
             <Divider/>
             <Card
-              title="Tartózkodási cím"
+              title={translate("pages.employee.titles.temp_address")}
               type="inner"
             >
               <Row gutter={16}>

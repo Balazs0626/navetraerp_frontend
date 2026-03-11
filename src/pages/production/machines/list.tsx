@@ -35,18 +35,12 @@ export const MachineList = () => {
         title={translate("pages.machines.list.title")}
         headerButtons={
             <Space>
-              <Button icon={<PlusOutlined/>} size="large" type="primary" onClick={() => navigate("/production/machines/create")} disabled={!permissions?.includes("CREATE:DEPARTMENTS")}>
+              <Button icon={<PlusOutlined/>} size="large" type="primary" onClick={() => navigate("/production/machines/create")} disabled={!permissions?.includes("CREATE:MACHINES")}>
                   {translate("pages.machines.buttons.create")}
               </Button>
-              <Button icon={<ArrowLeftOutlined/>} size="large" onClick={() => navigate("/hr")}>
+              <Button icon={<ArrowLeftOutlined/>} size="large" onClick={() => navigate("/production")}>
                   {translate("buttons.back_module")}
               </Button>
-  {/*             <ExportButton onClick={triggerExport} loading={exportLoading} size="large">Export</ExportButton>
-              <Input 
-                {...inputProps}
-                prefix={<ImportOutlined/>}
-                size="large"
-              /> */}
             </Space>
         }
       >
@@ -86,14 +80,14 @@ export const MachineList = () => {
                   size="small"
                   recordItemId={record.id}
                   resource="machines"
-                  disabled={!permissions?.includes("EDIT:DEPARTMENTS")}
+                  disabled={!permissions?.includes("EDIT:MACHINES")}
                 />
                 <DeleteButton
                   size="small"
                   recordItemId={record.id}
                   resource="machines"
                   confirmTitle={translate("notifications.deleteMessage")}
-                  disabled={!permissions?.includes("DELETE:DEPARTMENTS")}
+                  disabled={!permissions?.includes("DELETE:MACHINES")}
                 />
               </Space>
             )}

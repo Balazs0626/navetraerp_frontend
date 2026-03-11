@@ -60,7 +60,7 @@ export const StockColumn = () => {
       items: [
         {
           channel: "y",
-          name: translate("diagrams.sales_orders.tooltip"),
+          name: translate("diagrams.inventory_items.tooltip"),
           valueFormatter: (val: number) => `${val.toLocaleString()}`,
         },
       ],

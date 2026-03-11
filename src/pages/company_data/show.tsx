@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, DashboardOutlined, SettingOutlined } from "@ant-design/icons";
 import { Show, DateField, RefreshButton, EditButton } from "@refinedev/antd";
-import { useShow, useTranslation } from "@refinedev/core";
+import { usePermissions, useShow, useTranslation } from "@refinedev/core";
 import { Typography, Descriptions, Rate, Space, Button, Table, Divider } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -23,6 +23,8 @@ export const CompanyDataShow = () => {
     document.title = `${translate("pages.company_data.show.title")} | NavetraERP`;
   })
 
+  const { data: permissions } = usePermissions<string[]>({});
+
   return (
       <Show
         goBack={null}
@@ -37,6 +39,7 @@ export const CompanyDataShow = () => {
               resource="company_data"
               id=""
               onClick={() => navigate("/company_data/edit")}
+              disabled={!permissions?.includes("EDIT:COMPANY_DATA")}
             />
             <Button
               onClick={() => navigate("/")}

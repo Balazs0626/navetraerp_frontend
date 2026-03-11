@@ -9,6 +9,7 @@ import { useTranslation } from "@refinedev/core";
 import {API_URL} from "../constants/url";
 import axios from "axios";
 import { AiAssistantDrawer } from "../components/ai";
+import { axiosInstance } from "../axiosInstance";
 
 const { Text, Title } = Typography;
 
@@ -28,7 +29,7 @@ export const DashboardPage = () => {
   const [activeUsers, setActiveUsers] = useState(0);
 
   useEffect(() => {
-    axios.get(`${API_URL}/users/active_users`)
+    axiosInstance.get(`${API_URL}/users/active_users`)
         .then(response => {
             setActiveUsers(response.data);
         })
